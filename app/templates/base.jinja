@@ -36,15 +36,27 @@
 
       <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="#">About Project</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Get Started</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
-          </li>
+          {% if self._TemplateReference__context.name == 'welcome.jinja' %}
+            <li class="nav-item">
+              <a class="nav-link" href="#about-project-section">About Project</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#mode-selection-section">Get Started</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('welcome.welcome') }}#about-project-section">About Project</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('welcome.welcome') }}#mode-selection-section">Get Started</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('welcome.welcome') }}#">Contact</a>
+            </li>
+          {% endif %}
         </ul>
       </div>
     </div>
