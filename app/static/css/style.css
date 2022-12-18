@@ -1,0 +1,14 @@
+#about-project-section {
+      background-color: #87CEEB;
+      background-image: linear-gradient(to bottom, #87CEEB, #FFFFFF);
+}
+#mode-selection-card-header {
+      background-color: #E0F6FF;
+}
+#mode-selection-card-body {
+      background-color: #87CEEB;
+}
+
+.carousel-item {
+    height: 200px;
+}
