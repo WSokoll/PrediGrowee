@@ -12,9 +12,11 @@
         <div class="card-body text-center">
           <h5 class="card-title mb-4">Log in to PrediGrowee</h5>
           <div class="row mx-2">
-            <button type="button" class="btn btn-outline-secondary btn-block mb-2">
-              <i class="fab fa-google"></i> Log in with Google
-            </button>
+            <a href="{{ url_for('login.google') }}">
+              <button type="button" class="btn btn-outline-secondary btn-block mb-2">
+                <i class="fab fa-google"></i> Log in with Google
+              </button>
+            </a>
           </div>
           <div class="row mx-2">
             <button type="button" class="btn btn-outline-secondary btn-block mb-2">
@@ -26,5 +28,4 @@
     </div>
   </div>
   </div>
-
 {% endblock %}
