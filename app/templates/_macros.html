@@ -1,12 +1,14 @@
-{% macro render_field_with_errors(field) %}
-  <div class="fs-div" id="{{ field.id|default('fs-field') }}">
-    {{ field.label }} {{ field(**kwargs)|safe }}
+{% macro render_field_with_errors(field, class='', placeholder='', autofocus=false) %}
+  <div class="fs-div mb-2" id="{{ field.id|default('fs-field') }}">
+    {% if autofocus %}
+      {{ field(**{'class': class, 'autofocus': true, 'placeholder': placeholder, 'aria-describedby': 'input-' ~ field.name ~ '-error'})|safe }}
+    {% else %}
+      {{ field(**{'class': class, 'placeholder': placeholder, 'aria-describedby': 'input-' ~ field.name ~ '-error'})|safe }}
+    {% endif %}
     {% if field.errors %}
-      <ul>
       {% for error in field.errors %}
-        <li class="fs-error-msg">{{ error }}</li>
+        <div id="input-{{ field.name }}-error" class="form-text text-danger">{{ error }}</div>
       {% endfor %}
-      </ul>
     {% endif %}
   </div>
 {% endmacro %}
