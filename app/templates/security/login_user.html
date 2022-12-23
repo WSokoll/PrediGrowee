@@ -1,37 +1,65 @@
 {% extends "security/base.html" %}
-{% from "security/_macros.html" import render_field_with_errors, render_field, render_field_errors, render_form_errors, prop_next %}
+{% from "_macros.html" import render_field_with_errors, render_field, render_field_errors, render_form_errors, prop_next %}
+
+{% block title %}
+  Log in to PrediGrowee
+{% endblock %}
 
 {% block content %}
-{% include "security/_messages.html" %}
-<h1>{{ _fsdomain('Login') }}</h1>
-  <form action="{{ url_for_security('login') }}{{ prop_next() }}" method="POST" name="login_user_form">
-    {{ login_user_form.hidden_tag() }}
-    {{ render_form_errors(login_user_form) }}
-    {% if "email" in identity_attributes %}
-      {{ render_field_with_errors(login_user_form.email) }}
-    {% endif %}
-    {% if login_user_form.username and "username" in identity_attributes %}
-      {% if "email" in identity_attributes %}
-        <h3>{{ _fsdomain("or") }}</h3>
-      {% endif %}
-      {{ render_field_with_errors(login_user_form.username) }}
-    {% endif %}
-    <div class="fs-gap">
-      {{ render_field_with_errors(login_user_form.password) }}</div>
-    {{ render_field_with_errors(login_user_form.remember) }}
-    {{ render_field_errors(login_user_form.csrf_token) }}
-    {{ render_field(login_user_form.submit) }}
-  </form>
-  {% if security.webauthn %}
-    <hr class="fs-gap">
-    <h2>{{ _fsdomain("Use WebAuthn to Sign In") }}</h2>
-    <div>
-      <form method="GET" id="wan-signin-form" name="wan_signin_form">
-        <input id="wan_signin" name="wan_signin" type="submit" value="{{ _fsdomain('Sign in with WebAuthn') }}"
-          formaction="{{ url_for_security('wan_signin') }}{{ prop_next() }}">
-      </form>
+{% include "_messages.html" %}
+  <div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-4 col-md-6 col-sm-8">
+        <div class="card">
+          <div class="card-body text-center">
+            <h5 class="card-title mb-4">Log in to PrediGrowee</h5>
+
+            <form action="{{ url_for_security('login') }}{{ prop_next() }}" method="POST" name="login_user_form">
+              {{ login_user_form.hidden_tag() }}
+              {{ render_form_errors(login_user_form) }}
+
+              <div class="row mx-2">
+                {{ render_field_with_errors(login_user_form.email, class='form-control w-100', placeholder='Email', autofocus=true) }}
+              </div>
+              <div class="row mx-2">
+                {{ render_field_with_errors(login_user_form.password, class='form-control w-100', placeholder='Password') }}
+              </div>
+
+              {{ render_field_errors(login_user_form.csrf_token) }}
+
+              <div class="row mx-2">
+                {{ render_field(login_user_form.submit, class='btn btn-primary w-100 mb-3') }}
+              </div>
+            </form>
+
+            <p class="text-secondary mx-3">OR</p>
+
+            <div class="row mx-2">
+              <a href="{{ url_for('login.google') }}" class="w-100">
+                <button type="button" class="btn btn-outline-secondary btn-block mb-2 w-100">
+                  <i class="fab fa-google"></i> Log in with Google
+                </button>
+              </a>
+            </div>
+
+            <div class="row mx-2">
+              <a href="#" class="w-100">
+                <button type="button" class="btn btn-outline-secondary btn-block mb-2 w-100">
+                  <i class="fab fa-facebook-square fa-lg"></i> Log in with Facebook
+                </button>
+              </a>
+            </div>
+
+            {% with login_page=true %}
+              {% include "security/_menu.html" %}
+            {% endwith %}
+
+          </div>
+        </div>
+      </div>
     </div>
-  {% endif %}
+  </div>
+
   {% if security.oauthglue %}
     <hr class="fs-gap">
     <h2>{{ _fsdomain("Use Social Oauth to Sign In") }}</h2>
@@ -44,5 +72,4 @@
       </div>
     {% endfor %}
   {% endif %}
-{% include "security/_menu.html" %}
 {% endblock %}
