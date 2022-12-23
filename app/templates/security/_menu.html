@@ -4,7 +4,7 @@
 {% if current_user and current_user.is_authenticated %}
   {# already authenticated user #}
   <a href="{{ url_for_security('logout') }}">{{ _fsdomain("Sign out") }}</a><br/>
-  {% if security.changeable %}
+  {% if security.changeable  and not change_password_page%}
     <a href="{{ url_for_security('change_password') }}">{{ _fsdomain("Change Password") }}</a>
   {% endif %}
   {% if security.two_factor %}
