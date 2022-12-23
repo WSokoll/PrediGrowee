@@ -1,21 +1,36 @@
 {% extends "security/base.html" %}
-{% from "security/_macros.html" import render_field_with_errors, render_field, render_form_errors %}
+{% from "_macros.html" import render_field_with_errors, render_field, render_form_errors %}
 
-{% block content %}
-{% include "security/_messages.html" %}
-<h1>{{ _fsdomain('Register') }}</h1>
-<form action="{{ url_for_security('register') }}" method="POST" name="register_user_form">
-  {{ register_user_form.hidden_tag() }}
-  {{ render_form_errors(register_user_form) }}
-  {{ render_field_with_errors(register_user_form.email) }}
-  {% if security.username_enable %}
-    {{ render_field_with_errors(register_user_form.username) }}
-  {%  endif %}
-  {{ render_field_with_errors(register_user_form.password) }}
-  {% if register_user_form.password_confirm %}
-    {{ render_field_with_errors(register_user_form.password_confirm) }}
-  {% endif %}
-  {{ render_field(register_user_form.submit) }}
-</form>
-{% include "security/_menu.html" %}
+{% block before_security_card %}
+  {% include "_messages.html" %}
+{% endblock %}
+
+{% block security_card %}
+  <h5 class="card-title mb-4">Register to PrediGrowee</h5>
+  <form action="{{ url_for_security('register') }}" method="POST" name="register_user_form">
+    {{ register_user_form.hidden_tag() }}
+    {{ render_form_errors(register_user_form) }}
+
+    <div class="row mx-2">
+      {{ render_field_with_errors(register_user_form.email, class='form-control w-100', placeholder='Email', autofocus=true) }}
+    </div>
+
+    <div class="row mx-2">
+      {{ render_field_with_errors(register_user_form.password, class='form-control w-100', placeholder='Password') }}
+    </div>
+
+    {% if register_user_form.password_confirm %}
+      <div class="row mx-2">
+        {{ render_field_with_errors(register_user_form.password_confirm, class='form-control w-100', placeholder='Confirm password') }}
+      </div>
+    {% endif %}
+
+    <div class="row mx-2">
+      {{ render_field(register_user_form.submit, class='btn btn-primary w-100 mb-3') }}
+    </div>
+  </form>
+
+  {% with login_page=false, register_page=true %}
+    {% include "security/_menu.html" %}
+  {% endwith %}
 {% endblock %}
