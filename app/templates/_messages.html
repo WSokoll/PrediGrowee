@@ -3,7 +3,14 @@
     {% for category, message in messages %}
       <div class="alert alert-{{ 'primary' if category == 'message' else category }}" role="alert">
         {{ message }}
+        <button type="button" class="btn-close float-end" aria-label="Close" onclick=delete_flash(this)></button>
       </div>
     {% endfor %}
-  {% endif %}
+
+    <script>
+        function delete_flash(flash){
+            $(flash).parent().remove();
+        }
+    </script>
+{% endif %}
 {%- endwith %}
