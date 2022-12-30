@@ -7,6 +7,7 @@ from flask_security.models import fsqla_v2
 from flask_sqlalchemy import SQLAlchemy
 from authlib.integrations.flask_client import OAuth
 
+from app.forms.security import ExtendedRegisterForm
 
 db = SQLAlchemy()
 security = Security()
@@ -45,11 +46,13 @@ def create_app():
         extend_existing=True
     )
 
+    mail.init_app(app)
+    oauth.init_app(app)
+
     from app.models import User, Role
     user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 
-    mail.init_app(app)
-    oauth.init_app(app)
+    security.confirm_register_form = ExtendedRegisterForm
     security.init_app(app, user_datastore)
 
     from app.views.welcome import bp as bp_welcome
