@@ -10,6 +10,11 @@ DB_NAME = 'test'
 DB_USER = 'test'
 DB_PASSWORD = 'test'
 
+# Recaptcha (can be generated via https://www.google.com/recaptcha/admin/create)
+RECAPTCHA_PUBLIC_KEY = 'recaptcha_public_key'
+RECAPTCHA_PRIVATE_KEY = 'recaptcha_private_key'
+RECAPTCHA_VERIFY_SERVER = 'https://www.google.com/recaptcha/api/siteverify'
+
 # OAuth
 GOOGLE_CLIENT_ID = 'google_client_id'
 GOOGLE_CLIENT_SECRET = 'google_client_secret'
@@ -36,7 +41,7 @@ SECURITY_POST_LOGOUT_VIEW = '/'
 SECURITY_REGISTERABLE = True
 SECURITY_SEND_REGISTER_EMAIL = True
 SECURITY_EMAIL_SUBJECT_REGISTER = 'PrediGrowee - Account registration'
-SECURITY_POST_REGISTER_VIEW = 'security.register'
+SECURITY_POST_REGISTER_VIEW = 'security.login'
 SECURITY_USERNAME_ENABLE = False
 SECURITY_USERNAME_REQUIRED = False
 
@@ -44,9 +49,9 @@ SECURITY_CONFIRMABLE = True
 SECURITY_CONFIRM_EMAIL_WITHIN = '2 days'
 SECURITY_CONFIRM_URL = '/confirm'
 SECURITY_EMAIL_SUBJECT_CONFIRM = 'PrediGrowee - Email confirmation'
-SECURITY_POST_CONFIRM_VIEW = '/'
+SECURITY_POST_CONFIRM_VIEW = 'security.login'
 SECURITY_AUTO_LOGIN_AFTER_CONFIRM = False
-SECURITY_LOGIN_WITHOUT_CONFIRMATION = True
+SECURITY_LOGIN_WITHOUT_CONFIRMATION = False
 
 SECURITY_CHANGEABLE = True
 SECURITY_POST_CHANGE_VIEW = '/'
