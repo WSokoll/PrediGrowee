@@ -17,6 +17,7 @@
   <div class="fs-div" id="{{ field.id|default('fs-field') }}">{{ field(**kwargs)|safe }}</div>
 {% endmacro %}
 
+{#TODO: update render_field_errors#}
 {% macro render_field_errors(field) %}
   <div class="fs-div" id="{{ field.id if field else 'fs-field' }}">
     {% if field and field.errors %}
@@ -32,12 +33,10 @@
 {# render WTForms (>3.0) form level errors #}
 {% macro render_form_errors(form) %}
   {% if form.form_errors %}
-    <div class="fs-div" id="fs-form-errors">
-    <ul>
+    <div class="fs-div mx-3" id="fs-form-errors">
     {% for error in form.form_errors %}
-      <li class="fs-error-msg">{{ error }}</li>
+      <div class="fs-error-msg row alert alert-primary mx-1" role="alert">{{ error }}</div>
     {% endfor %}
-    </ul>
     </div>
   {% endif %}
 {% endmacro %}
