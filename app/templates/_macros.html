@@ -24,11 +24,9 @@
 {% macro render_field_errors(field) %}
   <div class="fs-div" id="{{ field.id if field else 'fs-field' }}">
     {% if field and field.errors %}
-      <ul>
       {% for error in field.errors %}
-        <li class="fs-error-msg">{{ error }}</li>
+        <div class="form-text text-danger mb-2">{{ error }}</div>
       {% endfor %}
-      </ul>
     {% endif %}
   </div>
 {% endmacro %}
