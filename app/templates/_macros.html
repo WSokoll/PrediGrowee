@@ -6,9 +6,13 @@
       {{ field(**{'class': class, 'placeholder': placeholder, 'aria-describedby': 'input-' ~ field.name ~ '-error'})|safe }}
     {% endif %}
     {% if field.errors %}
-      {% for error in field.errors %}
-        <div id="input-{{ field.name }}-error" class="form-text text-danger">{{ error }}</div>
-      {% endfor %}
+      {% if field.type == 'RecaptchaField' %}
+        <div id="input-{{ field.name }}-error" class="form-text text-danger">Recaptcha must be filled in correctly</div>
+      {% else %}
+        {% for error in field.errors %}
+          <div id="input-{{ field.name }}-error" class="form-text text-danger">{{ error }}</div>
+        {% endfor %}
+      {% endif %}
     {% endif %}
   </div>
 {% endmacro %}
@@ -17,7 +21,6 @@
   <div class="fs-div" id="{{ field.id|default('fs-field') }}">{{ field(**kwargs)|safe }}</div>
 {% endmacro %}
 
-{#TODO: update render_field_errors#}
 {% macro render_field_errors(field) %}
   <div class="fs-div" id="{{ field.id if field else 'fs-field' }}">
     {% if field and field.errors %}
