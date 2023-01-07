@@ -1,3 +1,4 @@
+# xlrd, beautifulsoup4, lxml - required libs
 import re
 
 import xlrd  # xlrd version == 1.2.0
