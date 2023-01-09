@@ -32,3 +32,13 @@ class OrtData(db.Model):
 class Patients(db.Model):
     __tablename__ = 'patients'
     __table_args__ = {'extend_existing': True}
+
+
+class CaseGrouping(db.Model):
+    __tablename__ = 'case_grouping'
+    __table_args__ = {'extend_existing': True}
+
+
+class Config(db.Model):
+    __tablename__ = 'config'
+    __table_args__ = {'extend_existing': True}
