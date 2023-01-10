@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from flask import Flask
+from flask_admin import Admin
 from flask_mail import Mail
 from flask_security import SQLAlchemyUserDatastore, Security
 from flask_security.models import fsqla_v2
@@ -8,8 +9,10 @@ from flask_sqlalchemy import SQLAlchemy
 from authlib.integrations.flask_client import OAuth
 
 from app.forms.security import ExtendedRegisterForm, CustomLoginForm
+from app.views.admin.index import CustomAdminIndexView
 
 db = SQLAlchemy()
+admin = Admin(template_mode='bootstrap4', index_view=CustomAdminIndexView())
 security = Security()
 mail = Mail()
 oauth = OAuth()
@@ -48,6 +51,11 @@ def create_app():
 
     mail.init_app(app)
     oauth.init_app(app)
+
+    admin.init_app(app)
+
+    from app.admin import admin_panel_init
+    admin_panel_init(admin, db)
 
     from app.models import User, Role
     user_datastore = SQLAlchemyUserDatastore(db, User, Role)
