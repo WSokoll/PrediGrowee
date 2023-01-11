@@ -1,0 +1,31 @@
+{% extends 'admin/model/list.html' %}
+
+{% block model_menu_bar_after_filters %}
+  {% if grouping_mode_on != None %}
+    {% if grouping_mode_on %}
+      <li class="nav-item ml-auto">
+        <a href="{{ url_for('casegrouping.change_draw_config', status='off') }}">
+          <button type="button" class="btn btn-danger"
+                  onclick="return confirm('Disabling the mode means that cases will be randomly drawn,' +
+                                          ' without taking into account the assigned groups')">
+            Disable grouping mode
+          </button>
+        </a>
+      </li>
+
+    {% else %}
+      <li class="nav-item navbar-text text-danger font-weight-bold ml-auto">
+          Grouping mode is now off
+      </li>
+      <li class="nav-item ml-auto">
+        <a href="{{ url_for('casegrouping.change_draw_config', status='on') }}">
+          <button type="button" class="btn btn-success"
+                  onclick="return confirm('Enabling the mode will only take effect if you assign the appropriate' +
+                                          ' group numbers to the patient IDs')">
+            Enable grouping mode
+          </button>
+        </a>
+      </li>
+    {% endif %}
+  {% endif %}
+{% endblock %}
