@@ -42,3 +42,9 @@ class CaseGrouping(db.Model):
 class Config(db.Model):
     __tablename__ = 'config'
     __table_args__ = {'extend_existing': True}
+
+
+class Survey(db.Model):
+    __tablename__ = 'survey'
+    __table_args__ = {'extend_existing': True}
+
