@@ -71,4 +71,7 @@ def create_app():
     from app.views.oauth import bp as bp_oauth
     app.register_blueprint(bp_oauth)
 
+    from app.views.survey import bp as bp_survey
+    app.register_blueprint(bp_survey)
+
     return app
