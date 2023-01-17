@@ -27,3 +27,21 @@ class AgeValidator:
                 self.message or
                 field.gettext('An invalid number has been entered.')
             )
+
+
+class OtherEducationValidator:
+    """If the 'other' option has been selected in the education field, then the education_other field is required
+
+     :param message: error message
+    """
+
+    def __init__(self, message=None):
+        self.message = message
+
+    def __call__(self, form, field):
+
+        if form.education.data == 'other' and not field.data:
+            raise ValidationError(
+                self.message or
+                field.gettext('Please fill in the education field.')
+            )

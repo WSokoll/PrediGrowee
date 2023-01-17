@@ -1,5 +1,5 @@
 {% extends 'base.jinja' %}
-{% from "_macros.html" import render_field_with_errors %}
+{% from "_macros.html" import render_field_with_errors, render_form_errors %}
 
 {% block content %}
 
@@ -13,29 +13,31 @@
 
               <form method="POST" action="{{ url_for('survey.get_post') }}">
                 {{ form.csrf_token }}
+                {{ render_form_errors(form) }}
 
                 {{ form.gender.label(class="mb-1") }}:
-                {{ render_field_with_errors(form.gender, class="form-control mb-3", autofocus=true) }}
+                {{ render_field_with_errors(form.gender, class="form-control", autofocus=true) }}
 
-                {{ form.age.label(class="mb-1") }}:
-                {{ render_field_with_errors(form.age, class="form-control mb-3", placeholder='Age') }}
+                {{ form.age.label(class="mb-1 mt-3") }}:
+                {{ render_field_with_errors(form.age, class="form-control", placeholder='Age') }}
 
-                {{ form.vision_defect.label(class="mb-1") }}:
-                {{ render_field_with_errors(form.vision_defect, class="form-control mb-3") }}
+                {{ form.vision_defect.label(class="mb-1 mt-3") }}:
+                {{ render_field_with_errors(form.vision_defect, class="form-control") }}
 
-                {{ form.education.label(class="mb-1") }}:
-                {{ render_field_with_errors(form.education, class="form-control mb-3") }}
+                {{ form.education.label(class="mb-1 mt-3") }}:
+                {{ render_field_with_errors(form.education, class="form-control") }}
 
-{#                {{ render_field_with_errors(form.education_other, class="form-control mb-3", placeholder='Education') }}#}
+                <div id="education-other-visibility" style="display: none">
+                  {{ render_field_with_errors(form.education_other, class="form-control", placeholder='Education') }}
+                </div>
 
-                {{ form.experience.label(class="mb-1") }}:
+                {{ form.experience.label(class="mb-1 mt-3") }}:
                 {{ render_field_with_errors(form.experience, class="form-control mb-3") }}
 
                 <div class="mb-3 text-center">
                   <button type="submit" class="btn btn-primary">Wyślij</button>
                 </div>
               </form>
-
           </div>
         </div>
       </div>
@@ -43,3 +45,21 @@
   </div>
 
 {% endblock %}
+
+
+{% block scripts %}
+  <script>
+    $().ready(function () {
+        let educationSelect = document.getElementById('education');
+        let educationOtherDiv = document.getElementById('education-other-visibility');
+
+        educationSelect.onchange = function () {
+            if (educationSelect.value === 'other') {
+                educationOtherDiv.style.display = '';
+            } else {
+                educationOtherDiv.style.display = 'none';
+            }
+        };
+    });
+  </script>
+{%- endblock scripts %}

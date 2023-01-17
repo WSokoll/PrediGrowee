@@ -1,7 +1,7 @@
 {% macro render_field_with_errors(field, class='', placeholder='', autofocus=false) %}
-  <div class="fs-div mb-2" id="{{ field.id|default('fs-field') }}">
+  <div class="fs-div mb-2" id="{{ field.id~'-div'|default('fs-field') }}">
     {% if field.type == 'SelectField' %}
-      <select id="{{ field.name }}" class="{{ class }}" aria-describedby="input-{{ field.name }}-error" autofocus="{{ true if autofocus else false }}" required="{{ field.required }}">
+      <select id="{{ field.id }}" class="{{ class }}" aria-describedby="input-{{ field.name }}-error" autofocus="{{ autofocus }}" name="{{ field.name }}" required="{{ field.requied }}">
         {% for option in field %}
           {% if loop.first %}
             <option value="" disabled selected>Please select one of the options</option>
@@ -10,7 +10,7 @@
         {% endfor %}
       </select>
     {% else %}
-      {{ field(**{'class': class, 'autofocus': true if autofocus else false, 'placeholder': placeholder, 'aria-describedby': 'input-' ~ field.name ~ '-error'})|safe }}
+      {{ field(**{'class': class, 'autofocus': autofocus, 'placeholder': placeholder, 'aria-describedby': 'input-' ~ field.name ~ '-error'})|safe }}
     {% endif %}
     {% if field.errors %}
       {% if field.type == 'RecaptchaField' %}

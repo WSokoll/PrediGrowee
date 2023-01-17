@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import SelectField, IntegerField, StringField
 from wtforms.validators import InputRequired, Length
 
-from app.validators import AgeValidator
+from app.validators import AgeValidator, OtherEducationValidator
 
 VISION_DEFECT_CHOICES = [
     'I do not have any vision defects.',
@@ -33,7 +33,7 @@ class SurveyForm(FlaskForm):
     age = IntegerField('Age', validators=[InputRequired(), AgeValidator(18, 130)])
     vision_defect = SelectField('Vision defect', choices=VISION_DEFECT_CHOICES, validators=[InputRequired()])
     education = SelectField('Education', choices=EDUCATION_CHOICES, validators=[InputRequired()])
-    education_other = StringField('Education', validators=[Length(max=255)])
+    education_other = StringField('Education', validators=[Length(max=255), OtherEducationValidator()])
     experience = SelectField('Experience with cephalometric analysis',
                              choices=EXPERIENCE_CHOICES,
                              validators=[InputRequired()])
