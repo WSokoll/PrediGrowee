@@ -27,7 +27,7 @@
                 {{ form.education.label(class="mb-1 mt-3") }}:
                 {{ render_field_with_errors(form.education, class="form-control") }}
 
-                <div id="education-other-visibility" style="display: none">
+                <div id="education-other-visibility" style="display: {{ '' if form.education.data == 'other' else 'none' }}">
                   {{ render_field_with_errors(form.education_other, class="form-control", placeholder='Education') }}
                 </div>
 
