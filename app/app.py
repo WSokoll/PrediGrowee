@@ -74,4 +74,7 @@ def create_app():
     from app.views.survey import bp as bp_survey
     app.register_blueprint(bp_survey)
 
+    from app.views.game import bp as bp_game
+    app.register_blueprint(bp_game)
+
     return app
