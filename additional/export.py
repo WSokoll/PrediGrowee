@@ -70,9 +70,9 @@ def export(db, excel_path, xml_path):
                     photos_dict[age] = path
 
             if len(photos_dict) >= 3 \
-                    and 9 in photos_dict.keys() \
-                    and 12 in photos_dict.keys() \
-                    and max(photos_dict.keys()) > 12:
+                    and any(age in photos_dict.keys() for age in [7, 8, 9, 10]) \
+                    and any(age in photos_dict.keys() for age in [11, 12, 13]) \
+                    and max(photos_dict.keys()) > 13:
                 not_enough_data = False
 
                 patient_database = Patients(
@@ -80,12 +80,17 @@ def export(db, excel_path, xml_path):
                     sex=sex
                 )
 
+                ages = []
+                for age in photos_dict.keys():
+                    ages.append(age)
+                ages.sort()
+
                 ort_data = []
-                for year in [9, 12, max(photos_dict.keys())]:
+                for year in [ages[0], ages[1], max(photos_dict.keys())]:
                     if (patient_id, year) in ed_dict.keys():
                         ort_data.append(OrtData(
                             patient_id=patient_id,
-                            photo_number=1 if year == 9 else 2 if year == 12 else 3,
+                            photo_number=1 if year == ages[0] else 2 if year == ages[1] else 3,
                             age=year,
                             sn_mp=ed_dict[(patient_id, year)]['sn_mp'],
                             facial_axis=ed_dict[(patient_id, year)]['facial_axis'],
