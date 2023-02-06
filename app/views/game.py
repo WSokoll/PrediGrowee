@@ -23,7 +23,7 @@ def get_post(mode: str):
 
     # TODO validate_on_submit
     if form.validate_on_submit():
-        # TODO screen_size, mode
+        # TODO screen_size, mode, redirect to results if hidden field...
         pass
 
     # Get id's of already done cases

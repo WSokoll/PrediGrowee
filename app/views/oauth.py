@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import Blueprint, current_app, url_for, redirect, flash
 from flask_security import login_user
 from flask_security.datastore import SQLAlchemyUserDatastore
@@ -34,13 +36,21 @@ def google_auth():
     user = User.query.filter_by(email=user_info['email']).first()
     if user:
         login_user(user)
+
+        # Logging via Google automatically confirms account
+        if user.confirmed_at is None:
+            user.confirmed_at = datetime.now()
+
         db.session.commit()
     else:
         # Register new user
+        # TODO: send email (account has been registered - welcome)
+        # TODO: flash message
         user_datastore = SQLAlchemyUserDatastore(db, User, Role)
         user_datastore.create_user(
             email=user_info['email'],
             password=None,
+            confirmed_at=datetime.now(),
             register_only_google=True
         )
         db.session.commit()
