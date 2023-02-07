@@ -1,1 +1,80 @@
-game
+{% extends 'base.jinja' %}
+{% set game_mode = True %}
+
+{% block content %}
+  {% if database_error %}
+    <!-- TODO database error> -->
+    DATABASE ERROR
+  {% elif all_done %}
+    <!-- TODO all done> -->
+    ALL DONE
+  {% else %}
+
+    <!-- small screen version -->
+
+    <div class="d-block d-lg-none">
+
+      <div class="d-flex justify-content-between mx-3 my-3">
+        <button class="btn btn-primary" style="text-align: left !important;" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarLeft" aria-controls="sidebarLeft">
+          Show photo<br>at the age of {{ ort_data[1].age }}
+        </button>
+        <div>
+          <h3 class="text-center mb-1">Patient {{ selected_patient.id }}</h3>
+          <h4 class="text-center mt-1">{{ selected_patient.sex }}</h4>
+        </div>
+        <button class="btn btn-primary" style="text-align: right !important;" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarRight" aria-controls="sidebarRight">
+          Show photo<br>at the age of {{ ort_data[2].age }}
+        </button>
+      </div>
+
+      <div class="card mx-3 my-3">
+        <table class="table table-striped table-hover table-bordered">
+          <thead>
+            <tr>
+              <th class="text-center" scope="col">Age of {{ ort_data[1].age }}</th>
+              <th class="text-center" scope="col">Parameter</th>
+              <th class="text-center" scope="col">Age of {{ ort_data[2].age }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for param_name, param_value in columns.items() %}
+              <tr>
+                <td class="text-center">{{ ort_data[1][param_name] }}</td>
+                <th class="text-center" scope="row">{{ param_value }}</th>
+                <td class="text-center">{{ ort_data[2][param_name] }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="sidebarLeft" aria-labelledby="sidebarLeftLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title text-center" id="sidebarLeftLabel">Patient at the age of ...</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <img src="{{ url_for('static', filename = '') }}" class="img-fluid" alt="...">
+        </div>
+      </div>
+
+      <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="sidebarRight" aria-labelledby="sidebarRightLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title text-center" id="sidebarRightLabel">Patient at the age of ...</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <img src="{{ url_for('static', filename = '') }}" class="img-fluid" alt="...">
+        </div>
+      </div>
+    </div>
+    <!-- end of small screen version -->
+
+    <!-- big screen version -->
+    <div class="d-block d-none d-lg-block">
+      TEST
+    </div>
+    <!-- end of big screen version -->
+
+  {% endif %}
+{% endblock %}
