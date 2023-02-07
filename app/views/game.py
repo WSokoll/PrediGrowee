@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, abort
+from flask import Blueprint, render_template, abort, current_app
 from flask_login import current_user
 from flask_security import auth_required
+from sqlalchemy import and_, or_
 
 from app.forms.game import GameForm
 from app.models import Config, UserResults, CaseGrouping, Patients, OrtData
@@ -54,11 +55,19 @@ def get_post(mode: str):
     # Collecting data from the database
     if selected_patient_id:
         selected_patient = Patients.query.filter_by(id=selected_patient_id).one_or_none()
-        ort_data = OrtData.query.filter_by(patient_id=selected_patient_id).all()
+        ort_data = OrtData.query.filter(and_(
+            OrtData.patient_id == selected_patient_id,
+            or_(OrtData.photo_number == 1, OrtData.photo_number == 2)
+        )).all()
 
-        if not selected_patient or not ort_data or len(ort_data) != 3:
+        if not selected_patient or not ort_data or len(ort_data) != 2:
             return render_template('game.jinja', database_error=True)
 
-        return render_template('game.jinja', selected_patient=selected_patient, ort_data=ort_data)
+        ort_data = {data.photo_number: data for data in ort_data}
+
+        return render_template('game.jinja',
+                               selected_patient=selected_patient,
+                               ort_data=ort_data,
+                               columns=current_app.config['ORT_DATA_COLUMNS'])
     else:
         return render_template('game.jinja', all_done=True)
