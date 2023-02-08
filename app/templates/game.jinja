@@ -1,5 +1,6 @@
 {% extends 'base.jinja' %}
 {% set game_mode = True %}
+{% from "_macros.html" import render_field_with_errors, render_form_errors %}
 
 {% block content %}
   {% if database_error %}
@@ -46,6 +47,22 @@
             {% endfor %}
           </tbody>
         </table>
+
+        <hr class="my-2 mx-4">
+
+        <form method="POST" action="{{ url_for('game.get_post', mode=mode) }}">
+          {{ form.csrf_token }}
+          {{ render_form_errors(form) }}
+
+          <h4 class="text-center font-weight-bold">Direction of the facial growth:</h4>
+          {{ render_field_with_errors(form.direction, class="form-control", autofocus=true) }}
+
+          <!-- TODO different buttons in different modes -->
+          <div class="mb-3 text-center">
+            <button type="submit" class="btn btn-primary">Next Case</button>
+            <button class="btn btn-primary">Show Results</button>
+          </div>
+        </form>
       </div>
 
       <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="sidebarLeft" aria-labelledby="sidebarLeftLabel">
@@ -54,7 +71,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-          <img src="{{ url_for('static', filename = '') }}" class="img-fluid" alt="...">
+          <img src="{{ url_for('static', filename = 'examples/B1157LM09y04m.jpg') }}" class="img-fluid" alt="...">
         </div>
       </div>
 
@@ -64,9 +81,10 @@
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-          <img src="{{ url_for('static', filename = '') }}" class="img-fluid" alt="...">
+          <img src="{{ url_for('static', filename = 'examples/B1157LM09y04m.jpg') }}" class="img-fluid" alt="...">
         </div>
       </div>
+
     </div>
     <!-- end of small screen version -->
 
