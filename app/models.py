@@ -28,6 +28,22 @@ class OrtData(db.Model):
     __tablename__ = 'ort_data'
     __table_args__ = {'extend_existing': True}
 
+    sn_mp = db.Column(db.Numeric(asdecimal=False))
+    facial_axis = db.Column(db.Numeric(asdecimal=False))
+    y_axis = db.Column(db.Numeric(asdecimal=False))
+    point_a_to_nasion_perp = db.Column(db.Numeric(asdecimal=False))
+    pog_to_nasion_perp = db.Column(db.Numeric(asdecimal=False))
+    antegonial_notch_depth = db.Column(db.Numeric(asdecimal=False))
+    mn_base_angle = db.Column(db.Numeric(asdecimal=False))
+    mn_ramus_angle = db.Column(db.Numeric(asdecimal=False))
+    sn_pog = db.Column(db.Numeric(asdecimal=False))
+    snb = db.Column(db.Numeric(asdecimal=False))
+    sna = db.Column(db.Numeric(asdecimal=False))
+    sn_pp = db.Column(db.Numeric(asdecimal=False))
+    anb = db.Column(db.Numeric(asdecimal=False))
+    afh_pfh = db.Column(db.Numeric(asdecimal=False))
+    point_a_to_pog_along_fh = db.Column(db.Numeric(asdecimal=False))
+
 
 class Patients(db.Model):
     __tablename__ = 'patients'
