@@ -61,23 +61,6 @@
         </table>
 
         <hr class="my-2 mx-4">
-
-        <form method="POST" action="{{ url_for('game.get_post', mode=mode) }}">
-          {{ form.csrf_token }}
-          {{ render_form_errors(form) }}
-
-          <h4 class="text-center font-weight-bold">Direction of the facial growth:</h4>
-          {{ render_field_with_errors(form.direction, class="form-control", autofocus=true) }}
-
-          <div class="mb-3 text-center">
-            {% if mode == 'classic' or mode == 'time-limited' %}
-              <button type="submit" class="btn btn-primary">Next Case</button>
-              <button class="btn btn-primary">Show Results</button>
-            {% else %}
-              <button type="submit" class="btn btn-primary">Show Result</button>
-            {% endif %}
-          </div>
-        </form>
       </div>
 
       <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="sidebarLeft" aria-labelledby="sidebarLeftLabel">
@@ -92,7 +75,7 @@
           <div class="clearfix"></div>
         </div>
         <div class="offcanvas-body">
-          <img src="{{ url_for('static', filename = '') }}" class="img-fluid" alt="...">
+          <img src="{{ url_for('static', filename = 'examples/B1157LM09y04m.jpg') }}" class="img-fluid" alt="...">
         </div>
       </div>
 
@@ -108,7 +91,7 @@
           <div class="clearfix"></div>
         </div>
         <div class="offcanvas-body">
-          <img src="{{ url_for('static', filename = '') }}" class="img-fluid" alt="...">
+          <img src="{{ url_for('static', filename = 'examples/B1157LM09y04m.jpg') }}" class="img-fluid" alt="...">
         </div>
       </div>
 
@@ -116,54 +99,81 @@
     <!-- end of small screen version -->
 
     <!-- big screen version -->
-    <div class="d-block d-none d-lg-block">
-      <h3 class="text-center mb-1">Patient {{ selected_patient.id }}</h3>
-      <h4 class="text-center mt-1">{{ selected_patient.sex }}</h4>
+    <div class="d-block d-none d-lg-block" style="display: none">
+      <div class="card mx-2 my-2">
+        <div class="card-header">
+          <h3 class="text-center mb-1">Patient {{ selected_patient.id }}</h3>
+          <h4 class="text-center mt-1">{{ selected_patient.sex }}</h4>
+        </div>
 
-      <div class="row">
-        <div class="col-4 align-self-center">
-          <img src="{{ url_for('static', filename = '') }}" class="img-fluid" alt="...">
-        </div>
-        <div class="col-4">
-          <table class="table table-striped table-hover table-bordered">
-            <thead>
-              <tr>
-                <th class="text-center" scope="col">Age of {{ ort_data[1].age }}</th>
-                <th class="text-center" scope="col">Parameter</th>
-                <th class="text-center" scope="col">Age of {{ ort_data[2].age }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for param_name, param_value in columns.items() %}
-                <tr>
-                  <td class="text-center">{{ ort_data[1][param_name] }}</td>
-                  <th scope="row" class="text-center">{{ param_value }}</th>
-                  {% if ort_data[1][param_name] < ort_data[2][param_name] %}
-                    <td class="text-center" style="background-color: #C7FFC7">
-                      {{ ort_data[2][param_name] }}
-                      <span style="float: right">&#8593;</span>
-                    </td>
-                  {% elif ort_data[1][param_name] > ort_data[2][param_name] %}
-                    <td class="text-center" style="background-color: #FFC6C6">
-                      {{ ort_data[2][param_name] }}
-                      <span style="float: right">&#8595;</span>
-                    </td>
-                  {% else %}
-                    <td class="text-center">{{ ort_data[2][param_name] }}</td>
-                  {% endif %}
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-        <div class="col-4 align-self-center">
-          <h3 class="text-center">Photo at the age of {{ ort_data[2].age }}</h3>
-          <img src="{{ url_for('static', filename = '') }}" class="img-fluid" alt="...">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-4 mt-5">
+              <h3 class="text-center mb-3">Photo at the age of {{ ort_data[1].age }}</h3>
+              <img src="{{ url_for('static', filename = 'examples/B1157LM09y04m.jpg') }}" class="img-fluid img-thumbnail" alt="...">
+            </div>
+
+            <div class="col-4">
+              <table class="table table-striped table-hover table-bordered">
+                <thead>
+                  <tr>
+                    <th class="text-center" scope="col">Age of {{ ort_data[1].age }}</th>
+                    <th class="text-center" scope="col">Parameter</th>
+                    <th class="text-center" scope="col">Age of {{ ort_data[2].age }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for param_name, param_value in columns.items() %}
+                    <tr>
+                      <td class="text-center">{{ ort_data[1][param_name] }}</td>
+                      <th scope="row" class="text-center">{{ param_value }}</th>
+                      {% if ort_data[1][param_name] < ort_data[2][param_name] %}
+                        <td class="text-center" style="background-color: #C7FFC7">
+                          {{ ort_data[2][param_name] }}
+                          <span style="float: right">&#8593;</span>
+                        </td>
+                      {% elif ort_data[1][param_name] > ort_data[2][param_name] %}
+                        <td class="text-center" style="background-color: #FFC6C6">
+                          {{ ort_data[2][param_name] }}
+                          <span style="float: right">&#8595;</span>
+                        </td>
+                      {% else %}
+                        <td class="text-center">{{ ort_data[2][param_name] }}</td>
+                      {% endif %}
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <div class="col-4 mt-5">
+              <h3 class="text-center mb-3">Photo at the age of {{ ort_data[2].age }}</h3>
+              <img src="{{ url_for('static', filename = 'examples/B1157LM09y04m.jpg') }}" class="img-fluid img-thumbnail" alt="...">
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <!-- end of big screen version -->
+    <form method="POST" action="{{ url_for('game.get_post', mode=mode) }}" id="prediction-form">
+      {{ form.csrf_token }}
+      {{ render_form_errors(form) }}
 
+      {{ form.screen_size }}
+      {{ form.show_results }}
+
+      <h4 class="text-center font-weight-bold">Direction of the facial growth:</h4>
+      {{ render_field_with_errors(form.direction, class="form-control mx-3", autofocus=true) }}
+
+      <div class="mb-3 text-center">
+        {% if mode == 'classic' or mode == 'time-limited' %}
+          <button id="btn-next-case" type="submit" class="btn btn-primary">Next Case</button>
+          <button id="btn-results" class="btn btn-primary">Show Results</button>
+        {% else %}
+          <button id="btn-results" type="submit" class="btn btn-primary">Show Result</button>
+        {% endif %}
+      </div>
+    </form>
   {% endif %}
 {% endblock %}
 
@@ -175,5 +185,17 @@
               offcanvas[i].style['transition-duration'] = on ? '.3s' : '0s';
           }
       }
+
+      $('#prediction-form').on('submit', function() {
+          let screenSizeInput = document.getElementById('screen_size');
+          screenSizeInput.value = window.innerWidth.toString() + 'x' + window.innerHeight.toString();
+
+          let buttonId = $(document.activeElement).attr('id');
+          let showResultsInput = document.getElementById('show_results');
+          showResultsInput.value = buttonId === 'btn-results';
+
+          return true;
+      });
+
   </script>
 {% endblock scripts %}
