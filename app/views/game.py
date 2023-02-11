@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, abort, current_app
+from flask import Blueprint, render_template, abort, current_app, redirect, url_for
 from flask_login import current_user
 from flask_security import auth_required
 from sqlalchemy import and_, or_
@@ -14,8 +14,6 @@ bp = Blueprint('game', __name__)
 @auth_required()
 def get_post(mode: str):
 
-    # TODO round_id (new endpoint for results, round_id as a parameter)
-
     if mode not in ['classic', 'educational', 'time-limited']:
         abort(404)
 
@@ -24,8 +22,12 @@ def get_post(mode: str):
 
     # TODO validate_on_submit
     if form.validate_on_submit():
-        # TODO screen_size, mode, redirect to results if hidden field...
-        pass
+        # TODO screen_size, mode, time spent (session)
+
+        if form.show_results.data == 'true':
+            return redirect(url_for('results.get'))
+        else:
+            return redirect(url_for('game.get_post', mode=mode))
 
     # Get id's of already done cases
     done = UserResults.query.with_entities(UserResults.patient_id).filter_by(user_id=current_user.id).all()
@@ -66,6 +68,8 @@ def get_post(mode: str):
         ort_data = {data.photo_number: data for data in ort_data}
 
         return render_template('game.jinja',
+                               form=form,
+                               mode=mode,
                                selected_patient=selected_patient,
                                ort_data=ort_data,
                                columns=current_app.config['ORT_DATA_COLUMNS'])
