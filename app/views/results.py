@@ -8,12 +8,18 @@ from app.models import UserResults, OrtData, User
 bp = Blueprint('results', __name__)
 
 
-@bp.route('/results/<int:round_id>', methods=['GET', 'POST'])
+@bp.route('/results', methods=['GET', 'POST'])
 @auth_required()
-def get(round_id: int):
+def get():
     # TODO percentage of correct answers
 
-    results = UserResults.query.filter_by(user_id=current_user.id, round_id=round_id).all()
+    results = UserResults.query.filter_by(user_id=current_user.id, round_id=current_user.round_id).all()
+    increment = True
+
+    # If no results try round_id - 1 and do not increment round_id (in case of page refreshing)
+    if not results:
+        results = UserResults.query.filter_by(user_id=current_user.id, round_id=(current_user.round_id - 1)).all()
+        increment = False
 
     if results:
         results_list = []
@@ -33,9 +39,10 @@ def get(round_id: int):
             results_list.append(res_item)
 
         # Increment round_id
-        user = User.query.filter_by(id=current_user.id).first()
-        user.round_id += 1
-        db.session.commit()
+        if increment:
+            user = User.query.filter_by(id=current_user.id).first()
+            user.round_id += 1
+            db.session.commit()
 
         return render_template('results.jinja', results=results_list)
 
