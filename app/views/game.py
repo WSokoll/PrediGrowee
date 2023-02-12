@@ -1,9 +1,13 @@
-from flask import Blueprint, render_template, abort, current_app, redirect, url_for
+import re
+from datetime import datetime
+
+from flask import Blueprint, render_template, abort, current_app, redirect, url_for, session
 from flask_login import current_user
 from flask_security import auth_required
 from sqlalchemy import and_, or_
 
-from app.forms.game import GameForm
+from app.app import db
+from app.forms.game import GameForm, DIRECTION_CHOICES
 from app.models import Config, UserResults, CaseGrouping, Patients, OrtData
 from app.utils.random_case import get_random_patient_id
 
@@ -20,9 +24,34 @@ def get_post(mode: str):
     # Answer form
     form = GameForm()
 
-    # TODO validate_on_submit
+    # Saving answer after validation
     if form.validate_on_submit():
-        # TODO screen_size, mode, time spent (session)
+
+        # Checking patient id saved in the session
+        if 'patient_id' not in session:
+            abort(400)
+
+        db_check_patient = db.session.query(Patients.query.filter_by(id=session['patient_id']).exists()).scalar()
+        db_check_result = db.session.query(UserResults.query.filter_by(patient_id=session['patient_id']).exists()).scalar()
+
+        if db_check_result or (not db_check_patient):
+            abort(400)
+
+        # Save result to the database
+        result = UserResults(
+            user_id=current_user.id,
+            patient_id=session['patient_id'],
+            answer=DIRECTION_CHOICES[int(form.direction.data)][1],
+            answer_correct=True,  # TODO answer correct
+            answer_date=datetime.now(),
+            game_mode=mode,
+            time_spent=20,  # TODO time spent
+            round_id=current_user.round_id,
+            screen_size=form.screen_size.data if re.match(r'^[0-9]{1,6}x[0-9]{1,6}$', form.screen_size.data) else None
+        )
+
+        db.session.add(result)
+        db.session.commit()
 
         if form.show_results.data == 'true':
             return redirect(url_for('results.get'))
@@ -63,9 +92,13 @@ def get_post(mode: str):
         )).all()
 
         if not selected_patient or not ort_data or len(ort_data) != 2:
+            # TODO: change that to appropriate http status code
             return render_template('game.jinja', database_error=True)
 
         ort_data = {data.photo_number: data for data in ort_data}
+
+        # Storing patient id in the session
+        session['patient_id'] = selected_patient_id
 
         return render_template('game.jinja',
                                form=form,
