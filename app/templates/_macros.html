@@ -9,6 +9,13 @@
           {{ option }}
         {% endfor %}
       </select>
+    {% elif field.type == 'RadioField' %}
+      {% for option in field %}
+        <div class="mx-2">
+          {{ option }}
+          <label for="{{ option.id }}">{{ option.label }}</label>
+        </div>
+      {% endfor %}
     {% else %}
       {{ field(**{'class': class, 'autofocus': autofocus, 'placeholder': placeholder, 'aria-describedby': 'input-' ~ field.name ~ '-error'})|safe }}
     {% endif %}
