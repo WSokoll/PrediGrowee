@@ -17,6 +17,7 @@ def get_post():
     survey = Survey.query.filter_by(user_id=current_user.id).first()
 
     if survey:
+        # TODO game mode
         return redirect(url_for('game.get_post'))
 
     form = SurveyForm()
@@ -34,6 +35,7 @@ def get_post():
         db.session.add(survey)
         db.session.commit()
 
+        # TODO game mode
         return redirect(url_for('game.get_post'))
 
     return render_template('survey.jinja', form=form)

@@ -65,6 +65,8 @@ def create_app():
     security.login_form = CustomLoginForm
     security.init_app(app, user_datastore)
 
+    # TODO error code handling
+
     from app.views.welcome import bp as bp_welcome
     app.register_blueprint(bp_welcome)
 

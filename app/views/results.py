@@ -16,7 +16,7 @@ def get():
     results = UserResults.query.filter_by(user_id=current_user.id, round_id=current_user.round_id).all()
     increment = True
 
-    # If no results try round_id - 1 and do not increment round_id (in case of page refreshing)
+    # If no results try round_id - 1 and do not increment round_id (protection against blank page after refresh)
     if not results:
         results = UserResults.query.filter_by(user_id=current_user.id, round_id=(current_user.round_id - 1)).all()
         increment = False
