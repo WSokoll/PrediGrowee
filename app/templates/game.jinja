@@ -12,7 +12,6 @@
   {% else %}
 
     <!-- small screen version -->
-
     <div class="d-block d-lg-none">
 
       <div class="d-flex justify-content-between mx-3 my-3">
@@ -155,6 +154,7 @@
       </div>
     </div>
     <!-- end of big screen version -->
+
     <form method="POST" action="{{ url_for('game.get_post', mode=mode) }}" id="prediction-form">
       {{ form.csrf_token }}
       {{ render_form_errors(form) }}
@@ -174,28 +174,10 @@
         {% endif %}
       </div>
     </form>
+
   {% endif %}
 {% endblock %}
 
 {% block scripts %}
-  <script>
-      function transitionOn(on) {
-          let offcanvas = document.getElementsByClassName('offcanvas');
-          for (let i = 0; i < offcanvas.length; i++) {
-              offcanvas[i].style['transition-duration'] = on ? '.3s' : '0s';
-          }
-      }
-
-      $('#prediction-form').on('submit', function() {
-          let screenSizeInput = document.getElementById('screen_size');
-          screenSizeInput.value = window.innerWidth.toString() + 'x' + window.innerHeight.toString();
-
-          let buttonId = $(document.activeElement).attr('id');
-          let showResultsInput = document.getElementById('show_results');
-          showResultsInput.value = buttonId === 'btn-results';
-
-          return true;
-      });
-
-  </script>
-{% endblock scripts %}
+  <script type="text/javascript" src="{{ url_for('static', filename='js/game_script.js') }}"></script>
+{% endblock %}
