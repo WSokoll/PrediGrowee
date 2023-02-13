@@ -27,8 +27,8 @@ def get_post(mode: str):
     # Saving answer after validation
     if form.validate_on_submit():
 
-        # Checking patient id saved in the session
-        if 'patient_id' not in session:
+        # Checking patient id and time_start saved in the session
+        if 'patient_id' not in session or 'time_start' not in session:
             abort(400)
 
         db_check_patient = db.session.query(Patients.query.filter_by(id=session['patient_id']).exists()).scalar()
@@ -45,7 +45,7 @@ def get_post(mode: str):
             answer_correct=True,  # TODO answer correct
             answer_date=datetime.now(),
             game_mode=mode,
-            time_spent=20,  # TODO time spent
+            time_spent=(datetime.now() - session['time_start'].replace(tzinfo=None)).total_seconds(),
             round_id=current_user.round_id,
             screen_size=form.screen_size.data if re.match(r'^[0-9]{1,6}x[0-9]{1,6}$', form.screen_size.data) else None
         )
@@ -92,13 +92,13 @@ def get_post(mode: str):
         )).all()
 
         if not selected_patient or not ort_data or len(ort_data) != 2:
-            # TODO: change that to appropriate http status code
             return render_template('game.jinja', database_error=True)
 
         ort_data = {data.photo_number: data for data in ort_data}
 
-        # Storing patient id in the session
+        # Storing patient id and time for time_spent calculation in the session
         session['patient_id'] = selected_patient_id
+        session['time_start'] = datetime.now()
 
         return render_template('game.jinja',
                                form=form,
