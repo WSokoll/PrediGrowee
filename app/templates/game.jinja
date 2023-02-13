@@ -74,7 +74,7 @@
           <div class="clearfix"></div>
         </div>
         <div class="offcanvas-body">
-          <img src="{{ url_for('static', filename = 'examples/B1157LM09y04m.jpg') }}" class="img-fluid" alt="...">
+          <img src="{{ url_for('game.get_photo', ort_id = ort_data[1].id ) }}" class="img-fluid" alt="...">
         </div>
       </div>
 
@@ -90,7 +90,7 @@
           <div class="clearfix"></div>
         </div>
         <div class="offcanvas-body">
-          <img src="{{ url_for('static', filename = 'examples/B1157LM09y04m.jpg') }}" class="img-fluid" alt="...">
+          <img src="{{ url_for('game.get_photo', ort_id = ort_data[2].id ) }}" class="img-fluid" alt="...">
         </div>
       </div>
 
@@ -109,7 +109,7 @@
           <div class="row">
             <div class="col-4 mt-5">
               <h3 class="text-center mb-3">Photo at the age of {{ ort_data[1].age }}</h3>
-              <img src="{{ url_for('static', filename = 'examples/B1157LM09y04m.jpg') }}" class="img-fluid img-thumbnail" alt="...">
+              <img src="{{ url_for('game.get_photo', ort_id = ort_data[1].id ) }}" class="img-fluid img-thumbnail" alt="...">
             </div>
 
             <div class="col-4">
@@ -147,7 +147,7 @@
 
             <div class="col-4 mt-5">
               <h3 class="text-center mb-3">Photo at the age of {{ ort_data[2].age }}</h3>
-              <img src="{{ url_for('static', filename = 'examples/B1157LM09y04m.jpg') }}" class="img-fluid img-thumbnail" alt="...">
+              <img src="{{ url_for('game.get_photo', ort_id = ort_data[2].id ) }}" class="img-fluid img-thumbnail" alt="...">
             </div>
           </div>
         </div>

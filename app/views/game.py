@@ -1,7 +1,8 @@
+import os
 import re
 from datetime import datetime
 
-from flask import Blueprint, render_template, abort, current_app, redirect, url_for, session
+from flask import Blueprint, render_template, abort, current_app, redirect, url_for, session, send_file
 from flask_login import current_user
 from flask_security import auth_required
 from sqlalchemy import and_, or_
@@ -108,3 +109,22 @@ def get_post(mode: str):
                                columns=current_app.config['ORT_DATA_COLUMNS'])
     else:
         return render_template('game.jinja', all_done=True)
+
+
+@bp.route('/game/photo/<string:ort_id>', methods=['GET'])
+@auth_required()
+def get_photo(ort_id: str):
+    # TODO time between downloads - warning, block
+
+    ort_data = OrtData.query.filter_by(id=ort_id).one_or_none()
+
+    if not ort_data:
+        abort(404)
+
+    ort_path = ort_data.path if ort_data.path[0] != '\\' else ort_data.path[1:]
+    path = os.path.join(current_app.config['ORT_FOLDER_PATH'], ort_path)
+
+    if not os.path.exists(path):
+        abort(404)
+
+    return send_file(path)

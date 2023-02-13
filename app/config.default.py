@@ -22,6 +22,9 @@ ORT_DATA_COLUMNS = {
     'point_a_to_pog_along_fh': 'Point A to Pog along FH'
 }
 
+# Absolute path to 'orto' folder containing photos
+ORT_FOLDER_PATH = 'C:/example/path'
+
 # Database connection
 DB_HOST = 'localhost'
 DB_PORT = 3306
