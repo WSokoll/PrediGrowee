@@ -29,3 +29,8 @@
 .offcanvas {
     width:100% !important;
 }
+
+/* Non-reactive images */
+img {
+    pointer-events: none;
+}
