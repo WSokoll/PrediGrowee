@@ -104,8 +104,10 @@ def get_post(mode: str):
         # Check for warnings (between 1 and 3 -> display warning, more than 3 -> logout) <- time between downloads
         warning = False
         if 'download' in session:
-            if 1 <= session['download']['warnings'] <= 3:
+            if 1 <= session['download']['warnings'] <= 3 and \
+                    (datetime.now() - session['download']['last'].replace(tzinfo=None)).total_seconds() <= 5:
                 warning = True
+                print(session['download']['warnings'])
             elif session['download']['warnings'] > 3:
                 session['download']['warnings'] = 0
                 logout_user()
