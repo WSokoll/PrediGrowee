@@ -1,5 +1,5 @@
 {% macro render_field_with_errors(field, class='', placeholder='', autofocus=false) %}
-  <div class="fs-div mb-2" id="{{ field.id~'-div'|default('fs-field') }}">
+  <div class="fs-div mb-2 {{ 'mx-3' if field.type == 'RadioField' else '' }}" id="{{ field.id~'-div'|default('fs-field') }}">
     {% if field.type == 'SelectField' %}
       <select id="{{ field.id }}" class="{{ class }}" aria-describedby="input-{{ field.name }}-error" autofocus="{{ autofocus }}" name="{{ field.name }}" required="{{ field.requied }}">
         {% for option in field %}

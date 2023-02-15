@@ -79,8 +79,6 @@
             {% endfor %}
           </tbody>
         </table>
-
-        <hr class="my-2 mx-4">
       </div>
 
       <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="sidebarLeft" aria-labelledby="sidebarLeftLabel">
@@ -176,25 +174,38 @@
     </div>
     <!-- end of big screen version -->
 
-    <form method="POST" action="{{ url_for('game.get_post', mode=mode) }}" id="prediction-form">
-      {{ form.csrf_token }}
-      {{ render_form_errors(form) }}
+    <div class="row mx-2">
+    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mx-auto my-3">
+    <div class="card border-primary">
+      <form method="POST" action="{{ url_for('game.get_post', mode=mode) }}" id="prediction-form">
+        {{ form.csrf_token }}
+        {{ render_form_errors(form) }}
 
-      {{ form.screen_size }}
-      {{ form.show_results }}
+        {{ form.screen_size }}
+        {{ form.show_results }}
 
-      <h4 class="text-center font-weight-bold">Direction of the facial growth:</h4>
-      {{ render_field_with_errors(form.direction, class="form-control mx-3", autofocus=true) }}
+        <div class="card-header">
+          <h4 class="text-center font-weight-bold">Please try to predict the direction of facial growth</h4>
+        </div>
 
-      <div class="mb-3 text-center">
-        {% if mode == 'classic' or mode == 'time-limited' %}
-          <button id="btn-next-case" type="submit" class="btn btn-primary">Next Case</button>
-          <button id="btn-results" class="btn btn-primary">Show Results</button>
-        {% else %}
-          <button id="btn-results" type="submit" class="btn btn-primary">Show Result</button>
-        {% endif %}
-      </div>
-    </form>
+        <div class="card-body">
+          {{ render_field_with_errors(form.direction, class="form-control mx-3", autofocus=true) }}
+        </div>
+
+        <div class="card-footer">
+          <div class="text-center">
+            {% if mode == 'classic' or mode == 'time-limited' %}
+              <button id="btn-next-case" type="submit" class="btn btn-primary">Next Case</button>
+              <button id="btn-results" class="btn btn-primary">Show Results</button>
+            {% else %}
+              <button id="btn-results" type="submit" class="btn btn-primary">Show Result</button>
+            {% endif %}
+          </div>
+        </div>
+      </form>
+    </div>
+    </div>
+    </div>
 
   {% endif %}
 {% endblock %}
