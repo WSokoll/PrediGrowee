@@ -2,9 +2,9 @@ import os
 import re
 from datetime import datetime
 
-from flask import Blueprint, render_template, abort, current_app, redirect, url_for, session, send_file
+from flask import Blueprint, render_template, abort, current_app, redirect, url_for, session, send_file, flash
 from flask_login import current_user
-from flask_security import auth_required
+from flask_security import auth_required, logout_user
 from sqlalchemy import and_, or_
 
 from app.app import db
@@ -101,9 +101,20 @@ def get_post(mode: str):
         session['patient_id'] = selected_patient_id
         session['time_start'] = datetime.now()
 
+        # Check for warnings (between 1 and 3 -> display warning, more than 3 -> logout) <- time between downloads
+        warning = False
+        if 'download' in session:
+            if 1 <= session['download']['warnings'] <= 3:
+                warning = True
+            elif session['download']['warnings'] > 3:
+                session['download']['warnings'] = 0
+                logout_user()
+                return redirect(url_for('game.get_post', mode=mode))
+
         return render_template('game.jinja',
                                form=form,
                                mode=mode,
+                               warning=warning,
                                selected_patient=selected_patient,
                                ort_data=ort_data,
                                columns=current_app.config['ORT_DATA_COLUMNS'])
@@ -114,7 +125,20 @@ def get_post(mode: str):
 @bp.route('/game/photo/<string:ort_id>', methods=['GET'])
 @auth_required()
 def get_photo(ort_id: str):
-    # TODO time between downloads - warning, block
+
+    # Warning and logout system - if user downloads photos too fast (less than 5 sec between)
+    if 'download' in session:
+        if (datetime.now() - session['download']['last'].replace(tzinfo=None)).total_seconds() <= 5:
+            warnings = session['download']['warnings'] + 1
+        else:
+            warnings = 0
+    else:
+        warnings = 0
+
+    session['download'] = {
+        'last': datetime.now(),
+        'warnings': warnings
+    }
 
     ort_data = OrtData.query.filter_by(id=ort_id).one_or_none()
 

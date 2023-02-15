@@ -10,6 +10,27 @@
     <!-- TODO all done> -->
     ALL DONE
   {% else %}
+    {% if warning %}
+      <!-- warning modal -->
+      <div class="modal fade" id="warningModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header" style="background-color: #DC3545">
+              <h1 class="modal-title fs-5" id="modalTitle" style="color: white; font-weight: bold">
+                <i class="bi bi-exclamation-triangle" style="-webkit-text-stroke: 1px;"></i> WARNING
+              </h1>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p class="mb-0">
+                You are solving cases too quickly. Please slow down, otherwise you will be logged out of the application.
+              </p>
+              <button type="button" class="btn btn-danger float-end" data-bs-dismiss="modal">Got it</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
 
     <!-- small screen version -->
     <div class="d-block d-lg-none">
@@ -74,7 +95,7 @@
           <div class="clearfix"></div>
         </div>
         <div class="offcanvas-body">
-          <img src="{{ url_for('game.get_photo', ort_id = ort_data[1].id ) }}" class="img-fluid" alt="...">
+          <img src="{{ url_for('game.get_photo', ort_id = ort_data[1].id ) }}" class="img-fluid" alt="Photo not found...">
         </div>
       </div>
 
@@ -90,7 +111,7 @@
           <div class="clearfix"></div>
         </div>
         <div class="offcanvas-body">
-          <img src="{{ url_for('game.get_photo', ort_id = ort_data[2].id ) }}" class="img-fluid" alt="...">
+          <img src="{{ url_for('game.get_photo', ort_id = ort_data[2].id ) }}" class="img-fluid" alt="Photo not found...">
         </div>
       </div>
 
@@ -109,7 +130,7 @@
           <div class="row">
             <div class="col-4 mt-5">
               <h3 class="text-center mb-3">Photo at the age of {{ ort_data[1].age }}</h3>
-              <img src="{{ url_for('game.get_photo', ort_id = ort_data[1].id ) }}" class="img-fluid img-thumbnail" alt="...">
+              <img src="{{ url_for('game.get_photo', ort_id = ort_data[1].id ) }}" class="img-fluid img-thumbnail" alt="Photo not found...">
             </div>
 
             <div class="col-4">
@@ -147,7 +168,7 @@
 
             <div class="col-4 mt-5">
               <h3 class="text-center mb-3">Photo at the age of {{ ort_data[2].age }}</h3>
-              <img src="{{ url_for('game.get_photo', ort_id = ort_data[2].id ) }}" class="img-fluid img-thumbnail" alt="...">
+              <img src="{{ url_for('game.get_photo', ort_id = ort_data[2].id ) }}" class="img-fluid img-thumbnail" alt="Photo not found...">
             </div>
           </div>
         </div>

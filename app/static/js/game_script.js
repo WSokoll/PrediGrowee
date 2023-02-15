@@ -1,5 +1,10 @@
 
 $().ready(function() {
+    // Warning modal
+    if (document.getElementById('warningModal') !== null) {
+        $('#warningModal').modal('show');
+    }
+
     // On submit function - two different submit buttons
     $('#prediction-form').on('submit', function () {
          let screenSizeInput = document.getElementById('screen_size');
