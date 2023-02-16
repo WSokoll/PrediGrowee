@@ -11,7 +11,7 @@
               <h5 class="card-title mb-4 text-center">Survey</h5>
               <p class="text-center">Some information about the survey</p>
 
-              <form method="POST" action="{{ url_for('survey.get_post') }}">
+              <form method="POST" action="{{ url_for('survey.get_post', mode=mode) }}">
                 {{ form.csrf_token }}
                 {{ render_form_errors(form) }}
 

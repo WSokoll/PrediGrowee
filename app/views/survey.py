@@ -9,16 +9,15 @@ from app.models import Survey
 bp = Blueprint('survey', __name__)
 
 
-@bp.route('/survey', methods=['GET', 'POST'])
+@bp.route('/survey/<string:mode>', methods=['GET', 'POST'])
 @auth_required()
-def get_post():
+def get_post(mode: str):
 
     # check if the user has completed the survey
     survey = Survey.query.filter_by(user_id=current_user.id).first()
 
     if survey:
-        # TODO game mode
-        return redirect(url_for('game.get_post'))
+        return redirect(url_for('game.get_post', mode=mode))
 
     form = SurveyForm()
 
@@ -35,7 +34,6 @@ def get_post():
         db.session.add(survey)
         db.session.commit()
 
-        # TODO game mode
-        return redirect(url_for('game.get_post'))
+        return redirect(url_for('game.get_post', mode=mode))
 
-    return render_template('survey.jinja', form=form)
+    return render_template('survey.jinja', form=form, mode=mode)
