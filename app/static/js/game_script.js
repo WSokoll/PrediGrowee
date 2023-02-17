@@ -5,10 +5,14 @@ $().ready(function() {
         $('#warningModal').modal('show');
     }
 
+    function setScreenSize () {
+        let screenSizeInput = document.getElementById('screen_size');
+        screenSizeInput.value = window.innerWidth.toString() + 'x' + window.innerHeight.toString();
+    }
+
     // On submit function - two different submit buttons
     $('#prediction-form').on('submit', function () {
-         let screenSizeInput = document.getElementById('screen_size');
-         screenSizeInput.value = window.innerWidth.toString() + 'x' + window.innerHeight.toString();
+         setScreenSize();
 
          let buttonId = $(document.activeElement).attr('id');
          let showResultsInput = document.getElementById('show_results');
@@ -16,6 +20,22 @@ $().ready(function() {
 
          return true;
     });
+
+    // Time-limited mode
+    let mode = $('#mode').data().name;
+    if (mode === 'time-limited') {
+        let timeLimit = $('#timeLimit').data().name;
+
+        setTimeout(function () {
+            setScreenSize();
+
+            let showResultsInput = document.getElementById('show_results');
+            showResultsInput.value = false;
+
+            document.getElementById('prediction-form').submit();
+        }, timeLimit * 1000)
+    }
+
 });
 
 // Sidebar transition on/off

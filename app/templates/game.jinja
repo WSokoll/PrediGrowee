@@ -2,6 +2,11 @@
 {% set game_mode = True %}
 {% from "_macros.html" import render_field_with_errors, render_form_errors %}
 
+{% block head %}
+  <meta id="mode" data-name="{{ mode }}">
+  <meta id="timeLimit" data-name="{{ time_limit }}">
+{% endblock %}
+
 {% block content %}
   {% if database_error %}
     <!-- TODO database error> -->

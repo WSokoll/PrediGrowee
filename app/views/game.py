@@ -25,8 +25,28 @@ def get_post(mode: str):
     # Answer form
     form = GameForm()
 
-    # Saving answer after validation
-    if form.validate_on_submit():
+    # Time limit for time-limited mode
+    time_limit = 30
+    if mode == 'time-limited':
+        time_limit_from_config = Config.query.filter_by(name='time_limit').one_or_none()
+        time_limit = time_limit_from_config.int_value if time_limit_from_config else 30
+
+    # Check if time's out in the time limited mode
+    time_out = bool(
+        mode == 'time-limited' and
+        form.is_submitted() and
+        not form.validate_on_submit() and
+        form.direction.data is None and
+        'time_start' in session and
+        (datetime.now() - session['time_start'].replace(tzinfo=None)).total_seconds() >= time_limit
+    )
+
+    # Saving answer after validation or time_out
+    if form.validate_on_submit() or time_out:
+
+        # Extra show_result field validation in case of time out
+        if time_out and not form.show_results.validate(form):
+            abort(400)
 
         # Checking patient id and time_start saved in the session
         if 'patient_id' not in session or 'time_start' not in session:
@@ -42,8 +62,8 @@ def get_post(mode: str):
         result = UserResults(
             user_id=current_user.id,
             patient_id=session['patient_id'],
-            answer=DIRECTION_CHOICES[int(form.direction.data)][1],
-            answer_correct=True,  # TODO answer correct
+            answer=None if time_out else DIRECTION_CHOICES[int(form.direction.data)][1],
+            answer_correct=False if time_out else True,  # TODO answer correct
             answer_date=datetime.now(),
             game_mode=mode,
             time_spent=(datetime.now() - session['time_start'].replace(tzinfo=None)).total_seconds(),
@@ -65,7 +85,7 @@ def get_post(mode: str):
 
     # Check if grouping mode is on and select case
     config = Config.query.filter_by(name='grouping_mode_on').one_or_none()
-    if config and config.value:
+    if config and config.bool_value:
         # Grouping mode on (selection based on group number)
         group_numbers = CaseGrouping.query.with_entities(CaseGrouping.group_nr)\
                                           .distinct(CaseGrouping.group_nr)\
@@ -116,6 +136,7 @@ def get_post(mode: str):
         return render_template('game.jinja',
                                form=form,
                                mode=mode,
+                               time_limit=time_limit,
                                warning=warning,
                                selected_patient=selected_patient,
                                ort_data=ort_data,
