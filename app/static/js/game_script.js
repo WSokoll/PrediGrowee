@@ -25,6 +25,14 @@ $().ready(function() {
     let mode = $('#mode').data().name;
     if (mode === 'time-limited') {
         let timeLimit = $('#timeLimit').data().name;
+        let cdAlert = document.getElementById('countDownAlert');
+
+        let secondsLeft = timeLimit - 1;
+        setInterval(function () {
+            cdAlert.innerHTML = 'You are in time-limited mode. You have <b>' + secondsLeft.toString() +
+                                '</b> seconds left to answer before next case appears.';
+            secondsLeft -= 1;
+        }, 1000)
 
         setTimeout(function () {
             setScreenSize();

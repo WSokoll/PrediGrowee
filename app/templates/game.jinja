@@ -37,6 +37,13 @@
       </div>
     {% endif %}
 
+    {% if mode == 'time-limited' %}
+      <!-- count down section -->
+      <div id="countDownAlert" class="sticky-top alert alert-danger mx-3 my-2">
+        You are in time-limited mode. You have <b>{{ time_limit }}</b> seconds left to answer before next case appears.
+      </div>
+    {% endif %}
+
     <!-- small screen version -->
     <div class="d-block d-lg-none">
 
@@ -123,7 +130,7 @@
 
     <!-- big screen version -->
     <div class="d-block d-none d-lg-block" style="display: none">
-      <div class="card mx-2 my-2">
+      <div class="card mx-3 my-2">
         <div class="card-header">
           <h3 class="text-center mb-1">Patient {{ selected_patient.id }}</h3>
           <h4 class="text-center mt-1">{{ selected_patient.sex }}</h4>
@@ -179,7 +186,7 @@
     </div>
     <!-- end of big screen version -->
 
-    <div class="row mx-2">
+    <div class="row mx-3">
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mx-auto my-3">
     <div class="card border-primary">
       <form method="POST" action="{{ url_for('game.get_post', mode=mode) }}" id="prediction-form">
