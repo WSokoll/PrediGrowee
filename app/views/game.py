@@ -74,7 +74,7 @@ def get_post(mode: str):
         db.session.add(result)
         db.session.commit()
 
-        if form.show_results.data == 'true':
+        if form.show_results.data == 'true' or mode == 'educational':
             return redirect(url_for('results.get'))
         else:
             return redirect(url_for('game.get_post', mode=mode))
