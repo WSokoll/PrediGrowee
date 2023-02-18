@@ -15,9 +15,6 @@
   color: transparent;
   -webkit-text-fill-color: transparent;
 }
-.fa-facebook-square {
-  color: #3b5998;
-}
 
 /* Input border */
 .form-control:focus {
