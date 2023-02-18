@@ -11,8 +11,6 @@ bp = Blueprint('results', __name__)
 @bp.route('/results', methods=['GET', 'POST'])
 @auth_required()
 def get():
-    # TODO percentage of correct answers
-
     results = UserResults.query.filter_by(user_id=current_user.id, round_id=current_user.round_id).all()
     increment = True
 
@@ -20,6 +18,9 @@ def get():
     if not results:
         results = UserResults.query.filter_by(user_id=current_user.id, round_id=(current_user.round_id - 1)).all()
         increment = False
+
+    # Percentage of correct answers
+    correct_answer_percentage = 0
 
     if results:
         results_list = []
@@ -30,13 +31,19 @@ def get():
 
             # TODO correct answer
             res_item = {
+                'patient_id': result.patient_id,
                 'answer': result.answer,
                 'answer_correct_bool': result.answer_correct,
-                'correct_answer': None,
+                'correct_answer': 'testtt',
                 'time_spent': result.time_spent,
                 'photo_paths': photo_paths
             }
             results_list.append(res_item)
+
+            if result.answer_correct:
+                correct_answer_percentage += 1
+
+        correct_answer_percentage = int(correct_answer_percentage / len(results) * 100)
 
         # Increment round_id
         if increment:
@@ -44,7 +51,7 @@ def get():
             user.round_id += 1
             db.session.commit()
 
-        return render_template('results.jinja', results=results_list)
+        return render_template('results.jinja', results=results_list, percentage=correct_answer_percentage)
 
     else:
         return render_template('results.jinja', no_results=True)

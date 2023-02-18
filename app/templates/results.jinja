@@ -1,0 +1,46 @@
+{% extends 'base.jinja' %}
+{% set results_page = True %}
+
+{% block content %}
+  {% if no_results %}
+    <!-- TODO no results -->
+  {% else %}
+    <div class="mx-3 mt-3 mb-4">
+      {% if results|length == 1 %}
+        {% if percentage == 100 %}
+          <h2>Congratulations! Your answer is correct.</h2>
+        {% else %}
+          <h2>Unfortunately this time your answer was wrong.</h2>
+        {% endif %}
+      {% else %}
+        {% if percentage >= 50 %}
+          <h2>Congratulations! You were right <b style="color: green">{{ percentage }}%</b> of the time.</h2>
+        {% else %}
+          <h2>You were right <b style="color: red">{{ percentage }}%</b> of the time. Please consider trying out educational mode.</h2>
+        {% endif %}
+      {% endif %}
+    </div>
+
+    {% for result in results %}
+      <div class="card {{ 'border-success' if result.answer_correct_bool else 'border-danger' }} mx-3 my-2">
+        <div class="row">
+          <div class="col-2">{{ result.patient_id }}</div>
+          <div class="col-2">
+            {% if result.answer_correct_bool %}
+              Direction of facial growth: {{ result.answer }}
+            {% else %}
+              Actual direction of facial growth: {{ result.correct_answer }}
+              Your answer: {{ result.answer }}
+            {% endif %}
+          </div>
+          <div class="col-7">
+            PHOTOS
+          </div>
+          <div class="col-1">
+            You spent {{ result.time_spent }} seconds on this case.
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endblock %}
