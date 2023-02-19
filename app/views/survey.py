@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, abort
 from flask_login import current_user
 from flask_security import auth_required
 
@@ -12,6 +12,8 @@ bp = Blueprint('survey', __name__)
 @bp.route('/survey/<string:mode>', methods=['GET', 'POST'])
 @auth_required()
 def get_post(mode: str):
+    if mode not in ['classic', 'educational', 'time-limited']:
+        abort(404)
 
     # check if the user has completed the survey
     survey = Survey.query.filter_by(user_id=current_user.id).first()
