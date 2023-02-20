@@ -5,7 +5,7 @@
   {% if no_results %}
     <!-- TODO no results -->
   {% else %}
-    <div class="mx-3 mt-3 mb-4">
+    <div class="text-center mx-3 mt-3 mb-4">
       {% if results|length == 1 %}
         {% if percentage == 100 %}
           <h2>Congratulations! Your answer is correct.</h2>
@@ -21,26 +21,39 @@
       {% endif %}
     </div>
 
+    <div class="row row-cols-1 row-cols-md-2 g-4">
     {% for result in results %}
-      <div class="card {{ 'border-success' if result.answer_correct_bool else 'border-danger' }} mx-3 my-2">
-        <div class="row">
-          <div class="col-2">{{ result.patient_id }}</div>
-          <div class="col-2">
-            {% if result.answer_correct_bool %}
-              Direction of facial growth: {{ result.answer }}
-            {% else %}
-              Actual direction of facial growth: {{ result.correct_answer }}
-              Your answer: {{ result.answer }}
-            {% endif %}
+      <div class="col text-center">
+        <div class="card {{ 'border-success' if result.answer_correct_bool else 'border-danger' }} h-100 mx-3 my-2">
+          <div class="card-body">
+            <h5 class="card-title">Patient {{ result.patient_id }} {{ result.sex }}</h5>
+            <p class="card-text">
+              <hr class="mt-2 mb-1">
+              {% if result.answer_correct_bool %}
+                Direction of facial growth: {{ result.answer }}
+              {% else %}
+                Actual direction of facial growth: {{ result.correct_answer }}
+                Your answer: {{ result.answer }}
+              {% endif %}
+              <hr class="mt-2 mb-1">
+              <div class="row">
+                {% for age, id in result.ort_ids.items() %}
+                  <div class="col-4 px-1">
+                    <div class="card">
+                      <img src="{{ url_for('results.get_photo', ort_id=id) }}" class="card-img-top" alt="Photo not found...">
+                      <div class="card-footer"><small>At the age of <b>{{ age }}</b></small></div>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </p>
           </div>
-          <div class="col-7">
-            PHOTOS
-          </div>
-          <div class="col-1">
-            You spent {{ result.time_spent }} seconds on this case.
+          <div class="card-footer">
+            <small class="text-muted">You spent <b>{{ result.time_spent }}</b> seconds on this case.</small>
           </div>
         </div>
       </div>
     {% endfor %}
+    </div>
   {% endif %}
 {% endblock %}
