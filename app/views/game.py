@@ -162,12 +162,12 @@ def get_photo(ort_id: str):
         'warnings': warnings
     }
 
-    ort_data = OrtData.query.filter_by(id=ort_id).one_or_none()
+    ort_path = OrtData.query.with_entities(OrtData.path).filter_by(id=ort_id).one_or_none()
 
-    if not ort_data:
+    if not ort_path:
         abort(404)
 
-    ort_path = ort_data.path if ort_data.path[0] != '\\' else ort_data.path[1:]
+    ort_path = ort_path[0] if ort_path[0][0] != '\\' else ort_path[0][1:]
     path = os.path.join(current_app.config['ORT_FOLDER_PATH'], ort_path)
 
     if not os.path.exists(path):
