@@ -1,5 +1,5 @@
 {% extends 'base.jinja' %}
-{% set game_mode = True %}
+{% set game_mode = True if not database_error and not all_done else False %}
 {% from "_macros.html" import render_field_with_errors, render_form_errors %}
 
 {% block head %}
@@ -9,14 +9,21 @@
 
 {% block content %}
   {% if database_error %}
-    <h2 class="text-center text-danger mt-4 mx-3">
-      Sorry, it looks like there was an error. Please try to reload the page.
-      If that doesn't help please <a href="{{ url_for('welcome.get') }}#contact-section">contact us</a>.
-    </h2>
+    <div class="text-center py-3 custom-background">
+      <i class="bi bi-bug-fill fa-7x"></i>
+      <h2 class="mx-4 my-4">
+        Sorry, it looks like there was an error. Please try to reload the page.<br>
+        If that doesn't help please <a href="{{ url_for('welcome.get') }}#contact-section">contact us</a>.
+      </h2>
+    </div>
   {% elif all_done %}
-    <h2 class="text-center text-success my-4 mx-3">
-      Congratulations, You have completed all the cases. Thank You, we greatly appreciate your contribution to the development of our research!
-    </h2>
+    <div class="text-center py-3 custom-background">
+      <i class="bi bi-check-all fa-7x"></i>
+      <h2 class="mx-3 my-4">
+        Congratulations, You have completed all the cases!<br>
+        Thank You, we greatly appreciate your contribution to the development of our research!
+      </h2>
+    </div>
   {% else %}
     {% if warning %}
       <!-- warning modal -->
