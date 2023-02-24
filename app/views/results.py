@@ -41,7 +41,7 @@ def get():
                 'sex': patient_sex,
                 'answer': result.answer,
                 'answer_correct_bool': result.answer_correct,
-                'correct_answer': 'testtt',
+                'correct_answer': 'predominantly test',
                 'time_spent': result.time_spent,
                 'ort_ids': ort_ids
             }

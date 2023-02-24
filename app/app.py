@@ -85,4 +85,7 @@ def create_app():
     from app.views.results import bp as bp_results
     app.register_blueprint(bp_results)
 
+    from app.views.statistics import bp as bp_statistics
+    app.register_blueprint(bp_statistics)
+
     return app

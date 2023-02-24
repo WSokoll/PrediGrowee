@@ -79,6 +79,8 @@
                 Account
               </a>
               <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="{{ url_for('statistics.get') }}">Statistics</a></li>
+                <li><hr class="dropdown-divider"></li>
                 {% if current_user.register_only_google %}
                   <li><a class="dropdown-item" href="{{ url_for_security('change_password') }}">Set password</a></li>
                 {% else %}
