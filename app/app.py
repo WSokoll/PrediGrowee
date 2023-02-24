@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import Flask
+from flask import Flask, render_template
 from flask_admin import Admin
 from flask_mail import Mail
 from flask_security import SQLAlchemyUserDatastore, Security
@@ -65,7 +65,10 @@ def create_app():
     security.login_form = CustomLoginForm
     security.init_app(app, user_datastore)
 
-    # TODO error code handling
+    # Custom 'not found' page
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('404.jinja'), 404
 
     from app.views.welcome import bp as bp_welcome
     app.register_blueprint(bp_welcome)

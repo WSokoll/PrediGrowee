@@ -1,0 +1,12 @@
+{% extends "base.jinja" %}
+{% block content %}
+  <div class="text-center py-3" id="error404Div">
+    <i class="bi bi-emoji-frown fa-7x"></i>
+    <h1 class="fw-bold fa-4x">404</h1>
+    <p class="text-muted fs-3">Page not found</p>
+    <p class="fs-4 fw-bold px-2">
+      Sorry, the page you are looking for does not exist!<br>
+      Click <a href="{{ url_for('welcome.get') }}">HERE</a> to go back to the home page.
+    </p>
+  </div>
+{% endblock %}
