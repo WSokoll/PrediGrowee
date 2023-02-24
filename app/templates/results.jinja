@@ -1,9 +1,18 @@
 {% extends 'base.jinja' %}
-{% set results_page = True %}
+{% set results_page = True if not no_results else Flase %}
 
 {% block content %}
   {% if no_results %}
-    <!-- TODO no results -->
+    <div class="text-center py-3 custom-background">
+      <h3 class="mx-4 my-4">
+        There are no results to show.<br>
+        Please, solve at least one case to see the results on this page.<br>
+      </h3>
+      <h4>
+        You can get started by clicking <a href="{{ url_for('welcome.get') }}#mode-selection-section">HERE</a>.<br>
+        Your Overall statistics can be seen <a href="{{ url_for('statistics.get') }}">HERE</a>.
+      </h4>
+    </div>
   {% else %}
     <div class="text-center mx-3 mt-3 mb-4">
       {% if results|length == 1 %}
