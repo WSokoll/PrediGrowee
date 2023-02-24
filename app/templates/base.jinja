@@ -87,7 +87,9 @@
                   <li><a class="dropdown-item" href="{{ url_for_security('change_password') }}">Change password</a></li>
                 {% endif %}
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{{ url_for_security('logout') }}">Logout</a></li>
+                <li><a class="dropdown-item" href="{{ url_for_security('logout') }}">
+                  <i class="bi bi-box-arrow-right"></i> Logout
+                </a></li>
               </ul>
             </li>
           {% else %}
