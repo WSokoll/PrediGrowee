@@ -9,11 +9,14 @@
 
 {% block content %}
   {% if database_error %}
-    <!-- TODO database error> -->
-    DATABASE ERROR
+    <h2 class="text-center text-danger mt-4 mx-3">
+      Sorry, it looks like there was an error. Please try to reload the page.
+      If that doesn't help please <a href="{{ url_for('welcome.get') }}#contact-section">contact us</a>.
+    </h2>
   {% elif all_done %}
-    <!-- TODO all done> -->
-    ALL DONE
+    <h2 class="text-center text-success my-4 mx-3">
+      Congratulations, You have completed all the cases. Thank You, we greatly appreciate your contribution to the development of our research!
+    </h2>
   {% else %}
     {% if warning %}
       <!-- warning modal -->
