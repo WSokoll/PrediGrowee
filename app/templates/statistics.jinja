@@ -1,6 +1,62 @@
 {% extends 'base.jinja' %}
 
 {% block content %}
-  <!-- TODO: statistics frontend -->
-  OVERALL STATISTICS
+  <div class="row row-cols-1 row-cols-lg-3 g-3 mx-3 my-3">
+    <div class="col">
+      <div class="card text-center">
+        <div class="card-header">
+          Classic mode
+        </div>
+        <div class="card-body">
+          Resolved cases in this mode:
+          <b>{{ statistics['classic']['count_all'] }}</b><br>
+          Correctly solved cases:
+          <b>{{ statistics['classic']['count_correct'] }}</b>
+        </div>
+        <div class="card-footer text-muted">
+          <small>Time spent: </small>
+          <small id="classicTime">{{ statistics['classic']['sum_time'] }}</small>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card text-center">
+        <div class="card-header">
+          Time-limited mode
+        </div>
+        <div class="card-body">
+          Resolved cases in this mode:
+          <b>{{ statistics['time-limited']['count_all'] }}</b><br>
+          Correctly solved cases:
+          <b>{{ statistics['time-limited']['count_correct'] }}</b>
+        </div>
+        <div class="card-footer text-muted">
+          <small>Time spent: </small>
+          <small id="timeLimitedTime">{{ statistics['time-limited']['sum_time'] }}</small>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card text-center">
+        <div class="card-header">
+          Educational mode
+        </div>
+        <div class="card-body">
+          Resolved cases in this mode:
+          <b>{{ statistics['educational']['count_all'] }}</b><br>
+          Correctly solved cases:
+          <b>{{ statistics['educational']['count_correct'] }}</b>
+        </div>
+        <div class="card-footer text-muted">
+          <small>Time spent: </small>
+          <small id="educationalTime">{{ statistics['educational']['sum_time'] }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script type="text/javascript" src="{{ url_for('static', filename='js/time_script.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/statistics_script.js') }}"></script>
 {% endblock %}
