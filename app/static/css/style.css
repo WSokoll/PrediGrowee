@@ -1,7 +1,28 @@
 #about-project-section, #error404Div, .custom-background {
-      background-color: #87CEEB;
-      background-image: linear-gradient(to bottom, #87CEEB, #FFFFFF);
+    background-color: #87CEEB;
+    background-image: linear-gradient(to bottom, #87CEEB, #FFFFFF);
 }
+
+/* Card background colors */
+.classic-mode-darker {
+    background-color: #9DD8FF;
+}
+.classic-mode-lighter {
+    background-color: #CFECFF;
+}
+.time-limited-mode-darker {
+    background-color: #FFD8AE;
+}
+.time-limited-mode-lighter {
+    background-color: #FFE8CF;
+}
+.educational-mode-darker {
+    background-color: #C4FFAE;
+}
+.educational-mode-lighter {
+    background-color: #E6FFDC;
+}
+
 
 .carousel-item {
     height: 200px;
