@@ -3,6 +3,7 @@ from datetime import datetime
 from flask import Blueprint, current_app, url_for, redirect, flash
 from flask_security import login_user
 from flask_security.datastore import SQLAlchemyUserDatastore
+from flask_security.utils import get_post_login_redirect, config_value as cv, send_mail
 
 from app.app import oauth, db
 from app.models import User, Role
@@ -44,8 +45,6 @@ def google_auth():
         db.session.commit()
     else:
         # Register new user
-        # TODO: send email (account has been registered - welcome)
-        # TODO: flash message
         user_datastore = SQLAlchemyUserDatastore(db, User, Role)
         user_datastore.create_user(
             email=user_info['email'],
@@ -61,7 +60,17 @@ def google_auth():
             db.session.commit()
         else:
             flash('An error occurred while trying to register an account using Google.'
-                  ' Please try again or use different method to login.', 'error')
+                  ' Please try again or use different method to log in.', 'error')
             return redirect('security.login')
 
-    return redirect(url_for('welcome.welcome'))
+        flash('Your account has been registered.')
+
+        send_mail(
+            cv("EMAIL_SUBJECT_REGISTER"),
+            user.email,
+            "welcome",
+            user=user,
+            google_confirmation=True
+        )
+
+    return redirect(get_post_login_redirect())

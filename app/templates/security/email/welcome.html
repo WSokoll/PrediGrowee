@@ -7,7 +7,11 @@
 #}
 <p>{{ _fsdomain('Welcome %(email)s!', email=user.email) }}</p>
 
-{% if security.confirmable %}
+{% if google_confirmation %}
+  <p>Thank you for logging in via Google.</p>
+{% endif %}
+
+{% if security.confirmable  and not google_confirmation %}
 <p>{{ _fsdomain('You can confirm your email through the link below:') }}</p>
 
 <p><a href="{{ confirmation_link }}">{{ _fsdomain('Confirm my account') }}</a></p>
