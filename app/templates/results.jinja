@@ -12,16 +12,23 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="{{ id }}PhotoModalLabel">Modal title</h1>
+          <div class="btn-group" role="group">
+            <input type="radio" class="btn-check" name="btnradio{{ id }}" id="btnradio1{{ id }}" autocomplete="off" checked
+                   data-bs-target="#carouselCaptions{{ id }}" data-bs-slide-to="0" aria-current="true" aria-label="Slide 1">
+            <label class="btn btn-outline-primary" for="btnradio1{{ id }}">Radio 1</label>
+
+            <input type="radio" class="btn-check" name="btnradio{{ id }}" id="btnradio2{{ id }}" autocomplete="off"
+                   data-bs-target="#carouselCaptions{{ id }}" data-bs-slide-to="1" aria-label="Slide 2">
+            <label class="btn btn-outline-primary" for="btnradio2{{ id }}">Radio 2</label>
+
+            <input type="radio" class="btn-check" name="btnradio{{ id }}" id="btnradio3{{ id }}" autocomplete="off"
+                   data-bs-target="#carouselCaptions{{ id }}" data-bs-slide-to="2" aria-label="Slide 3">
+            <label class="btn btn-outline-primary" for="btnradio3{{ id }}">Radio 3</label>
+          </div>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div id="carouselCaptions{{ id }}" class="carousel slide carousel-fade" data-bs-ride="false">
-            <div class="carousel-indicators">
-              <button type="button" data-bs-target="#carouselCaptions{{ id }}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-              <button type="button" data-bs-target="#carouselCaptions{{ id }}" data-bs-slide-to="1" aria-label="Slide 2"></button>
-              <button type="button" data-bs-target="#carouselCaptions{{ id }}" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            </div>
             <div class="carousel-inner">
               {% for age, id in ort_ids.items() %}
                 <div class="carousel-item active">
@@ -32,14 +39,6 @@
                 </div>
               {% endfor %}
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselCaptions{{ id }}" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselCaptions{{ id }}" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
           </div>
         </div>
       </div>
