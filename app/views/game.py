@@ -53,7 +53,8 @@ def get_post(mode: str):
             abort(400)
 
         db_check_patient = db.session.query(Patients.query.filter_by(id=session['patient_id']).exists()).scalar()
-        db_check_result = db.session.query(UserResults.query.filter_by(patient_id=session['patient_id']).exists()).scalar()
+        db_check_result = db.session.query(UserResults.query.filter_by(patient_id=session['patient_id'],
+                                                                       user_id=current_user.id).exists()).scalar()
 
         if db_check_result or (not db_check_patient):
             abort(400)
