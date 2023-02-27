@@ -85,12 +85,12 @@
                 <th scope="row">{{ param_value }}</th>
                 <td class="text-center">{{ ort_data[1][param_name] }}</td>
                 {% if ort_data[1][param_name] < ort_data[2][param_name] %}
-                  <td class="text-center" style="background-color: #C7FFC7">
+                  <td class="text-center">
                     {{ ort_data[2][param_name] }}
                     <span style="float: right">&#8593;</span>
                   </td>
                 {% elif ort_data[1][param_name] > ort_data[2][param_name] %}
-                  <td class="text-center" style="background-color: #FFC6C6">
+                  <td class="text-center">
                     {{ ort_data[2][param_name] }}
                     <span style="float: right">&#8595;</span>
                   </td>
@@ -168,12 +168,12 @@
                       <td class="text-center">{{ ort_data[1][param_name] }}</td>
                       <th scope="row" class="text-center">{{ param_value }}</th>
                       {% if ort_data[1][param_name] < ort_data[2][param_name] %}
-                        <td class="text-center" style="background-color: #C7FFC7">
+                        <td class="text-center">
                           {{ ort_data[2][param_name] }}
                           <span style="float: right">&#8593;</span>
                         </td>
                       {% elif ort_data[1][param_name] > ort_data[2][param_name] %}
-                        <td class="text-center" style="background-color: #FFC6C6">
+                        <td class="text-center">
                           {{ ort_data[2][param_name] }}
                           <span style="float: right">&#8595;</span>
                         </td>
