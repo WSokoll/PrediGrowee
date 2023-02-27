@@ -33,15 +33,14 @@ def get():
                 .filter_by(patient_id=result.patient_id).order_by(OrtData.age).all()
             ort_ids = {p[0]: p[1] for p in ort_ids}
 
-            patient_sex = (Patients.query.with_entities(Patients.sex).filter_by(id=result.patient_id).first())[0]
+            patient = Patients.query.filter_by(id=result.patient_id).first()
 
-            # TODO correct answer
             res_item = {
                 'patient_id': result.patient_id,
-                'sex': patient_sex,
-                'answer': result.answer,
+                'sex': patient.sex,
+                'answer': result.answer or '-',
                 'answer_correct_bool': result.answer_correct,
-                'correct_answer': 'predominantly test',
+                'correct_answer': patient.direction_of_growth,
                 'time_spent': result.time_spent,
                 'ort_ids': ort_ids
             }

@@ -52,11 +52,11 @@ def get_post(mode: str):
         if 'patient_id' not in session or 'time_start' not in session:
             abort(400)
 
-        db_check_patient = db.session.query(Patients.query.filter_by(id=session['patient_id']).exists()).scalar()
+        patient = Patients.query.filter_by(id=session['patient_id']).one_or_none()
         db_check_result = db.session.query(UserResults.query.filter_by(patient_id=session['patient_id'],
                                                                        user_id=current_user.id).exists()).scalar()
 
-        if db_check_result or (not db_check_patient):
+        if db_check_result or (not patient):
             abort(400)
 
         # Save result to the database
@@ -64,7 +64,7 @@ def get_post(mode: str):
             user_id=current_user.id,
             patient_id=session['patient_id'],
             answer=None if time_out else DIRECTION_CHOICES[int(form.direction.data)][1],
-            answer_correct=False if time_out else True,  # TODO answer correct
+            answer_correct=False if time_out else bool(patient.direction_of_growth == DIRECTION_CHOICES[int(form.direction.data)][1]),
             answer_date=datetime.now(),
             game_mode=mode,
             time_spent=(datetime.now() - session['time_start'].replace(tzinfo=None)).total_seconds(),
