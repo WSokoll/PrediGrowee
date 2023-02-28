@@ -82,7 +82,7 @@
           <tbody>
             {% for param_name, param_value in columns.items() %}
               <tr>
-                <th scope="row">{{ param_value }}</th>
+                <th scope="row">{{ param_value }} <i class="bi bi-question-circle-fill" style="float: right"></i></th> <!-- TODO param description -->
                 <td class="text-center">{{ ort_data[1][param_name] }}</td>
                 {% if ort_data[1][param_name] < ort_data[2][param_name] %}
                   <td class="text-center">
@@ -166,7 +166,9 @@
                   {% for param_name, param_value in columns.items() %}
                     <tr>
                       <td class="text-center">{{ ort_data[1][param_name] }}</td>
-                      <th scope="row" class="text-center">{{ param_value }}</th>
+                      <th scope="row" class="text-center">
+                        {{ param_value }} <i class="bi bi-question-circle-fill" style="float: right"></i> <!-- TODO param description -->
+                      </th>
                       {% if ort_data[1][param_name] < ort_data[2][param_name] %}
                         <td class="text-center">
                           {{ ort_data[2][param_name] }}
