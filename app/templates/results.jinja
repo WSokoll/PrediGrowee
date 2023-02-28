@@ -3,7 +3,6 @@
 {% from 'results_macros.jinja' import photo_zoom_modal %}
 
 
-<!-- TODO - different screen for educational mode (or just one result) -->
 {% block content %}
   {% if no_results %}
     <div class="text-center py-3 custom-background">
@@ -33,7 +32,7 @@
       {% endif %}
     </div>
 
-    <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="row row-cols-1 {{ 'row-cols-md-2' if results|length > 1 else 'mx-5' }} g-4">
     {% for result in results %}
       <div class="col text-center">
         <div class="card {{ 'border-success' if result.answer_correct_bool else 'border-danger' }} h-100 mx-3 my-2">
