@@ -42,7 +42,8 @@ def get():
                 'answer_correct_bool': result.answer_correct,
                 'correct_answer': patient.direction_of_growth,
                 'time_spent': result.time_spent,
-                'ort_ids': ort_ids
+                'ort_ids': ort_ids,
+                'list_of_age': [key for key, value in ort_ids.items()]
             }
             results_list.append(res_item)
 

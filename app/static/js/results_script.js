@@ -5,3 +5,7 @@ $().ready(function() {
         timeElements.item(i).innerHTML = timeElements.item(i).innerHTML.toString().timeTextFormat();
     }
 })
+
+function turnCarousel(carouselId, slide) {
+    $('#' + carouselId).carousel(slide);
+}

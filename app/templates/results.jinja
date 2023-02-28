@@ -60,8 +60,9 @@
                 </div>
               {% endfor %}
             </div>
-            <!-- TODO Zoom in button + modal -->
-            {{ photo_zoom_modal(result.ort_ids, result.patient_id) }}
+
+            {{ photo_zoom_modal(result.ort_ids, result.patient_id, result.list_of_age) }}
+
           </div>
           <div class="card-footer" style="background-color: {{ '#53DB57' if result.answer_correct_bool else '#FB8B84' }}">
             <small>You spent <b class="resultTimeSpent">{{ result.time_spent }}</b> on this case.</small>

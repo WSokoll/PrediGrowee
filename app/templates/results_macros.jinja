@@ -1,4 +1,4 @@
-{% macro photo_zoom_modal(ort_ids, id) %}
+{% macro photo_zoom_modal(ort_ids, id, list_of_age) %}
   <!-- Button trigger modal -->
   <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#{{ id }}PhotoModal">
     <i class="bi bi-zoom-in"></i>Zoom in on the photos
@@ -10,17 +10,17 @@
       <div class="modal-content">
         <div class="modal-header">
           <div class="btn-group" role="group">
-            <input type="radio" class="btn-check" name="btnradio{{ id }}" id="btnradio1{{ id }}" autocomplete="off" checked
-                   data-bs-target="#carouselCaptions{{ id }}" data-bs-slide-to="0" aria-current="true" aria-label="Slide 1">
-            <label class="btn btn-outline-primary" for="btnradio1{{ id }}">Radio 1</label>
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio1{{ id }}" autocomplete="off"
+                   onclick="turnCarousel('carouselCaptions{{ id }}', 0)" checked>
+            <label class="btn btn-outline-primary" for="btnradio1{{ id }}">Age of {{ list_of_age[0] }}</label>
 
-            <input type="radio" class="btn-check" name="btnradio{{ id }}" id="btnradio2{{ id }}" autocomplete="off"
-                   data-bs-target="#carouselCaptions{{ id }}" data-bs-slide-to="1" aria-label="Slide 2">
-            <label class="btn btn-outline-primary" for="btnradio2{{ id }}">Radio 2</label>
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio2{{ id }}" autocomplete="off"
+                   onclick="turnCarousel('carouselCaptions{{ id }}', 1)">
+            <label class="btn btn-outline-primary" for="btnradio2{{ id }}">Age of {{ list_of_age[1] }}</label>
 
-            <input type="radio" class="btn-check" name="btnradio{{ id }}" id="btnradio3{{ id }}" autocomplete="off"
-                   data-bs-target="#carouselCaptions{{ id }}" data-bs-slide-to="2" aria-label="Slide 3">
-            <label class="btn btn-outline-primary" for="btnradio3{{ id }}">Radio 3</label>
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio3{{ id }}" autocomplete="off"
+                   onclick="turnCarousel('carouselCaptions{{ id }}', 2)">
+            <label class="btn btn-outline-primary" for="btnradio3{{ id }}">Age of {{ list_of_age[2] }}</label>
           </div>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
@@ -28,7 +28,7 @@
           <div id="carouselCaptions{{ id }}" class="carousel slide carousel-fade" data-bs-ride="false">
             <div class="carousel-inner">
               {% for age, _id in ort_ids.items() %}
-                <div class="carousel-item active">
+                <div class="carousel-item {{ 'active' if loop.first else '' }}">
                   <img src="{{ url_for('results.get_photo', ort_id=_id) }}" class="card-img-top" alt="Photo not found...">
                   <div class="carousel-caption d-none d-md-block">
                     <h5>At the age of <b>{{ age }}</b></h5>
