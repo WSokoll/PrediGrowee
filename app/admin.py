@@ -3,9 +3,9 @@ from flask_admin.menu import MenuLink
 
 from app import models
 from app.views.admin.draw_mode import DrawModeModelView
+from app.views.admin.ort_parameters import OrtParametersModelView
 
 
-# TODO add ort_parameters table view
 def admin_panel_init(admin, db):
 
     class LogoutLink(MenuLink):
@@ -20,3 +20,4 @@ def admin_panel_init(admin, db):
     admin.add_link(LogoutLink(name="Log out"))
 
     admin.add_view(DrawModeModelView(models.CaseGrouping, db.session, name='Draw Mode'))
+    admin.add_view(OrtParametersModelView(models.OrtParameters, db.session, name='Ort Parameters'))
