@@ -9,7 +9,7 @@ from sqlalchemy import and_, or_
 
 from app.app import db
 from app.forms.game import GameForm, DIRECTION_CHOICES
-from app.models import Config, UserResults, CaseGrouping, Patients, OrtData
+from app.models import Config, UserResults, CaseGrouping, Patients, OrtData, OrtParameters
 from app.utils.random_case import get_random_patient_id
 
 bp = Blueprint('game', __name__)
@@ -133,6 +133,11 @@ def get_post(mode: str):
                 logout_user()
                 return redirect(url_for('game.get_post', mode=mode))
 
+        # Ort parameters download (columns in the table) from the database
+        parameters = OrtParameters.query.order_by(OrtParameters.id).all()
+        if not parameters or len(parameters) != 15:
+            return render_template('game.jinja', database_error=True)
+
         return render_template('game.jinja',
                                form=form,
                                mode=mode,
@@ -140,7 +145,7 @@ def get_post(mode: str):
                                warning=warning,
                                selected_patient=selected_patient,
                                ort_data=ort_data,
-                               columns=current_app.config['ORT_DATA_COLUMNS'])
+                               parameters=parameters)
     else:
         return render_template('game.jinja', all_done=True)
 

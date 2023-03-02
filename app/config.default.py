@@ -3,27 +3,8 @@
 
 SECRET_KEY = 'please_change_@187%0^&'
 
-# Dict of columns shown in the game
-ORT_DATA_COLUMNS = {
-    'sn_mp': 'SN/MP',
-    'facial_axis': 'Facial Axis',
-    'y_axis': 'Y-Axis',
-    'point_a_to_nasion_perp': 'Point A to Nasion Perp',
-    'pog_to_nasion_perp': 'Pog to Nasion Perp',
-    'antegonial_notch_depth': 'Antegonial Notch Depth',
-    'mn_base_angle': 'Mn Base Angle',
-    'mn_ramus_angle': 'Mn Ramus Angle',
-    'sn_pog': 'SNPog',
-    'snb': 'SNB',
-    'sna': 'SNA',
-    'sn_pp': 'SN/PP',
-    'anb': 'ANB',
-    'afh_pfh': 'AFH:PFH',
-    'point_a_to_pog_along_fh': 'Point A to Pog along FH'
-}
-
 # Absolute path to 'orto' folder containing photos
-ORT_FOLDER_PATH = 'C:/example/path'
+ORT_FOLDER_PATH = 'C:\\example\\path'
 
 # Database connection
 DB_HOST = 'localhost'

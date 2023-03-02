@@ -45,6 +45,11 @@ class OrtData(db.Model):
     point_a_to_pog_along_fh = db.Column(db.Numeric(asdecimal=False))
 
 
+class OrtParameters(db.Model):
+    __tablename__ = 'ort_parameters'
+    __table_args__ = {'extend_existing': True}
+
+
 class Patients(db.Model):
     __tablename__ = 'patients'
     __table_args__ = {'extend_existing': True}
