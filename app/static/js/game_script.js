@@ -1,5 +1,7 @@
 
 $().ready(function() {
+    $(".tooltip-icon").tooltip()
+
     // Warning modal
     if (document.getElementById('warningModal') !== null) {
         $('#warningModal').modal('show');

@@ -82,7 +82,14 @@
           <tbody>
             {% for param in parameters %}
               <tr>
-                <th scope="row">{{ param.name }} <i class="bi bi-question-circle-fill" style="float: right"></i></th> <!-- TODO param description -->
+                <th scope="row">
+                  {{ param.name }}
+                  <button class="btn tooltip-icon" type="button" data-bs-toggle="tooltip"
+                          data-bs-title="Param description" data-bs-placement="top"
+                          style="float: right; padding-bottom: 0; padding-top: 0;">
+                    <i class="bi bi-question-circle"></i> <!-- TODO param description -->
+                  </button>
+                </th>
                 <td class="text-center">{{ ort_data[1][param.variable_name] }}</td>
                 {% if ort_data[1][param.variable_name] < ort_data[2][param.variable_name] %}
                   <td class="text-center">
@@ -167,7 +174,12 @@
                     <tr>
                       <td class="text-center">{{ ort_data[1][param.variable_name] }}</td>
                       <th scope="row" class="text-center">
-                        {{ param.name }} <i class="bi bi-question-circle-fill" style="float: right"></i> <!-- TODO param description -->
+                        {{ param.name }}
+                        <button class="btn tooltip-icon" type="button" data-bs-toggle="tooltip"
+                                data-bs-title="Param description" data-bs-placement="top"
+                                style="float: right; padding-bottom: 0; padding-top: 0;">
+                          <i class="bi bi-question-circle"></i> <!-- TODO param description -->
+                        </button>
                       </th>
                       {% if ort_data[1][param.variable_name] < ort_data[2][param.variable_name] %}
                         <td class="text-center">
