@@ -47,6 +47,12 @@
 
       <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
         <ul class="navbar-nav">
+          {% if current_user.is_authenticated and current_user.has_role('Admin') %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('admin.index') }}"><b>*** ADMIN PANEL ***</b></a>
+            </li>
+          {% endif %}
+
           {% if self._TemplateReference__context.name == 'welcome.jinja' %}
             <li class="nav-item">
               <a class="nav-link" href="#about-project-section">About Project</a>

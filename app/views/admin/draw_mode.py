@@ -31,7 +31,7 @@ class DrawModeModelView(ModelView):
             flash('grouping_mode_on key was not found in the database')
             self._template_args['grouping_mode_on'] = None
         else:
-            self._template_args['grouping_mode_on'] = config.value
+            self._template_args['grouping_mode_on'] = config.bool_value
 
         return super(DrawModeModelView, self).index_view()
 
@@ -49,9 +49,9 @@ class DrawModeModelView(ModelView):
             return redirect(url_for('casegrouping.index_view'))
 
         if status == 'on':
-            config.value = True
+            config.bool_value = True
         else:
-            config.value = False
+            config.bool_value = False
 
         db.session.commit()
         return redirect(url_for('casegrouping.index_view'))
