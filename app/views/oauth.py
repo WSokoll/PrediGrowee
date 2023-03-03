@@ -58,6 +58,11 @@ def google_auth():
         if user:
             login_user(user)
             db.session.commit()
+
+            # Login count
+            user.login_count -= 1
+            user.login_google_count = user.login_google_count + 1 if user.login_google_count else 1
+            db.session.commit()
         else:
             flash('An error occurred while trying to register an account using Google.'
                   ' Please try again or use different method to log in.', 'error')
