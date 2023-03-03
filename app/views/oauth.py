@@ -43,6 +43,11 @@ def google_auth():
             user.confirmed_at = datetime.now()
 
         db.session.commit()
+
+        # Login count
+        user.login_count -= 1
+        user.login_google_count = user.login_google_count + 1 if user.login_google_count else 1
+        db.session.commit()
     else:
         # Register new user
         user_datastore = SQLAlchemyUserDatastore(db, User, Role)
