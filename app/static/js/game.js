@@ -1,6 +1,8 @@
 
 $().ready(function() {
-    $(".tooltip-icon").tooltip()
+    $(".tooltip-icon").tooltip({
+        html: true
+    })
 
     // Warning modal
     if (document.getElementById('warningModal') !== null) {

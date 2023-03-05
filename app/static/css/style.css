@@ -1,3 +1,10 @@
+.tooltip-inner {
+    max-width: 500px !important;
+}
+.tooltip.show {
+    opacity: 1;
+}
+
 #about-project-section, #error404Div, .custom-background {
     background-color: #87CEEB;
     background-image: linear-gradient(to bottom, #87CEEB, #FFFFFF);

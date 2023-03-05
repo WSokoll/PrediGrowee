@@ -85,9 +85,10 @@
                 <th scope="row">
                   {{ param.name }}
                   <button class="btn tooltip-icon" type="button" data-bs-toggle="tooltip"
-                          data-bs-title="Param description" data-bs-placement="top"
-                          style="float: right; padding-bottom: 0; padding-top: 0;">
-                    <i class="bi bi-question-circle"></i> <!-- TODO param description -->
+                          data-bs-title="{{ param.description }}<br>
+                                <img class='img-fluid' src='{{ url_for('static', filename='img/example_parameter_explenation_photo.png') }}'/>"
+                          data-bs-placement="bottom" style="float: right; padding-bottom: 0; padding-top: 0;">
+                    <i class="bi bi-question-circle"></i> <!-- TODO param description img -->
                   </button>
                 </th>
                 <td class="text-center">{{ ort_data[1][param.variable_name] }}</td>
@@ -176,9 +177,10 @@
                       <th scope="row" class="text-center">
                         {{ param.name }}
                         <button class="btn tooltip-icon" type="button" data-bs-toggle="tooltip"
-                                data-bs-title="Param description" data-bs-placement="top"
-                                style="float: right; padding-bottom: 0; padding-top: 0;">
-                          <i class="bi bi-question-circle"></i> <!-- TODO param description -->
+                                data-bs-title="{{ param.description }}<br>
+                                <img class='img-fluid' src='{{ url_for('static', filename='img/example_parameter_explenation_photo.png') }}'/>"
+                                data-bs-placement="bottom" style="float: right; padding-bottom: 0; padding-top: 0;">
+                          <i class="bi bi-question-circle"></i>   <!-- TODO param description img -->
                         </button>
                       </th>
                       {% if ort_data[1][param.variable_name] < ort_data[2][param.variable_name] %}
