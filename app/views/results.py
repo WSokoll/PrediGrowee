@@ -1,26 +1,36 @@
 import os
+from secrets import token_urlsafe
 
 from flask import Blueprint, render_template, abort, current_app, send_file
 from flask_login import current_user
+from flask_mail import Message
 from flask_security import auth_required
 from sqlalchemy import or_, and_
 
-from app.app import db
+from app.app import db, mail
 from app.models import UserResults, OrtData, User, Patients
 
 bp = Blueprint('results', __name__)
 
 
-@bp.route('/results', methods=['GET', 'POST'])
+@bp.route('/results', methods=['GET'])
+@bp.route('/results/<string:round_token>', methods=['GET'])
 @auth_required()
-def get():
-    results = UserResults.query.filter_by(user_id=current_user.id, round_id=current_user.round_id).all()
-    increment = True
+def get(round_token: str = None):
 
-    # If no results try round_id - 1 and do not increment round_id (protection against blank page after refresh)
-    if not results:
-        results = UserResults.query.filter_by(user_id=current_user.id, round_id=(current_user.round_id - 1)).all()
+    # Case when results page is loaded from the link sent by mail
+    if round_token:
+        results = UserResults.query.filter_by(user_id=current_user.id, round_token=round_token).all()
         increment = False
+
+    else:
+        results = UserResults.query.filter_by(user_id=current_user.id, round_id=current_user.round_id).all()
+        increment = True
+
+        # If no results try round_id - 1 and do not increment round_id (protection against blank page after refresh)
+        if not results:
+            results = UserResults.query.filter_by(user_id=current_user.id, round_id=(current_user.round_id - 1)).all()
+            increment = False
 
     # Percentage of correct answers
     correct_answer_percentage = 0
@@ -52,10 +62,13 @@ def get():
 
         correct_answer_percentage = int(correct_answer_percentage / len(results) * 100)
 
-        # Increment round_id
+        # Increment round_id and change round_token
         if increment:
             user = User.query.filter_by(id=current_user.id).first()
+
             user.round_id += 1
+            user.round_token = token_urlsafe(16)
+
             db.session.commit()
 
         return render_template('results.jinja', results=results_list, percentage=correct_answer_percentage)
@@ -93,3 +106,16 @@ def get_photo(ort_id: str):
         abort(404)
 
     return send_file(path)
+
+
+@bp.route('/results/email/<string:round_token>', methods=['GET'])
+@auth_required()
+def send_email(round_token: str):
+    msg = Message(
+        subject='Your results from PrediGrowee!',
+        recipients=[current_user.email],
+        html=render_template('email/results.html', round_token=round_token)
+    )
+
+    mail.send(msg)
+    return "Email sent", 200

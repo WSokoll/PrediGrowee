@@ -69,6 +69,7 @@ def get_post(mode: str):
             game_mode=mode,
             time_spent=(datetime.now() - session['time_start'].replace(tzinfo=None)).total_seconds(),
             round_id=current_user.round_id,
+            round_token=current_user.round_token,
             screen_size=form.screen_size.data if re.match(r'^[0-9]{1,6}x[0-9]{1,6}$', form.screen_size.data) else None
         )
 
