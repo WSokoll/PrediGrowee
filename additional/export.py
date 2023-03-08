@@ -32,8 +32,7 @@ def export(db, excel_path, xml_path):
             'sna': worksheet.cell_value(row, 12),
             'sn_pp': worksheet.cell_value(row, 13),
             'anb': worksheet.cell_value(row, 15),
-            'afh_pfh': worksheet.cell_value(row, 16),
-            'point_a_to_pog_along_fh': worksheet.cell_value(row, 17)
+            'afh_pfh': worksheet.cell_value(row, 16)
         }
 
     # reading xml file
@@ -106,7 +105,6 @@ def export(db, excel_path, xml_path):
                             sn_pp=ed_dict[(patient_id, year)]['sn_pp'],
                             anb=ed_dict[(patient_id, year)]['anb'],
                             afh_pfh=ed_dict[(patient_id, year)]['afh_pfh'],
-                            point_a_to_pog_along_fh=ed_dict[(patient_id, year)]['point_a_to_pog_along_fh'],
                             path=photos_dict[year]
                         ))
                     else:

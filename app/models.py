@@ -42,7 +42,6 @@ class OrtData(db.Model):
     sn_pp = db.Column(db.Numeric(asdecimal=False))
     anb = db.Column(db.Numeric(asdecimal=False))
     afh_pfh = db.Column(db.Numeric(asdecimal=False))
-    point_a_to_pog_along_fh = db.Column(db.Numeric(asdecimal=False))
 
 
 class OrtParameters(db.Model):

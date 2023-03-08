@@ -136,7 +136,7 @@ def get_post(mode: str):
 
         # Ort parameters download (columns in the table) from the database
         parameters = OrtParameters.query.order_by(OrtParameters.id).all()
-        if not parameters or len(parameters) != 15:
+        if not parameters or len(parameters) != 14:
             return render_template('game.jinja', database_error=True)
 
         return render_template('game.jinja',
