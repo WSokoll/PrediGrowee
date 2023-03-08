@@ -8,7 +8,6 @@ from app.views.admin.ort_parameters import OrtParametersModelView
 from app.views.admin.stats import StatsBaseView
 
 
-# TODO add time limit configuration for time-limited game mode
 def admin_panel_init(admin, db):
 
     class LogoutLink(MenuLink):
