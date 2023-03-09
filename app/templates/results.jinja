@@ -41,23 +41,24 @@
         <a href="{{ url_for('results.send_email', mode=results[0].game_mode, round_token=results[0].round_token) }}">HERE</a>
         or the button below,<br>and we will send You an email with a special link.
       </p>
-      <a href="{{ url_for('game.get_post', mode=results[0].game_mode) }}" class="btn btn-outline-success btn-sm my-1">
+      <a href="{{ url_for('game.get_post', mode=results[0].game_mode) }}" class="btn btn-outline-success my-1">
         <i class="bi bi-pencil-square"></i>
         SOLVE MORE CASES
-      </a>
-      <a href="{{ url_for('welcome.get') }}#mode-selection-section" class="btn btn-outline-success btn-sm my-1">
+      </a><br>
+      <a href="{{ url_for('welcome.get') }}#mode-selection-section" class="btn btn-outline-success my-1">
         <i class="bi bi-check2-circle"></i>
         SELECT DIFFERENT MODE
       </a><br>
-      <a href="{{ url_for('results.send_email', mode=results[0].game_mode, round_token=results[0].round_token) }}" class="btn btn-outline-primary btn-sm my-1">
+      <a href="{{ url_for('results.send_email', mode=results[0].game_mode, round_token=results[0].round_token) }}" class="btn btn-outline-primary my-1">
         <i class="bi bi-envelope-at"></i>
         GET EMAIL WITH RESULTS ACCESS
       </a>
     </div>
     </div>
 
-
-    <h2 class="text-center">Details of solved cases</h2>
+    <h2 class="text-center pb-4 pt-3">
+      Details of solved {{ 'cases' if results|length > 1 else 'case' }}
+    </h2>
 
     <div class="row row-cols-1 {{ 'row-cols-md-2' if results|length > 1 else 'mx-2' }} g-4">
     {% for result in results %}
