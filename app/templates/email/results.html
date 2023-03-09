@@ -1,7 +1,7 @@
 <!-- TODO Results email -->
 <h1>TESTING</h1>
 <h3>Stats</h3>
-<h3>You can solve more cases by clicking <a href="{{ url_for('welcome.get', _external=True) }}">HERE</a></h3>
+<h3>You can solve more cases by clicking <a href="{{ url_for('game.get_post', mode=mode, _external=True) }}">HERE</a></h3>
 <h3>You can see detailed results by clicking
   <a href="{{ url_for('results.get', round_token=round_token, _external=True) }}">HERE</a>
 </h3>

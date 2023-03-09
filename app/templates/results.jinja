@@ -4,7 +4,7 @@
 
 
 {% block content %}
-  {% if no_results %}
+  {% if no_results or results|length == 0 %}
     <div class="text-center py-3 custom-background">
       <h3 class="mx-4 my-4">
         There are no results to show.<br>
@@ -30,9 +30,15 @@
           <h2>You were right <b style="color: red">{{ percentage }}%</b> of the time. Please consider trying out educational mode.</h2>
         {% endif %}
       {% endif %}
+      <h3>Please consider solving more cases -> <a href="{{ url_for('game.get_post', mode=results[0].game_mode) }}">SOLVE MORE</a></h3>
+      <h3>
+        If you want to have access to the results later on, click
+        <a href="{{ url_for('results.send_email', mode=results[0].game_mode, round_token=results[0].round_token) }}">HERE</a>
+        and we will send you email with special link
+      </h3>
     </div>
 
-    <div class="row row-cols-1 {{ 'row-cols-md-2' if results|length > 1 else 'mx-5' }} g-4">
+    <div class="row row-cols-1 {{ 'row-cols-md-2' if results|length > 1 else 'mx-2' }} g-4">
     {% for result in results %}
       <div class="col text-center">
         <div class="card {{ 'border-success' if result.answer_correct_bool else 'border-danger' }} h-100 mx-3 my-2">

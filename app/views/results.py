@@ -52,6 +52,8 @@ def get(round_token: str = None):
                 'answer_correct_bool': result.answer_correct,
                 'correct_answer': patient.direction_of_growth,
                 'time_spent': result.time_spent,
+                'game_mode': result.game_mode,
+                'round_token': result.round_token,
                 'ort_ids': ort_ids,
                 'list_of_age': [key for key, value in ort_ids.items()]
             }
@@ -108,14 +110,14 @@ def get_photo(ort_id: str):
     return send_file(path)
 
 
-@bp.route('/results/email/<string:round_token>', methods=['GET'])
+@bp.route('/results/email/<string:mode>/<string:round_token>', methods=['GET'])
 @auth_required()
-def send_email(round_token: str):
+def send_email(mode: str, round_token: str):
     msg = Message(
         subject='Your results from PrediGrowee!',
         recipients=[current_user.email],
-        html=render_template('email/results.html', round_token=round_token)
+        html=render_template('email/results.html', mode=mode, round_token=round_token)
     )
 
     mail.send(msg)
-    return "Email sent", 200
+    return 'Email sent', 204

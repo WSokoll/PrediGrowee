@@ -30,9 +30,6 @@
               {% for age, _id in ort_ids.items() %}
                 <div class="carousel-item {{ 'active' if loop.first else '' }}">
                   <img src="{{ url_for('results.get_photo', ort_id=_id) }}" class="card-img-top" alt="Photo not found...">
-                  <div class="carousel-caption d-none d-md-block">
-                    <h5>At the age of <b>{{ age }}</b></h5>
-                  </div>
                 </div>
               {% endfor %}
             </div>
