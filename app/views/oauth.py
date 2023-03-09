@@ -1,12 +1,20 @@
 from datetime import datetime
+from urllib.parse import urlparse, urljoin
 
-from flask import Blueprint, current_app, url_for, redirect, flash
+from flask import Blueprint, current_app, url_for, redirect, flash, request, abort
 from flask_security import login_user
 from flask_security.datastore import SQLAlchemyUserDatastore
 from flask_security.utils import get_post_login_redirect, config_value as cv, send_mail
 
 from app.app import oauth, db
 from app.models import User, Role
+
+
+def is_safe_url(target):
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
+
 
 bp = Blueprint('oauth', __name__)
 
@@ -23,8 +31,13 @@ def google():
         }
     )
 
+    # Next argument
+    next_ = request.args.get('next')
+    if next_ and not is_safe_url(next_):
+        return abort(400)
+
     # Redirect to google_auth function
-    redirect_uri = url_for('oauth.google_auth', _external=True)
+    redirect_uri = url_for('oauth.google_auth', _external=True, next=next_)
     return oauth.google.authorize_redirect(redirect_uri)
 
 
