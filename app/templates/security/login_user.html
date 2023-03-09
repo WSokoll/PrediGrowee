@@ -29,7 +29,7 @@
   <p class="text-secondary mx-3">OR</p>
 
   <div class="row mx-2">
-    <a href="{{ url_for('oauth.google') }}" class="w-100">
+    <a href="{{ url_for('oauth.google', next=request.args.get('next')) }}" class="w-100">
       <button type="button" class="btn btn-outline-secondary btn-block mb-2 w-100">
         <i class="fab fa-google"></i> Log in with Google
       </button>
