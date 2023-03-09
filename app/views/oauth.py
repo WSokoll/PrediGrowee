@@ -1,4 +1,5 @@
 from datetime import datetime
+from secrets import token_urlsafe
 from urllib.parse import urlparse, urljoin
 
 from flask import Blueprint, current_app, url_for, redirect, flash, request, abort
@@ -68,7 +69,8 @@ def google_auth():
             email=user_info['email'],
             password=None,
             confirmed_at=datetime.now(),
-            register_only_google=True
+            register_only_google=True,
+            round_token=token_urlsafe(16)
         )
         db.session.commit()
 
