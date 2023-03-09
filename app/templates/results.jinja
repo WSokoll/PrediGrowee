@@ -16,27 +16,60 @@
       </h4>
     </div>
   {% else %}
-    <div class="text-center mx-3 mt-3 mb-4">
+    <div class="custom-background py-4">
+    <div class="text-center mx-3">
+      <h1 class="fa-4x my-0">Thank You!</h1>
+      <span style="line-height: 100%">
+        <i class="bi bi-check-lg" style="color: green; font-size: 6rem;"></i>
+      </span>
+      <p class="mt-4 mb-0">We greatly appreciate Your contribution to our research!</p>
       {% if results|length == 1 %}
         {% if percentage == 100 %}
-          <h2>Congratulations! Your answer is correct.</h2>
+          <p>Your answer is correct. You can see the details below.</p>
         {% else %}
-          <h2>Unfortunately this time your answer was wrong.</h2>
+          <p>Unfortunately this time Your answer was wrong. You can see the details below.</p>
         {% endif %}
       {% else %}
         {% if percentage >= 50 %}
-          <h2>Congratulations! You were right <b style="color: green">{{ percentage }}%</b> of the time.</h2>
+          <p>You were right <b style="color: green">{{ percentage }}%</b> of the time. You can see the details below.</p>
         {% else %}
-          <h2>You were right <b style="color: red">{{ percentage }}%</b> of the time. Please consider trying out educational mode.</h2>
+          <p>You were right <b style="color: red">{{ percentage }}%</b> of the time. You can see the details below. Please consider trying out educational mode.</p>
         {% endif %}
       {% endif %}
-      <h3>Please consider solving more cases -> <a href="{{ url_for('game.get_post', mode=results[0].game_mode) }}">SOLVE MORE</a></h3>
-      <h3>
-        If you want to have access to the results later on, click
+      <p>
+        If You want to have access to the results later on, click
         <a href="{{ url_for('results.send_email', mode=results[0].game_mode, round_token=results[0].round_token) }}">HERE</a>
-        and we will send you email with special link
-      </h3>
+        or the button below,<br>and we will send You an email with a special link.
+      </p>
+      <p style="font-size: 1.5rem; margin-bottom: 0"><em>
+        Please consider solving more cases ->
+        <a href="{{ url_for('game.get_post', mode=results[0].game_mode) }}">
+          <button class="btn btn-outline-success btn-sm">
+            <i class="bi bi-pencil-square"></i>
+            SOLVE MORE
+          </button>
+        </a></em></p>
+        <p style="font-size: 1.5rem; margin-bottom: 0"><em>
+        You can also try out different mode ->
+        <a href="{{ url_for('welcome.get') }}#mode-selection-section">
+          <button class="btn btn-outline-success btn-sm">
+            <i class="bi bi-check2-circle"></i>
+            SELECT MODE
+          </button>
+        </a></em></p>
+        <p style="font-size: 1.5rem;"><em>
+        Receive an email with results access ->
+        <a href="{{ url_for('results.send_email', mode=results[0].game_mode, round_token=results[0].round_token) }}">
+          <button class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-envelope-at"></i>
+            GET EMAIL
+          </button>
+        </a></em></p>
     </div>
+    </div>
+
+
+    <h2 class="text-center">Details of solved cases</h2>
 
     <div class="row row-cols-1 {{ 'row-cols-md-2' if results|length > 1 else 'mx-2' }} g-4">
     {% for result in results %}
@@ -76,6 +109,7 @@
       </div>
     {% endfor %}
     </div>
+    <p class="my-3 mx-3"></p>
   {% endif %}
 {% endblock %}
 
