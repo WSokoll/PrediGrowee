@@ -61,6 +61,9 @@
               <a class="nav-link" href="#mode-selection-section">Get Started</a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('parameters.get') }}">Parameters</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="#contact-section">Contact</a>
             </li>
           {% else %}
@@ -73,6 +76,9 @@
                 {% else %}Get Started
                 {% endif %}
               </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('parameters.get') }}">Parameters</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('welcome.get') }}#contact-section">Contact</a>
