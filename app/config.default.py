@@ -23,6 +23,9 @@ GOOGLE_CLIENT_ID = 'google_client_id'
 GOOGLE_CLIENT_SECRET = 'google_client_secret'
 GOOGLE_CONF_URL = 'https://accounts.google.com/.well-known/openid-configuration'
 
+# Error log file
+ERROR_LOG = 'logs/error.log'
+
 # Mail config
 MAIL_SERVER = 'localhost'
 MAIL_PORT = 25

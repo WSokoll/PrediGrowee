@@ -1,4 +1,5 @@
 from datetime import datetime
+from pathlib import Path
 
 from flask import Flask, render_template
 from flask_admin import Admin
@@ -9,6 +10,7 @@ from flask_sqlalchemy import SQLAlchemy
 from authlib.integrations.flask_client import OAuth
 
 from app.forms.security import ExtendedRegisterForm, CustomLoginForm
+from app.utils.exceptions import exception_handler
 from app.views.admin.index import CustomAdminIndexView
 
 db = SQLAlchemy()
@@ -18,7 +20,7 @@ mail = Mail()
 oauth = OAuth()
 
 
-# TODO LOGS - files + access from admin panel
+# TODO LOGS - access from admin panel
 def create_app():
     app = Flask(
         __name__,
@@ -70,6 +72,10 @@ def create_app():
     @app.errorhandler(404)
     def page_not_found(e):
         return render_template('404.jinja'), 404
+
+    # Exception handler
+    Path(f"{app.root_path}/{app.config['ERROR_LOG']}").touch(exist_ok=True)
+    app.register_error_handler(Exception, exception_handler)
 
     from app.views.welcome import bp as bp_welcome
     app.register_blueprint(bp_welcome)
