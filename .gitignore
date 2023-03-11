@@ -5,3 +5,6 @@ local/config.local.py
 
 local/*
 !local/.gitkeep
+
+app/logs/*
+!app/logs/.gitkeep
