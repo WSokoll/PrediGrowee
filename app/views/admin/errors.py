@@ -1,21 +1,27 @@
 import os
 
-from flask import current_app, render_template
+from flask import current_app
 from flask_admin import BaseView, expose
 
 
 class ErrorsBaseView(BaseView):
 
+    def __init__(self, config_model, *args, **kwargs):
+        self.config_model = config_model
+        super(ErrorsBaseView, self).__init__(*args, **kwargs)
+
     @expose('/')
     def index(self):
-        # TODO: add number of lines to config
         # Read last 500 lines from logs/error.log file
         path = f"{current_app.root_path}/logs/error.log"
 
         if not os.path.isfile(path):
-            pass  # TODO
+            return self.render('admin/views/errors.html', file_not_found=True)
 
-        number_of_lines = 500
+        # Number of lines to show
+        from_config = self.config_model.query.filter_by(name='error_lines').one_or_none()
+        number_of_lines = from_config.int_value if from_config else 500
+
         with open(path, mode='rb') as f:
             try:
                 f.seek(-1, os.SEEK_END)
@@ -37,4 +43,4 @@ class ErrorsBaseView(BaseView):
 
         lines = ''.join(decoded_lines)
 
-        return render_template('admin/views/errors.html')
+        return self.render('admin/views/errors.html', lines=lines, number_of_lines=number_of_lines)

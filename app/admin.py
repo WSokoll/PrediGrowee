@@ -4,6 +4,7 @@ from flask_admin.menu import MenuLink
 from app import models
 from app.views.admin.config import ConfigModelView
 from app.views.admin.draw_mode import DrawModeModelView
+from app.views.admin.errors import ErrorsBaseView
 from app.views.admin.ort_parameters import OrtParametersModelView
 from app.views.admin.stats import StatsBaseView
 
@@ -25,3 +26,4 @@ def admin_panel_init(admin, db):
     admin.add_view(OrtParametersModelView(models.OrtParameters, db.session, name='Ort Parameters'))
     admin.add_view(StatsBaseView(session=db.session, models=models, name='Stats', endpoint='stats'))
     admin.add_view(ConfigModelView(models.Config, db.session, name='Config'))
+    admin.add_view(ErrorsBaseView(config_model=models.Config, name='Errors', endpoint='errors'))

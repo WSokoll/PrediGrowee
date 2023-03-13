@@ -1,0 +1,10 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+  {% if file_not_found %}
+    <h2 class="text-center my-2">error.log file not found...</h2>
+  {% else %}
+    <h2 class="text-center my-2">Last {{ number_of_lines }} from error.log file</h2>
+    <pre class="mx-1">{{ lines }}</pre>
+  {% endif %}
+{% endblock %}
