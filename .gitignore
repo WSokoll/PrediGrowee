@@ -8,3 +8,5 @@ local/*
 
 app/logs/*
 !app/logs/.gitkeep
+
+db/*

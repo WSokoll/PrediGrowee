@@ -20,7 +20,6 @@ mail = Mail()
 oauth = OAuth()
 
 
-# TODO LOGS - access from admin panel
 def create_app():
     app = Flask(
         __name__,
