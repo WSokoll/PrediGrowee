@@ -1,0 +1,27 @@
+version: '1.0'
+
+services:
+  app:
+    build: ./app
+    tty: true
+    restart: always
+    command: python -m gunicorn --bind 0.0.0.0:80 wsgi:application
+    volumes:
+      - ./app/:/src/app/app
+      - ./local/:/src/app/local
+    ports:
+      - 127.0.0.1:80:80
+    env_file:
+      - ./.env
+  db:
+    image: mysql:5.7
+    tty: true
+    restart: always
+    ports:
+      - "32000:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/:ro
+volumes:
+  postgres-data:
