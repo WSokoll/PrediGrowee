@@ -1,18 +1,17 @@
-version: '1.0'
+version: '3.8'
 
 services:
   app:
     build: ./app
     tty: true
     restart: always
-    command: python -m gunicorn --bind 0.0.0.0:80 wsgi:application
+    command: python -m gunicorn --bind 0.0.0.0:5000 wsgi:application
     volumes:
       - ./app/:/src/app/app
       - ./local/:/src/app/local
+      - ./photos/:/src/photos
     ports:
-      - 127.0.0.1:80:80
-    env_file:
-      - ./.env
+      - 80:5000
   db:
     image: mysql:5.7
     tty: true
