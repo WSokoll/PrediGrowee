@@ -5,5 +5,5 @@ bp = Blueprint('welcome', __name__)
 
 @bp.route('/', methods=['GET'])
 @bp.route('/welcome', methods=['GET'])
-def welcome():
+def get():
     return render_template('welcome.jinja')
