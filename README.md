@@ -2,16 +2,16 @@
 The secure educational web application to assess facial growth based on cephalometric images.
 
 # Table of Contents
-- [About Project](#About Project)
-- [App functionality](#App functionality)
-- [Endpoints](#Endpoints)
-- [Deployment](#Deployment)
-  - [Configuration](#Configuration)
-    - [Configuration file](#Configuration file)
-    - [Database init file](#Database init file)
-    - [Folder with cephalometric images](#Folder with cephalometric images)
-  - [Deploy and run with Docker Compose](#Deploy and run with Docker Compose)
-- [Technology stack](#Technology stack)
+- [About Project](#about-project)
+- [App functionality](#app-functionality)
+- [Endpoints](#endpoints)
+- [Deployment](#deployment)
+  - [Configuration](#configuration)
+    - [Configuration file](#configuration-file)
+    - [Database init file](#database-init-file)
+    - [Folder with cephalometric images](#folder-with-cephalometric-images)
+  - [Deploy and run with Docker Compose](#deploy-and-run-with-docker-compose)
+- [Technology stack](#technology-stack)
 
 ## About Project
 
