@@ -10,3 +10,7 @@ app/logs/*
 !app/logs/.gitkeep
 
 db/*
+!db/.gitkeep
+
+photos/*
+!photos/.gitkeep
