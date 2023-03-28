@@ -20,6 +20,7 @@ mail = Mail()
 oauth = OAuth()
 
 
+# TODO Before first request -> create admin account
 def create_app():
     app = Flask(
         __name__,
