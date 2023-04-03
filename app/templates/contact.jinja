@@ -1,1 +1,17 @@
-Contact
+{% extends "base.jinja" %}
+
+{% block content %}
+
+  <div class="text-center py-3">
+    <img src="{{url_for('static', filename = 'img/logo.png')}}" alt="Predigrowee" width="100" height="100">
+    <h1 class="fw-bold fa-3x">Contact us</h1>
+    <p class="text-muted fs-4">Thank you for visiting our website.</p>
+    <p class="fs-5 fw-bold px-5">
+      If you have any questions or concerns, please don't hesitate to contact us.
+      We are always happy to hear from our visitors and will do our best to assist you in any way we can.
+      You can reach us via email at <a href = "mailto: {{ contact_email }}">{{ contact_email }}</a>.<br>
+      We look forward to hearing from you!
+    </p>
+  </div>
+
+{% endblock %}

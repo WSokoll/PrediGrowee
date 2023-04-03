@@ -6,6 +6,9 @@ SECRET_KEY = 'please_change_@187%0^&'
 # Absolute path to 'orto' folder containing photos
 ORT_FOLDER_PATH = 'C:\\example\\path'
 
+# Contact email (shown on the contact subpage)
+CONTACT_EMAIL = 'contact@contact.com'
+
 # Database connection
 DB_HOST = 'localhost'
 DB_PORT = 3306
