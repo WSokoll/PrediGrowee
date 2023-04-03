@@ -58,37 +58,19 @@
             </li>
           {% endif %}
 
-          {% if self._TemplateReference__context.name == 'welcome.jinja' %}
-            <li class="nav-item">
-              <a class="nav-link" href="#about-project-section">About Project</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#mode-selection-section">Get Started</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('parameters.get') }}">Parameters</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#contact-section">Contact</a>
-            </li>
-          {% else %}
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('welcome.get') }}#about-project-section">About Project</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('welcome.get') }}#mode-selection-section">
-                {% if results_page %}Try different mode
-                {% else %}Get Started
-                {% endif %}
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('parameters.get') }}">Parameters</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('welcome.get') }}#contact-section">Contact</a>
-            </li>
-          {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('about.get') }}">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('welcome.get') }}?modes=True">
+              {% if results_page %}Try different mode
+              {% else %}Get Started
+              {% endif %}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('contact.get') }}">Contact</a>
+          </li>
 
           {% if current_user.is_authenticated %}
             <li class="nav-item dropdown">
