@@ -22,30 +22,29 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #838FC3;
 }
 
-
-#about-project-section, #error404Div, .custom-background {
-    background-color: #87CEEB;
-    background-image: linear-gradient(to bottom, #87CEEB, #FFFFFF);
+#error404Div, .custom-background {
+    background-color: #9BA5CE;
+    background-image: linear-gradient(to bottom, #9BA5CE, #FFFFFF);
 }
 
 /* Card background colors */
 .classic-mode-darker {
-    background-color: #9DD8FF;
+    background-color: #B5C1F0;
 }
 .classic-mode-lighter {
-    background-color: #CFECFF;
+    background-color: #EEEEEE;
 }
 .time-limited-mode-darker {
-    background-color: #FFD8AE;
+    background-color: #C7B5F0;
 }
 .time-limited-mode-lighter {
-    background-color: #FFE8CF;
+    background-color: #EEEEEE;
 }
 .educational-mode-darker {
-    background-color: #C4FFAE;
+    background-color: #B5CFF0;
 }
 .educational-mode-lighter {
-    background-color: #E6FFDC;
+    background-color: #EEEEEE;
 }
 
 
