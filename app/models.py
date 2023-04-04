@@ -73,3 +73,7 @@ class UserResults(db.Model):
     __tablename__ = 'user_results'
     __table_args__ = {'extend_existing': True}
 
+
+class AboutContent(db.Model):
+    __tablename__ = 'about_content'
+    __table_args__ = {'extend_existing': True}
