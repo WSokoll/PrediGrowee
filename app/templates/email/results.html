@@ -1,11 +1,14 @@
-<!-- TODO Results email -->
-<h1>TESTING</h1>
-<h3>Stats</h3>
-<h3>You can solve more cases by clicking <a href="{{ url_for('game.get_post', mode=mode, _external=True) }}">HERE</a></h3>
-<h3>You can see detailed results by clicking
-  <a href="{{ url_for('results.get', round_token=round_token, _external=True) }}">HERE</a>
-</h3>
-
+<p>
+  Hi,<br>
+  Congratulations on solving {{ solved }} cases in the Predigrowee app! You are the best!<br>
+  You have solved correctly {{ percentage }}% of the cases.<br>
+  Please, find out <a href="{{ url_for('results.get', round_token=round_token, _external=True) }}">HERE</a> what were the correct answers along with all the details!<br>
+  Still, we have more challenges for You! Come back and solve them <a href="{{ url_for('game.get_post', mode=mode, _external=True) }}">HERE</a>.<br>
+  See you soon!<br><br>
+  Predigrowee Team
+</p>
+<br>
+<hr>
 <p class="text-muted">
   If you are currently logged out of our app, and you want to use Google to log in and see the results, you might have
   to log in first and then use the link again. Sorry for the inconvenience.

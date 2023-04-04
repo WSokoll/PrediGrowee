@@ -1,7 +1,7 @@
 import os
 from secrets import token_urlsafe
 
-from flask import Blueprint, render_template, abort, current_app, send_file
+from flask import Blueprint, render_template, abort, current_app, send_file, flash, redirect, url_for
 from flask_login import current_user
 from flask_mail import Message
 from flask_security import auth_required
@@ -110,14 +110,22 @@ def get_photo(ort_id: str):
     return send_file(path)
 
 
-@bp.route('/results/email/<string:mode>/<string:round_token>', methods=['GET'])
+@bp.route('/results/email/<string:mode>/<string:round_token>/<int:solved>/<int:percentage>', methods=['GET'])
 @auth_required()
-def send_email(mode: str, round_token: str):
+def send_email(mode: str, round_token: str, solved: int, percentage: int):
     msg = Message(
         subject='Your results from PrediGrowee!',
         recipients=[current_user.email],
-        html=render_template('email/results.html', mode=mode, round_token=round_token)
+        html=render_template(
+            'email/results.html',
+            mode=mode,
+            round_token=round_token,
+            solved=solved,
+            percentage=percentage
+        )
     )
 
     mail.send(msg)
-    return 'Email sent', 204
+    flash('We send an email with the results and link to this page so you can come back any time.')
+    # return 'Email sent', 204
+    return redirect(url_for('results.get'))
