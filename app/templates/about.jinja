@@ -1,0 +1,64 @@
+{% extends 'base.jinja' %}
+
+{% block content %}
+
+  {% for record in content %}
+    <div class="card mx-3 my-3">
+      <div class="card-header" id="heading{{ record.id }}">
+        <div class="d-grid gap-2">
+          <button class="btn btn-about stretched-link text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ record.id }}" aria-expanded="false" aria-controls="collapse{{ record.id }}">
+            <span class="title">{{ record.title }}</span>
+            <i class="bi bi-chevron-down arrow-icon{{ record.id }} float-end"></i>
+          </button>
+        </div>
+      </div>
+      <div id="collapse{{ record.id }}" class="collapse" aria-labelledby="heading{{ record.id }}" data-bs-parent="#accordion">
+        <div class="card-body">
+          {% if record.id != 9 %}
+            {{ record.content }}
+          {% else %}
+            <div class="text-center">
+              {{ record.content }}
+            </div>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mx-3 my-3">
+              {% for parameter in parameters %}
+                <div class="col">
+                  <div class="card">
+                    <img class='card-img-top' src='{{ url_for('static', filename='img/' + parameter.variable_name + '.png') }}' alt="..."/>
+                    <div class="card-body">
+                      <h5 class="card-title">{{ parameter.name }}</h5>
+                      <p class="card-text">{{ parameter.description }}</p>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    $().ready(function() {
+        let idList = {{ id_list | safe }};
+
+        for (let i = 0; i < idList.length; i++) {
+            let arrowIcon = document.querySelector('.arrow-icon' + idList[i]);
+
+            document.querySelector('#collapse' + idList[i]).addEventListener('shown.bs.collapse', function () {
+                arrowIcon.classList.remove('bi-chevron-down');
+                arrowIcon.classList.add('bi-chevron-up');
+            });
+
+            document.querySelector('#collapse' + idList[i]).addEventListener('hidden.bs.collapse', function () {
+                arrowIcon.classList.remove('bi-chevron-up');
+                arrowIcon.classList.add('bi-chevron-down');
+            });
+        }
+    });
+  </script>
+
+{% endblock %}

@@ -81,3 +81,8 @@ img {
 .bi-question-circle {
     color: #1D8EFF;
 }
+
+/* Buttons from dropdowns in about section */
+.btn-about:focus {
+    border: none !important;
+}
