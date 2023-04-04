@@ -2,6 +2,8 @@ from flask_admin.contrib.sqla import ModelView
 
 
 class AboutContentModelView(ModelView):
+    list_template = 'admin/views/about_content_list.html'
+
     can_view_details = True
     can_create = True
     can_edit = True
