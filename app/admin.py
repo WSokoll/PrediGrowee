@@ -2,6 +2,7 @@ from flask import url_for
 from flask_admin.menu import MenuLink
 
 from app import models
+from app.views.admin.about_content import AboutContentModelView
 from app.views.admin.config import ConfigModelView
 from app.views.admin.draw_mode import DrawModeModelView
 from app.views.admin.errors import ErrorsBaseView
@@ -24,6 +25,7 @@ def admin_panel_init(admin, db):
 
     admin.add_view(DrawModeModelView(models.CaseGrouping, db.session, name='Draw Mode'))
     admin.add_view(OrtParametersModelView(models.OrtParameters, db.session, name='Ort Parameters'))
+    admin.add_view(AboutContentModelView(models.AboutContent, db.session, name='About'))
     admin.add_view(StatsBaseView(session=db.session, models=models, name='Stats', endpoint='stats'))
     admin.add_view(ConfigModelView(models.Config, db.session, name='Config'))
     admin.add_view(ErrorsBaseView(config_model=models.Config, name='Errors', endpoint='errors'))
