@@ -71,7 +71,12 @@ def create_app():
     # Custom 'not found' page
     @app.errorhandler(404)
     def page_not_found(e):
-        return render_template('404.jinja'), 404
+        return render_template('custom_error/404.jinja'), 404
+
+    # Custom 'internal server error' page
+    @app.errorhandler(500)
+    def internal_server_error(e):
+        return render_template('custom_error/500.jinja'), 500
 
     # Exception handler
     Path(f"{app.root_path}/{app.config['ERROR_LOG']}").touch(exist_ok=True)
