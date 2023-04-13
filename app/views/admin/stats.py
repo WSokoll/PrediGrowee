@@ -14,20 +14,19 @@ class StatsBaseView(BaseView):
         # OVERALL STATS
         collected_data_query = self.session.execute(
             """
-            SELECT COALESCE(COUNT(id), 0) AS count_all,
-                   COALESCE((SELECT COUNT(id) FROM user_results WHERE answer_correct = TRUE), 0) AS count_correct, 
-                   COALESCE(AVG((SELECT COUNT(id) FROM user_results GROUP BY(user_id))), 0) AS avg_cases_solved,
+            SELECT COALESCE(COUNT(*), 0) AS count_all,
+                   COALESCE((SELECT COUNT(*) FROM user_results WHERE answer_correct = TRUE), 0) AS count_correct,
                    COALESCE(AVG(time_spent), 0) AS avg_time,
-                   COALESCE((SELECT COUNT(id) FROM user_results WHERE game_mode = 'classic'), 0) AS count_classic,
-                   COALESCE((SELECT COUNT(id) FROM user_results WHERE game_mode = 'educational'), 0) AS count_educational,
-                   COALESCE((SELECT COUNT(id) FROM user_results WHERE game_mode = 'time-limited'), 0) AS count_time_lim
+                   COALESCE((SELECT COUNT(*) FROM user_results WHERE game_mode = 'classic'), 0) AS count_classic,
+                   COALESCE((SELECT COUNT(*) FROM user_results WHERE game_mode = 'educational'), 0) AS count_educational,
+                   COALESCE((SELECT COUNT(*) FROM user_results WHERE game_mode = 'time-limited'), 0) AS count_time_lim
             FROM user_results
             """)
 
         login_stats_query = self.session.execute(
             """
-            SELECT COALESCE(COUNT(id), 0) AS count_all,
-                   COALESCE((SELECT COUNT(id) FROM survey), 0) AS count_surveys, 
+            SELECT COALESCE(COUNT(*), 0) AS count_all,
+                   COALESCE((SELECT COUNT(*) FROM survey), 0) AS count_surveys, 
                    COALESCE(SUM(login_count + login_google_count), 0) AS login_sum,
                    COALESCE(SUM(login_google_count), 0) AS login_google_sum,
                    COALESCE(AVG(login_count + login_google_count), 0) AS avg_login
@@ -41,7 +40,6 @@ class StatsBaseView(BaseView):
             'Collected data stats': {
                 'Number of collected answers': coll_data['count_all'],
                 'Number of cases solved correctly': coll_data['count_correct'],
-                'Average number of cases solved by one user': coll_data['avg_cases_solved'],
                 'Average time a user spends solving a single case [sec]': coll_data['avg_time'],
                 'Number of cases solved in the Classic Mode': coll_data['count_classic'],
                 'Number of cases solved in the Educational Mode': coll_data['count_educational'],
@@ -65,8 +63,8 @@ class StatsBaseView(BaseView):
             for case in first_group_patients:
                 query = self.session.execute(
                     """
-                    SELECT COALESCE(COUNT(id), 0) AS count_all,
-                           COALESCE((SELECT COUNT(id) FROM user_results 
+                    SELECT COALESCE(COUNT(*), 0) AS count_all,
+                           COALESCE((SELECT COUNT(*) FROM user_results 
                            WHERE answer_correct = TRUE AND patient_id = :patient_id), 0) AS count_correct
                     FROM user_results
                     WHERE patient_id = :patient_id
