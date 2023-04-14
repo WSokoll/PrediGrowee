@@ -9,6 +9,12 @@ ORT_FOLDER_PATH = 'C:\\example\\path'
 # Contact email (shown on the contact subpage)
 CONTACT_EMAIL = 'contact@contact.com'
 
+# Emails and passwords for two admin accounts created after first app initialization
+ADMIN_EMAIL_1 = 'admin1@admin.com'
+ADMIN_PASSWORD_1 = 'admin1'
+ADMIN_EMAIL_2 = 'admin2@admin.com'
+ADMIN_PASSWORD_2 = 'admin2'
+
 # Database connection
 DB_HOST = 'localhost'
 DB_PORT = 3306

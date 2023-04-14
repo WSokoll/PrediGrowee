@@ -1,10 +1,11 @@
 from datetime import datetime
 from pathlib import Path
+from secrets import token_urlsafe
 
 from flask import Flask, render_template
 from flask_admin import Admin
 from flask_mail import Mail
-from flask_security import SQLAlchemyUserDatastore, Security
+from flask_security import SQLAlchemyUserDatastore, Security, hash_password
 from flask_security.models import fsqla_v2
 from flask_sqlalchemy import SQLAlchemy
 from authlib.integrations.flask_client import OAuth
@@ -20,7 +21,6 @@ mail = Mail()
 oauth = OAuth()
 
 
-# TODO Before first request -> create admin account
 def create_app():
     app = Flask(
         __name__,
@@ -81,6 +81,29 @@ def create_app():
     # Exception handler
     Path(f"{app.root_path}/{app.config['ERROR_LOG']}").touch(exist_ok=True)
     app.register_error_handler(Exception, exception_handler)
+
+    # Admin accounts
+    @app.before_first_request
+    def db_init():
+        if not user_datastore.find_role(role='Admin'):
+            db.session.add(Role(name='Admin'))
+        if not user_datastore.find_user(email=app.config['ADMIN_EMAIL_1']):
+            user_datastore.create_user(
+                email=app.config['ADMIN_EMAIL_1'],
+                password=hash_password(app.config['ADMIN_PASSWORD_1']),
+                confirmed_at=datetime.now(),
+                round_token=token_urlsafe(16),
+                roles=['Admin']
+            )
+        if not user_datastore.find_user(email=app.config['ADMIN_EMAIL_2']):
+            user_datastore.create_user(
+                email=app.config['ADMIN_EMAIL_2'],
+                password=hash_password(app.config['ADMIN_PASSWORD_2']),
+                confirmed_at=datetime.now(),
+                round_token=token_urlsafe(16),
+                roles=['Admin']
+            )
+        db.session.commit()
 
     from app.views.welcome import bp as bp_welcome
     app.register_blueprint(bp_welcome)
