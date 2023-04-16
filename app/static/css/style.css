@@ -5,6 +5,14 @@
     opacity: 1;
 }
 
+/* Welcome subpage background - big screens */
+#welcome-background {
+    background-image: url("../img/predigrowee-start-page.png");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}
+
 /* Headers font */
 h1, h2, h3, h4, h5, h6 {
     font-family: "Britannic Bold", sans-serif;

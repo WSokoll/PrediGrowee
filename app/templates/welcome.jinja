@@ -2,87 +2,166 @@
 
 {% block content %}
 
-  <div class="col-lg-6 col-md-8 col-sm-12 px-4 py-5">
+  <!-- small screen version -->
+  <div class="d-block d-lg-none">
+    <div class="col-lg-6 col-md-8 col-sm-12 px-4 py-5">
 
-    <!-- Hero section -->
-    {% if not request.args.get('modes') %}
-      <div class="text-center" id="hero-section">
-        <h1 class="display-5 fw-bold">Predigrowee</h1>
-        <div class="mx-3">
-          <p class="lead mb-4">
-            Can you predict the direction of the facial growth?
-          </p>
+      <!-- Hero section -->
+      {% if not request.args.get('modes') %}
+        <div class="text-center" id="welcome-hero-section-sm">
+          <h1 class="display-5 fw-bold">Predigrowee</h1>
+          <div class="mx-3">
+            <p class="lead mb-4">
+              Can you predict the direction of the facial growth?
+            </p>
+          </div>
+          <div class="d-grid gap-2 col-5 mx-auto">
+            <button class="btn btn-primary text-center" onclick="showModeSelection()"><b>TRY IT!</b></button>
+          </div>
         </div>
-        <div class="d-grid gap-2 col-5 mx-auto">
-          <button class="btn btn-primary text-center" onclick="showModeSelection()"><b>TRY IT!</b></button>
-        </div>
-      </div>
-    {% endif %}
+      {% endif %}
 
-    <!-- Mode selection section -->
-    <div class="container text-center" id="mode-selection-section">
-      <h1 class="display-5 fw-bold mb-3">Mode selection</h1>
-      <div id="carouselCaptions" class="carousel carousel-dark slide" data-bs-ride="false">
-        <div class="carousel-indicators">
-          <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      <!-- Mode selection section -->
+      <div class="container text-center" id="mode-selection-section-sm">
+        <h1 class="display-5 fw-bold mb-3">Mode selection</h1>
+        <div id="carouselCaptionsSm" class="carousel carousel-dark slide" data-bs-ride="false">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselCaptionsSm" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselCaptionsSm" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselCaptionsSm" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          </div>
+          <div class="carousel-inner">
+            <div class="carousel-item carousel-item-welcome active">
+              <div class="d-grid gap-2 col-9 mx-auto">
+                <h5>Classic Mode</h5>
+                <p>Solve as many cases as you wish, you can stop whenever you want, and you’ll see correct answers at the end.</p>
+              </div>
+              <div class="d-grid gap-2 col-4 mx-auto">
+                <a href="{{ url_for('survey.get_post', mode='classic') }}" type="button" class="btn btn-primary"><b>TRY IT!</b></a>
+              </div>
+            </div>
+            <div class="carousel-item carousel-item-welcome">
+              <div class="d-grid gap-2 col-9 mx-auto">
+                <h5>Educational Mode</h5>
+                <p>You’ll see a correct answer after each solved case.</p>
+              </div>
+              <div class="d-grid gap-2 col-4 mx-auto">
+                <a href="{{ url_for('survey.get_post', mode='educational') }}" type="button" class="btn btn-primary"><b>TRY IT!</b></a>
+              </div>
+            </div>
+            <div class="carousel-item carousel-item-welcome">
+              <div class="d-grid gap-2 col-9 mx-auto">
+                <h5>Limited Time Mode</h5>
+                <p>You’ll have limited time (30 sec.) to solve each case.</p>
+              </div>
+              <div class="d-grid gap-2 col-4 mx-auto">
+                <a href="{{ url_for('survey.get_post', mode='time-limited') }}" type="button" class="btn btn-primary"><b>TRY IT!</b></a>
+              </div>
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselCaptionsSm" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselCaptionsSm" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
         </div>
-        <div class="carousel-inner">
-          <div class="carousel-item carousel-item-welcome active">
-            <div class="d-grid gap-2 col-9 mx-auto">
-              <h5>Classic Mode</h5>
-              <p>Solve as many cases as you wish, you can stop whenever you want, and you’ll see correct answers at the end.</p>
-            </div>
-            <div class="d-grid gap-2 col-4 mx-auto">
-              <a href="{{ url_for('survey.get_post', mode='classic') }}" type="button" class="btn btn-primary"><b>TRY IT!</b></a>
-            </div>
-          </div>
-          <div class="carousel-item carousel-item-welcome">
-            <div class="d-grid gap-2 col-9 mx-auto">
-              <h5>Educational Mode</h5>
-              <p>You’ll see a correct answer after each solved case.</p>
-            </div>
-            <div class="d-grid gap-2 col-4 mx-auto">
-              <a href="{{ url_for('survey.get_post', mode='educational') }}" type="button" class="btn btn-primary"><b>TRY IT!</b></a>
-            </div>
-          </div>
-          <div class="carousel-item carousel-item-welcome">
-            <div class="d-grid gap-2 col-9 mx-auto">
-              <h5>Limited Time Mode</h5>
-              <p>You’ll have limited time (30 sec.) to solve each case.</p>
-            </div>
-            <div class="d-grid gap-2 col-4 mx-auto">
-              <a href="{{ url_for('survey.get_post', mode='time-limited') }}" type="button" class="btn btn-primary"><b>TRY IT!</b></a>
-            </div>
-          </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselCaptions" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselCaptions" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
       </div>
     </div>
+  </div>
 
+  <!-- big screen version -->
+  <div class="d-block d-none d-lg-block" style="display: none">
+    <div class="fill" id="welcome-background">
+    <div class="col-lg-6 col-md-8 col-sm-12 px-4 py-5">
+
+      <!-- Hero section -->
+      {% if not request.args.get('modes') %}
+        <div class="text-center" id="welcome-hero-section-bg">
+          <h1 class="display-5 fw-bold">Predigrowee</h1>
+          <div class="mx-3">
+            <p class="lead mb-4">
+              Can you predict the direction of the facial growth?
+            </p>
+          </div>
+          <div class="d-grid gap-2 col-5 mx-auto">
+            <button class="btn btn-primary text-center" onclick="showModeSelection()"><b>TRY IT!</b></button>
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- Mode selection section -->
+      <div class="container text-center" id="mode-selection-section-bg">
+        <h1 class="display-5 fw-bold mb-3">Mode selection</h1>
+        <div id="carouselCaptions" class="carousel carousel-dark slide" data-bs-ride="false">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          </div>
+          <div class="carousel-inner">
+            <div class="carousel-item carousel-item-welcome active">
+              <div class="d-grid gap-2 col-9 mx-auto">
+                <h5>Classic Mode</h5>
+                <p>Solve as many cases as you wish, you can stop whenever you want, and you’ll see correct answers at the end.</p>
+              </div>
+              <div class="d-grid gap-2 col-4 mx-auto">
+                <a href="{{ url_for('survey.get_post', mode='classic') }}" type="button" class="btn btn-primary"><b>TRY IT!</b></a>
+              </div>
+            </div>
+            <div class="carousel-item carousel-item-welcome">
+              <div class="d-grid gap-2 col-9 mx-auto">
+                <h5>Educational Mode</h5>
+                <p>You’ll see a correct answer after each solved case.</p>
+              </div>
+              <div class="d-grid gap-2 col-4 mx-auto">
+                <a href="{{ url_for('survey.get_post', mode='educational') }}" type="button" class="btn btn-primary"><b>TRY IT!</b></a>
+              </div>
+            </div>
+            <div class="carousel-item carousel-item-welcome">
+              <div class="d-grid gap-2 col-9 mx-auto">
+                <h5>Limited Time Mode</h5>
+                <p>You’ll have limited time (30 sec.) to solve each case.</p>
+              </div>
+              <div class="d-grid gap-2 col-4 mx-auto">
+                <a href="{{ url_for('survey.get_post', mode='time-limited') }}" type="button" class="btn btn-primary"><b>TRY IT!</b></a>
+              </div>
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    </div>
   </div>
 {% endblock %}
 
 {% block scripts %}
   <script>
-    let modeSelection = document.getElementById("mode-selection-section");
-    let hero = document.getElementById("hero-section");
+    let modeSelectionSm = document.getElementById("mode-selection-section-sm");
+    let heroSm = document.getElementById("welcome-hero-section-sm");
+    let modeSelectionBg = document.getElementById("mode-selection-section-bg");
+    let heroBg = document.getElementById("welcome-hero-section-bg");
 
-    if (hero) {
-        modeSelection.style.display = "none";
+    if (heroSm) {
+        modeSelectionSm.style.display = "none";
+        modeSelectionBg.style.display = "none";
     }
 
     function showModeSelection() {
-        modeSelection.style.display = "block";
-        hero.style.display = "none";
+        modeSelectionSm.style.display = "block";
+        modeSelectionBg.style.display = "block";
+        heroSm.style.display = "none";
+        heroBg.style.display = "none";
     }
   </script>
 {%- endblock scripts %}
