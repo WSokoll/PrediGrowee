@@ -4,7 +4,20 @@
   {% if file_not_found %}
     <h2 class="text-center my-2">error.log file not found...</h2>
   {% else %}
-    <h2 class="text-center my-2">Last {{ number_of_lines }} from error.log file</h2>
+    <ul class="nav nav-tabs mb-4">
+      <li class="nav-item">
+        <h2 class="text-center my-2">Last {{ number_of_lines }} from error.log file</h2>
+      </li>
+      <li class="nav-item ml-auto">
+        <a href="{{ url_for('errors.truncate_error_log') }}">
+          <button class="btn btn-danger" onclick="return confirm('The operation is irreversible and will delete the ' +
+           'entire contents of the error.log file')">
+            Clear Log File
+          </button>
+        </a>
+      </li>
+    </ul>
+
     <pre class="mx-1">{{ lines }}</pre>
   {% endif %}
 {% endblock %}

@@ -1,6 +1,6 @@
 import os
 
-from flask import current_app
+from flask import current_app, flash, redirect, url_for
 from flask_admin import BaseView, expose
 
 
@@ -44,3 +44,16 @@ class ErrorsBaseView(BaseView):
         lines = ''.join(decoded_lines)
 
         return self.render('admin/views/errors.html', lines=lines, number_of_lines=number_of_lines)
+
+    @expose('/truncate', methods=['GET'])
+    def truncate_error_log(self):
+        path = f"{current_app.root_path}/logs/error.log"
+
+        with open(path, 'w+') as f:
+            try:
+                f.truncate()
+            except Exception as e:
+                flash(f'Error while trying to truncate error.log file: {str(e)}')
+
+        flash('Operation completed successfully')
+        return redirect(url_for('errors.index'))
