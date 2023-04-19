@@ -11,10 +11,8 @@
   <p>Thank you for logging in via Google.</p>
 {% endif %}
 
-{% if security.confirmable  and not google_confirmation %}
+{% if security.confirmable and not google_confirmation %}
 <p>{{ _fsdomain('You can confirm your email through the link below:') }}</p>
 
 <p><a href="{{ confirmation_link }}">{{ _fsdomain('Confirm my account') }}</a></p>
 {% endif %}
-
-{# TODO: customization #}
