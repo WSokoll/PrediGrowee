@@ -69,7 +69,7 @@ def get(round_token: str = None):
             user = User.query.filter_by(id=current_user.id).first()
 
             user.round_id += 1
-            user.round_token = token_urlsafe(16)
+            user.round_token = token_urlsafe(32)[:16]
 
             db.session.commit()
 
