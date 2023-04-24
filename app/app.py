@@ -92,7 +92,7 @@ def create_app():
                 email=app.config['ADMIN_EMAIL_1'],
                 password=hash_password(app.config['ADMIN_PASSWORD_1']),
                 confirmed_at=datetime.now(),
-                round_token=token_urlsafe(16),
+                round_token=token_urlsafe(32)[:16],
                 roles=['Admin']
             )
         if not user_datastore.find_user(email=app.config['ADMIN_EMAIL_2']):
@@ -100,7 +100,7 @@ def create_app():
                 email=app.config['ADMIN_EMAIL_2'],
                 password=hash_password(app.config['ADMIN_PASSWORD_2']),
                 confirmed_at=datetime.now(),
-                round_token=token_urlsafe(16),
+                round_token=token_urlsafe(32)[:16],
                 roles=['Admin']
             )
         db.session.commit()

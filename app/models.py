@@ -1,3 +1,5 @@
+from secrets import token_urlsafe
+
 from app.app import db
 from flask_security.models import fsqla_v2
 
@@ -13,6 +15,8 @@ class Role(db.Model, fsqla_v2.FsRoleMixin):
 class User(db.Model, fsqla_v2.FsUserMixin):
     __tablename__ = 'user'
     __table_args__ = {'extend_existing': True}
+
+    round_token = db.Column(db.String(16), default=token_urlsafe(32)[:16])
 
     def __repr__(self):
         return self.email

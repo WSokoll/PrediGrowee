@@ -70,7 +70,7 @@ def google_auth():
             password=None,
             confirmed_at=datetime.now(),
             register_only_google=True,
-            round_token=token_urlsafe(16)
+            round_token=token_urlsafe(32)[:16]
         )
         db.session.commit()
 
