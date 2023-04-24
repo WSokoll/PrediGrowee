@@ -28,6 +28,11 @@ The secure educational web application to assess facial growth based on cephalom
 
 ### Deploy and run with Docker Compose
 Please make sure you have followed all the steps in the [Configuration](#Configuration) section, before proceeding with
-the instructions below.
+the instructions below.  
+Build containers: `sudo docker-compose build`  
+Start containers: `sudo docker-compose up --detach`  
+Stop containers: `sudo docker-compose down`
+Restart single service (app in this example) - good for small changes in the code: `sudo docker-compose restart app`  
+Rebuild single service (app in this example) - if for example new dependencies needed: `sudo docker-compose up --detach --build app`
 
 ## Technology stack
