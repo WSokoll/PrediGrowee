@@ -129,4 +129,7 @@ def create_app():
     from app.views.contact import bp as bp_contact
     app.register_blueprint(bp_contact)
 
+    from app.views.privacy import bp as bp_privacy
+    app.register_blueprint(bp_privacy)
+
     return app

@@ -1,0 +1,10 @@
+{% extends "base.jinja" %}
+
+{% block content %}
+  <div class="text-center py-3">
+    <img src="{{url_for('static', filename = 'img/logo.png')}}" alt="Predigrowee" width="100" height="100">
+    <h1 class="fw-bold fa-3x">Privacy & Terms</h1>
+    <p class="text-muted fs-5">In case of any questions, please feel free to contact us.</p>
+    <p class="fs-5 fw-bold px-5">{{ content }}</p>
+  </div>
+{% endblock %}

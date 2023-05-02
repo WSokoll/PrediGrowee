@@ -7,15 +7,16 @@ class ConfigModelView(ModelView):
     can_edit = True
     can_delete = False
 
-    column_list = ['name', 'bool_value', 'int_value']
+    column_list = ['name', 'bool_value', 'int_value', 'string_value']
     column_sortable_list = ['name']
-    form_columns = ['bool_value', 'int_value']
-    column_details_list = ['id', 'name', 'description', 'bool_value', 'int_value']
+    form_columns = ['bool_value', 'int_value', 'string_value']
+    column_details_list = ['id', 'name', 'description', 'bool_value', 'int_value', 'string_value']
 
     column_labels = {
         'id': 'ID',
         'name': 'Config variable name',
         'description': 'Description',
         'bool_value': 'Boolean value',
-        'int_value': 'Integer value'
+        'int_value': 'Integer value',
+        'string_value': 'String Value'
     }
