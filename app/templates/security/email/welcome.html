@@ -5,14 +5,14 @@
   user - the entire user model object
   security - the Flask-Security configuration
 #}
-<p>{{ _fsdomain('Welcome %(email)s!', email=user.email) }}</p>
+<p>{{ _fsdomain('Welcome to Our Website!') }}</p>
 
 {% if google_confirmation %}
   <p>Thank you for logging in via Google.</p>
 {% endif %}
 
 {% if security.confirmable and not google_confirmation %}
-<p>{{ _fsdomain('You can confirm your email through the link below:') }}</p>
+<p>{{ _fsdomain('Thank you for signing up. To complete Your registration, please click the confirmation link below:') }}</p>
 
 <p><a href="{{ confirmation_link }}">{{ _fsdomain('Confirm my account') }}</a></p>
 {% endif %}
