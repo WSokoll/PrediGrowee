@@ -94,3 +94,14 @@ img {
 .btn-about:focus {
     border: none !important;
 }
+
+.nav-link {
+    font-size: 1em;
+    font-weight: 500;
+}
+
+/* About section */
+.about-card {
+    border: none;
+    outline: none;
+}

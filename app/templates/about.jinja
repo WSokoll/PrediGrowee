@@ -4,11 +4,11 @@
   <div class="custom-background">
     <p class="py-2"></p>
     {% for record in content %}
-      <div class="card mx-3 {{ '' if loop.first else 'my-3'}}">
-        <div class="card-header" id="heading{{ record.id }}">
+      <div class="card mx-3 {{ '' if loop.first else 'my-3'}} about-card">
+        <div class="card-header about-header" id="heading{{ record.id }}">
           <div class="d-grid gap-2">
             <button class="btn btn-about stretched-link text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ record.id }}" aria-expanded="false" aria-controls="collapse{{ record.id }}">
-              <span class="title">{{ record.title }}</span>
+              <span class="title" style="font-weight: bold">{{ record.title }}</span>
               <i class="bi bi-chevron-down arrow-icon{{ record.id }} float-end"></i>
             </button>
           </div>
