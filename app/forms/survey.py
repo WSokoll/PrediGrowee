@@ -6,8 +6,8 @@ from app.validators import AgeValidator, OtherEducationValidator
 
 VISION_DEFECT_CHOICES = [
     'I do not have any vision defects.',
-    'I use correction glasses.',
-    'I should use correction glasses but I do not use them now.'
+    'I use correction glasses or contact lenses.',
+    'I should use correction glasses or contact lenses, but I do not use them now.'
 ]
 
 EDUCATION_CHOICES = [
@@ -29,7 +29,7 @@ EXPERIENCE_CHOICES = [
 
 
 class SurveyForm(FlaskForm):
-    gender = SelectField('Gender', choices=['male', 'female'], validators=[InputRequired()])
+    gender = SelectField('Gender', choices=['Male', 'Female', 'Prefer not to say'], validators=[InputRequired()])
     age = IntegerField('Age', validators=[InputRequired(), AgeValidator(18, 130)])
     vision_defect = SelectField('Vision defect', choices=VISION_DEFECT_CHOICES, validators=[InputRequired()])
     education = SelectField('Education', choices=EDUCATION_CHOICES, validators=[InputRequired()])
