@@ -175,6 +175,8 @@ def get_photo(ort_id: str):
         abort(404)
 
     ort_path = ort_path[0] if ort_path[0][0] != '\\' else ort_path[0][1:]
+    ort_path = ort_path.replace('\\', '/')
+
     path = os.path.join(current_app.config['ORT_FOLDER_PATH'], ort_path)
 
     if not os.path.exists(path):
