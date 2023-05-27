@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block security_card %}
-  <h5 class="card-title mb-4">Log in to PrediGrowee</h5>
+  <h5 class="card-title mt-4 mb-5">Log in to PrediGrowee</h5>
 
   <form action="{{ url_for_security('login') }}{{ prop_next() }}" method="POST" name="login_user_form">
     {{ login_user_form.hidden_tag() }}

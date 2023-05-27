@@ -2,7 +2,12 @@
 {% from "_macros.html" import render_field_with_errors, render_field %}
 
 {% block security_card %}
-  <h5 class="card-title mb-4">Resend confirmation instructions</h5>
+  <h5 class="card-title mt-4 mb-5">Resend confirmation instructions</h5>
+
+  <p class="card-text text-muted mt-3 mb-4 mx-3">
+    If You haven't received an email with the confirmation link, or your link has expired,
+    You can use the form below to get a new email from us.
+  </p>
 
   <form action="{{ url_for_security('send_confirmation') }}" method="POST" name="send_confirmation_form">
     {{ send_confirmation_form.hidden_tag() }}
