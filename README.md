@@ -1,7 +1,7 @@
 # PrediGrowee
 The secure educational web application to assess facial growth based on cephalometric images.
 
-# Table of Contents
+## Table of Contents
 - [About Project](#about-project)
 - [App functionality](#app-functionality)
 - [Endpoints](#endpoints)
@@ -15,7 +15,7 @@ The secure educational web application to assess facial growth based on cephalom
   - [Installation of the necessary software](#installation-of-the-necessary-software)
   - [Application image](#application-image)
   - [File structure](#file-structure)
-  - [Deploying application on the 80 port via HTTP](#deploying-application-on-the-80-port-via-http)
+  - [Deploying application on port 80 via HTTP](#deploying-application-on-port-80-via-http)
   - [Getting and setting up certificates](#getting-and-setting-up-certificates)
   - [Deploying application on the 443 port via HTTPS](#deploying-application-on-the-443-port-via-https)
   - [Recaptcha and Google OAuth 2.0 reconfiguration](#recaptcha-and-google-oauth-20-reconfiguration)
@@ -132,22 +132,61 @@ docker build --no-cache -t predigrowee:v2 .
 ### File structure
 Initial file structure on the server should look like:
 ```
-TBD
+app
+├── docker-compose.yaml
+├── nginx
+    ├── Dockerfile
+    ├── nginx.conf
+    ├── data
+    └── certs
+├── db
+    └── database-init.sql
+├── dump     
+└── photos
 ```
-
 For the db-backup container to work properly You have to change the owner of the *dump* folder:
 ```
 sudo chown 1005 ./dump
 ```
 
-### Deploying application on the 80 port via HTTP
+### Deploying application on port 80 via HTTP
+In order to obtain SSL/TLS certificate it is necessary to first deploy the application using HTTP protocol. To achieve
+that *nginx.dev.conf* should be used (You should rename it temporarily to `nginx.conf` or change the *nginx/Dockerfile* 
+accordingly). *nginx.dev.conf* file contains proxy configuration for the app (which is exposed on port 80) along 
+with the configuration for the ACME challenge (needed in order to obtain the certificate in the next step).  
+After making the changes described above, You can deploy your application (build and start all containers) using the
+command:
+```
+sudo docker-compose up --detach
+```
+* docker-compose.yaml should correspond to the *docker-compose.prod.yaml* file. If You don't want to rename it, or You
+have multiple files with different configurations You can run the command with specified .yaml file:
+```
+sudo docker-compose up -f docker-compose.prod.yaml --detach
+```
+Execution of the above instructions should result in a working application on port 80.
 
 ### Getting and setting up certificates
+Before proceeding please make sure that the instructions above have been followed and the application is running on port 80.
+Also ensure that you have a registered domain name and that it is correctly connected to the public IP address of the 
+server (meaning entering the domain name into a web browser allows users to access the app). The command below uses
+acme.sh and Let's Encrypt to generate a certificate for the *www.predigrowee.agh.edu.pl* and the *predigrowee.agh.edu.pl* 
+domain. Note that `-w` flag points to the folder from which acme challenge will be served (same folder was mounted as 
+the volume of the nginx service inside docker-compose.yaml configuration file and is accessed and served by nginx proxy 
+configured in the nginx.conf file).
 ```
 acme.sh --issue -d www.predigrowee.agh.edu.pl -d predigrowee.agh.edu.pl -w /app/nginx/data --server letsencrypt
 ```
+After generating certificate, resulting files should be copied or moved to the *app/nginx/certs* folder, especially 
+`fullchain.cer` file and `.key` file.
 
 ### Deploying application on the 443 port via HTTPS
+Before proceeding with this step, please ensure that You have completed the instructions provided above.  Then replace
+the currently used *nginx.conf* file (*nginx.dev.conf*) with the proper *nginx.conf* file, containing setup for 443 ssl 
+port. You can restart nginx service by running the command provided below:
+```
+sudo docker-compose up --detach --build nginx
+```
 
 ### Recaptcha and Google OAuth 2.0 reconfiguration
 
