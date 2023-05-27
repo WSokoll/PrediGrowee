@@ -72,6 +72,8 @@ class Survey(db.Model):
     __tablename__ = 'survey'
     __table_args__ = {'extend_existing': True}
 
+    user = db.relationship('User', foreign_keys='Survey.user_id')
+
 
 class UserResults(db.Model):
     __tablename__ = 'user_results'

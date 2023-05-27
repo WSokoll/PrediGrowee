@@ -9,6 +9,7 @@ from app.views.admin.errors import ErrorsBaseView
 from app.views.admin.ort_parameters import OrtParametersModelView
 from app.views.admin.results import ResultsModelView
 from app.views.admin.stats import StatsBaseView
+from app.views.admin.surveys import SurveysModelView
 from app.views.admin.users import UserModelView
 
 
@@ -31,5 +32,6 @@ def admin_panel_init(admin, db):
     admin.add_view(StatsBaseView(session=db.session, models=models, name='Stats', endpoint='stats'))
     admin.add_view(UserModelView(models.User, db.session, name='Users', endpoint='users'))
     admin.add_view(ResultsModelView(models.UserResults, db.session, name='Results', endpoint='res'))
+    admin.add_view(SurveysModelView(models.Survey, db.session, name='Surveys', endpoint='surveys'))
     admin.add_view(ConfigModelView(models.Config, db.session, name='Config'))
     admin.add_view(ErrorsBaseView(config_model=models.Config, name='Errors', endpoint='errors'))
