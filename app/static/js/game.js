@@ -14,15 +14,26 @@ $().ready(function() {
         screenSizeInput.value = window.innerWidth.toString() + 'x' + window.innerHeight.toString();
     }
 
+    // Show results listener - iPhone bug fix
+    let resultsClicked = false;
+    $("#btn-results").on("click", function () {
+        resultsClicked = true;
+    })
+
     // On submit function - two different submit buttons
     $('#prediction-form').on('submit', function () {
-         setScreenSize();
+        setScreenSize();
 
-         let buttonId = $(document.activeElement).attr('id');
-         let showResultsInput = document.getElementById('show_results');
-         showResultsInput.value = buttonId === 'btn-results';
+        let buttonId = $(document.activeElement).attr('id');
+        let showResultsInput = document.getElementById('show_results');
+        showResultsInput.value = (buttonId === 'btn-results').toString();
 
-         return true;
+        // iPhone bug fix -> double check if results button clicked
+        if (resultsClicked) {
+            showResultsInput.value = 'true';
+        }
+
+        return true;
     });
 
     // Time-limited mode
