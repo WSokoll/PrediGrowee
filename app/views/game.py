@@ -5,7 +5,7 @@ from datetime import datetime
 from flask import Blueprint, render_template, abort, current_app, redirect, url_for, session, send_file, flash
 from flask_login import current_user
 from flask_security import auth_required, logout_user
-from sqlalchemy import and_, or_
+from sqlalchemy import and_, or_, func
 
 from app.app import db
 from app.forms.game import GameForm, DIRECTION_CHOICES
@@ -85,6 +85,10 @@ def get_post(mode: str):
     done = UserResults.query.with_entities(UserResults.patient_id).filter_by(user_id=current_user.id).all()
     done = [result[0] for result in done]
 
+    # Count percentage of solved cases
+    percentage = int(len(done) / db.session.query(func.count(Patients.id)).scalar() * 100)
+    percentage = 1 if percentage == 0 and len(done) >= 1 else percentage
+
     # Check if grouping mode is on and select case
     config = Config.query.filter_by(name='grouping_mode_on').one_or_none()
     if config and config.bool_value:
@@ -146,7 +150,8 @@ def get_post(mode: str):
                                warning=warning,
                                selected_patient=selected_patient,
                                ort_data=ort_data,
-                               parameters=parameters)
+                               parameters=parameters,
+                               percentage=percentage)
     else:
         return render_template('game.jinja', all_done=True)
 

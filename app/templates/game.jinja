@@ -52,6 +52,11 @@
       <div id="countDownAlert" class="sticky-top alert alert-danger mx-3 my-2">
         You are in time-limited mode. You have <b>{{ time_limit }}</b> seconds left to answer before next case appears.
       </div>
+    {% elif mode == 'classic' %}
+      <!-- percentage of completed cases section -->
+      <div class="alert alert-info text-center mx-3 my-2">
+        You have completed {{ percentage }}% of the cases
+      </div>
     {% endif %}
 
     <!-- small screen version -->
