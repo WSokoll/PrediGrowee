@@ -105,6 +105,24 @@ def create_app():
             )
         db.session.commit()
 
+        # Temporary - add columns 'country', 'included', 'name', 'surname' to the survey table
+        new_columns = ['country', 'included', 'name', 'surname']
+
+        for nc in new_columns:
+            exists = db.session.execute(f"""
+                SELECT * FROM information_schema.COLUMNS WHERE 
+                TABLE_SCHEMA = 'predigrowee' AND 
+                TABLE_NAME = 'survey' AND 
+                COLUMN_NAME = '{nc}'
+                """)
+
+            if not exists.mappings().all():
+                if nc == 'included':
+                    db.session.execute(f'ALTER TABLE survey ADD {nc} BOOLEAN NULL;')
+                else:
+                    db.session.execute(f'ALTER TABLE survey ADD {nc} VARCHAR(100) NULL;')
+                db.session.commit()
+
     from app.views.welcome import bp as bp_welcome
     app.register_blueprint(bp_welcome)
 
