@@ -45,3 +45,21 @@ class OtherEducationValidator:
                 self.message or
                 field.gettext('Please fill in the education field.')
             )
+
+
+class IncludedValidator:
+    """If the 'yes' option has been selected in the included field, then the name and surname fields are required
+
+     :param message: error message
+    """
+
+    def __init__(self, message=None):
+        self.message = message
+
+    def __call__(self, form, field):
+
+        if form.included.data == 'Yes' and not field.data:
+            raise ValidationError(
+                self.message or
+                field.gettext(f'Please fill in the {field.name} field.')
+            )

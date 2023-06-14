@@ -28,9 +28,13 @@ def get_post(mode: str):
             user_id=current_user.id,
             gender=form.gender.data,
             age=form.age.data,
+            country=form.country.data,
             vision_defect=form.vision_defect.data,
             education=form.education_other.data if form.education.data == 'other' else form.education.data,
-            experience=form.experience.data
+            experience=form.experience.data,
+            included=True if form.included.data == 'Yes' else False,
+            name=form.name.data if form.included.data == 'Yes' else None,
+            surname=form.surname.data if form.included.data == 'Yes' else None
         )
 
         db.session.add(survey)

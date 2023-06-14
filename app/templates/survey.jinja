@@ -20,6 +20,9 @@
                 {{ form.age.label(class="mb-1 mt-3") }}:
                 {{ render_field_with_errors(form.age, class="form-control", placeholder='Age', min_zero=true) }}
 
+                {{ form.country.label(class="mb-1 mt-3") }}:
+                {{ render_field_with_errors(form.country, class="form-control", placeholder='Country') }}
+
                 {{ form.vision_defect.label(class="mb-1 mt-3") }}:
                 {{ render_field_with_errors(form.vision_defect, class="form-control") }}
 
@@ -32,6 +35,18 @@
 
                 {{ form.experience.label(class="mb-1 mt-3") }}:
                 {{ render_field_with_errors(form.experience, class="form-control mb-3") }}
+
+                {{ form.included.label(class="mb-1 mt-3") }}
+                {{ render_field_with_errors(form.included, class="form-control mb-3") }}
+
+                <div class="included-visibility" style="display: {{ '' if form.included.data == 'Yes' else 'none' }}">
+                  {{ render_field_with_errors(form.name, class="form-control", placeholder='Name') }}
+                </div>
+
+                <div class="included-visibility" style="display: {{ '' if form.included.data == 'Yes' else 'none' }}">
+                  {{ render_field_with_errors(form.surname, class="form-control", placeholder='Surname') }}
+                </div>
+
 
                 <div class="mb-3 text-center">
                   <button type="submit" class="btn btn-primary">Save</button>
