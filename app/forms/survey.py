@@ -8,7 +8,8 @@ from app.validators import AgeValidator, OtherEducationValidator, IncludedValida
 VISION_DEFECT_CHOICES = [
     'I do not have any vision defects.',
     'I use correction glasses or contact lenses.',
-    'I should use correction glasses or contact lenses, but I do not use them now.'
+    'I should use correction glasses or contact lenses, but I do not use them now.',
+    'I prefer not to say.'
 ]
 
 EDUCATION_CHOICES = [
