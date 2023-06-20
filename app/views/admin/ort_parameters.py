@@ -9,7 +9,7 @@ class OrtParametersModelView(ModelView):
 
     column_list = ['id', 'name']
     column_sortable_list = ['id', 'name']
-    form_columns = ['name', 'description']
+    form_columns = ['variable_name', 'name', 'description']
     column_details_list = ['id', 'variable_name', 'name', 'description']
 
     column_labels = {
