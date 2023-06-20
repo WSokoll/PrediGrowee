@@ -105,23 +105,29 @@ def create_app():
             )
         db.session.commit()
 
+        # Temporary - add admin role for new user - admin 3
+        user = user_datastore.find_user(email=app.config['ADMIN_EMAIL_3'])
+        if user:
+            user_datastore.add_role_to_user(user, user_datastore.find_role(role='Admin'))
+            db.session.commit()
+
         # Temporary - add columns 'country', 'included', 'name', 'surname' to the survey table
-        new_columns = ['country', 'included', 'name', 'surname']
-
-        for nc in new_columns:
-            exists = db.session.execute(f"""
-                SELECT * FROM information_schema.COLUMNS WHERE 
-                TABLE_SCHEMA = 'predigrowee' AND 
-                TABLE_NAME = 'survey' AND 
-                COLUMN_NAME = '{nc}'
-                """)
-
-            if not exists.mappings().all():
-                if nc == 'included':
-                    db.session.execute(f'ALTER TABLE survey ADD {nc} BOOLEAN NULL;')
-                else:
-                    db.session.execute(f'ALTER TABLE survey ADD {nc} VARCHAR(100) NULL;')
-                db.session.commit()
+        # new_columns = ['country', 'included', 'name', 'surname']
+        #
+        # for nc in new_columns:
+        #     exists = db.session.execute(f"""
+        #         SELECT * FROM information_schema.COLUMNS WHERE
+        #         TABLE_SCHEMA = 'predigrowee' AND
+        #         TABLE_NAME = 'survey' AND
+        #         COLUMN_NAME = '{nc}'
+        #         """)
+        #
+        #     if not exists.mappings().all():
+        #         if nc == 'included':
+        #             db.session.execute(f'ALTER TABLE survey ADD {nc} BOOLEAN NULL;')
+        #         else:
+        #             db.session.execute(f'ALTER TABLE survey ADD {nc} VARCHAR(100) NULL;')
+        #         db.session.commit()
 
     from app.views.welcome import bp as bp_welcome
     app.register_blueprint(bp_welcome)
