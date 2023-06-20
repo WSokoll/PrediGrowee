@@ -1,6 +1,6 @@
 {% extends 'base.jinja' %}
 {% set results_page = True if not no_results else Flase %}
-{% from 'results_macros.jinja' import photo_zoom_modal %}
+{% from 'results_macros.jinja' import photo_zoom_modal, parameters_table_modal %}
 
 
 {% block content %}
@@ -78,17 +78,19 @@
             </p>
             <hr class="mt-2 mb-3">
             <div class="row">
-              {% for age, id in result.ort_ids.items() %}
+              {% for data in result.ort_data %}
                 <div class="col-4 px-1">
                   <div class="card">
-                    <img src="{{ url_for('results.get_photo', ort_id=id) }}" class="card-img-top" alt="Photo not found...">
-                    <div class="card-footer"><small>At the age of <b>{{ age }}</b></small></div>
+                    <img src="{{ url_for('results.get_photo', ort_id=data.id) }}" class="card-img-top" alt="Photo not found...">
+                    <div class="card-footer"><small>At the age of <b>{{ data.age }}</b></small></div>
                   </div>
                 </div>
               {% endfor %}
             </div>
 
-            {{ photo_zoom_modal(result.ort_ids, result.patient_id, result.list_of_age) }}
+            {{ photo_zoom_modal(result.ort_data, result.patient_id, result.list_of_age) }}
+            <br>
+            {{ parameters_table_modal(result.ort_data, result.patient_id, parameters) }}
 
           </div>
           <div class="card-footer" style="background-color: {{ '#53DB57' if result.answer_correct_bool else '#FB8B84' }}">

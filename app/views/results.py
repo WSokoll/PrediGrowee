@@ -8,7 +8,7 @@ from flask_security import auth_required
 from sqlalchemy import or_, and_
 
 from app.app import db, mail
-from app.models import UserResults, OrtData, User, Patients
+from app.models import UserResults, OrtData, User, Patients, OrtParameters
 
 bp = Blueprint('results', __name__)
 
@@ -38,10 +38,8 @@ def get(round_token: str = None):
     if results:
         results_list = []
         for result in results:
-            # Ort_ids -> to download necessary photos
-            ort_ids = OrtData.query.with_entities(OrtData.age, OrtData.id)\
-                .filter_by(patient_id=result.patient_id).order_by(OrtData.age).all()
-            ort_ids = {p[0]: p[1] for p in ort_ids}
+            # Ort_data -> to download necessary photos + table
+            ort_data = OrtData.query.filter_by(patient_id=result.patient_id).order_by(OrtData.age).all()
 
             patient = Patients.query.filter_by(id=result.patient_id).first()
 
@@ -54,8 +52,8 @@ def get(round_token: str = None):
                 'time_spent': result.time_spent,
                 'game_mode': result.game_mode,
                 'round_token': result.round_token,
-                'ort_ids': ort_ids,
-                'list_of_age': [key for key, value in ort_ids.items()]
+                'ort_data': ort_data,
+                'list_of_age': [p.age for p in ort_data]
             }
             results_list.append(res_item)
 
@@ -63,6 +61,9 @@ def get(round_token: str = None):
                 correct_answer_percentage += 1
 
         correct_answer_percentage = int(correct_answer_percentage / len(results) * 100)
+
+        # Ort parameters download (columns in the table) from the database
+        parameters = OrtParameters.query.order_by(OrtParameters.id).all()
 
         # Increment round_id and change round_token
         if increment:
@@ -73,7 +74,10 @@ def get(round_token: str = None):
 
             db.session.commit()
 
-        return render_template('results.jinja', results=results_list, percentage=correct_answer_percentage)
+        return render_template('results.jinja',
+                               results=results_list,
+                               percentage=correct_answer_percentage,
+                               parameters=parameters)
 
     else:
         return render_template('results.jinja', no_results=True)

@@ -1,4 +1,8 @@
 $().ready(function() {
+    $(".tooltip-icon").tooltip({
+        html: true
+    })
+
     let timeElements = document.getElementsByClassName('resultTimeSpent');
 
     for (let i = 0; i < timeElements.length; i++) {

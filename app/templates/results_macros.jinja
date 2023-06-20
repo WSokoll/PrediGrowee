@@ -1,4 +1,4 @@
-{% macro photo_zoom_modal(ort_ids, id, list_of_age) %}
+{% macro photo_zoom_modal(ort_data, id, list_of_age) %}
   <!-- Button trigger modal -->
   <button type="button" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#{{ id }}PhotoModal">
     <i class="bi bi-zoom-in"></i> Zoom in on the photos
@@ -27,13 +27,63 @@
         <div class="modal-body">
           <div id="carouselCaptions{{ id }}" class="carousel slide carousel-fade" data-bs-ride="false">
             <div class="carousel-inner">
-              {% for age, _id in ort_ids.items() %}
+              {% for data in ort_data %}
                 <div class="carousel-item {{ 'active' if loop.first else '' }}">
-                  <img src="{{ url_for('results.get_photo', ort_id=_id) }}" class="card-img-top" alt="Photo not found...">
+                  <img src="{{ url_for('results.get_photo', ort_id=data.id) }}" class="card-img-top" alt="Photo not found...">
                 </div>
               {% endfor %}
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endmacro %}
+
+
+{% macro parameters_table_modal(ort_data, id, parameters) %}
+   <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#{{ id }}TableModal">
+    <i class="bi bi-table"></i> Cephalometric measurements
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="{{ id }}TableModal" tabindex="-1" aria-labelledby="{{ id }}TableModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <p>Table with cephalometric measurements</p>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-striped table-hover table-bordered">
+            <thead>
+              <tr>
+                <th class="text-center" scope="col">Parameter</th>
+                <th class="text-center" scope="col">Age of {{ ort_data[0].age }}</th>
+                <th class="text-center" scope="col">Age of {{ ort_data[1].age }}</th>
+                <th class="text-center" scope="col">Age of {{ ort_data[2].age }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for param in parameters %}
+                <tr>
+                  <th scope="row" class="text-center">
+                    {{ param.name }}
+                    <button class="btn tooltip-icon" type="button" data-bs-toggle="tooltip"
+                            data-bs-title="{{ param.description }}<br>
+                            <img class='img-fluid' src='{{ url_for('static', filename='img/' + param.variable_name + '.png') }}'/>"
+                            data-bs-placement="bottom" style="float: right; padding-bottom: 0; padding-top: 0;">
+                      <i class="bi bi-question-circle"></i>
+                    </button>
+                  </th>
+                  <td class="text-center">{{ ort_data[0][param.variable_name] }}</td>
+                  <td class="text-center">{{ ort_data[1][param.variable_name] }}</td>
+                  <td class="text-center">{{ ort_data[2][param.variable_name] }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
