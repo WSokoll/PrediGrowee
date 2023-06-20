@@ -113,12 +113,9 @@ def get_post(mode: str):
     # Collecting data from the database
     if selected_patient_id:
         selected_patient = Patients.query.filter_by(id=selected_patient_id).one_or_none()
-        ort_data = OrtData.query.filter(and_(
-            OrtData.patient_id == selected_patient_id,
-            or_(OrtData.photo_number == 1, OrtData.photo_number == 2)
-        )).all()
+        ort_data = OrtData.query.filter(OrtData.patient_id == selected_patient_id).all()
 
-        if not selected_patient or not ort_data or len(ort_data) != 2:
+        if not selected_patient or not ort_data or len(ort_data) != 3:
             return render_template('game.jinja', database_error=True)
 
         ort_data = {data.photo_number: data for data in ort_data}
