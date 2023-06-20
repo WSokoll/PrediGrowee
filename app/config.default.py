@@ -6,8 +6,9 @@ SECRET_KEY = 'please_change_@187%0^&'
 # Absolute path to 'orto' folder containing photos
 ORT_FOLDER_PATH = 'C:\\example\\path'
 
-# Contact email (shown on the contact subpage)
+# Contact emails (shown on the contact subpage)
 CONTACT_EMAIL = 'contact@contact.com'
+CONTACT_EMAIL_2 = 'contact2@contant.com'
 
 # Emails and passwords for two admin accounts created after first app initialization
 ADMIN_EMAIL_1 = 'admin1@admin.com'
