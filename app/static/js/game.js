@@ -1,4 +1,3 @@
-
 $().ready(function() {
     $(".tooltip-icon").tooltip({
         html: true

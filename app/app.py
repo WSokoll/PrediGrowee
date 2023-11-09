@@ -82,6 +82,33 @@ def create_app():
     Path(f"{app.root_path}/{app.config['ERROR_LOG']}").touch(exist_ok=True)
     app.register_error_handler(Exception, exception_handler)
 
+    # Security headers
+    @app.after_request
+    def add_security_headers(resp):
+        content_security_policy = {
+            "default-src": "'self'",
+            "font-src": "'self' cdnjs.cloudflare.com cdn.jsdelivr.net",
+            "script-src": "'self' code.jquery.com cdnjs.cloudflare.com cdn.jsdelivr.net 'unsafe-inline'",
+            "style-src": "'self' cdn.jsdelivr.net cdnjs.cloudflare.com 'unsafe-inline'",
+            "img-src": "'self' data:",
+            "connect-src": "'self'",
+            "frame-ancestors": "'none'",
+            "form-action": "'self'"
+        }
+
+        # CSP Header
+        resp.headers['Content-Security-Policy'] = "; ".join(
+            [f"{key} {value}" for key, value in content_security_policy.items()]
+        )
+
+        # STS Header
+        resp.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
+
+        # X-Content-Type-Options Header
+        resp.headers['X-Content-Type-Options'] = 'nosniff'
+
+        return resp
+
     # Admin accounts
     @app.before_first_request
     def db_init():
@@ -104,30 +131,6 @@ def create_app():
                 roles=['Admin']
             )
         db.session.commit()
-
-        # Temporary - add admin role for new user - admin 3
-        user = user_datastore.find_user(email=app.config['ADMIN_EMAIL_3'])
-        if user:
-            user_datastore.add_role_to_user(user, user_datastore.find_role(role='Admin'))
-            db.session.commit()
-
-        # Temporary - add columns 'country', 'included', 'name', 'surname' to the survey table
-        # new_columns = ['country', 'included', 'name', 'surname']
-        #
-        # for nc in new_columns:
-        #     exists = db.session.execute(f"""
-        #         SELECT * FROM information_schema.COLUMNS WHERE
-        #         TABLE_SCHEMA = 'predigrowee' AND
-        #         TABLE_NAME = 'survey' AND
-        #         COLUMN_NAME = '{nc}'
-        #         """)
-        #
-        #     if not exists.mappings().all():
-        #         if nc == 'included':
-        #             db.session.execute(f'ALTER TABLE survey ADD {nc} BOOLEAN NULL;')
-        #         else:
-        #             db.session.execute(f'ALTER TABLE survey ADD {nc} VARCHAR(100) NULL;')
-        #         db.session.commit()
 
     from app.views.welcome import bp as bp_welcome
     app.register_blueprint(bp_welcome)
