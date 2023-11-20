@@ -1,5 +1,12 @@
 {% extends 'admin/master.html' %}
 
+{% block head %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hammerjs/hammer.min.js "></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+{% endblock %}
+
 {% block body %}
   <div class="mx-3">
     <h2 class="text-center">Overall stats</h2>
@@ -22,26 +29,130 @@
       </table>
     {% endfor %}
 
-    {% if first_group_stats %}
-      <h2 class="text-center mt-5">First group stats</h2>
-      <table class="table table-striped table-hover table-bordered mb-4 mt-3">
-        <thead>
-          <tr>
-            <th>Patient ID</th>
-            <th>Number of collected answers</th>
-            <th>Number of correct answers</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for patient_id, p_stats in first_group_stats.items() %}
-            <tr>
-              <td>{{ patient_id }}</td>
-              <td>{{ p_stats['count_all'] }}</td>
-              <td>{{ p_stats['count_correct'] }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    {% endif %}
+  <canvas id="numOfCasesChart" width="400" height="200"></canvas>
+  <div class="my-5" style="margin-right: 250px; margin-left: 250px">
+    <canvas id="correctChart"></canvas>
   </div>
+
+
+  {% if first_group_stats %}
+    <h2 class="text-center mt-5">First group stats</h2>
+    <table class="table table-striped table-hover table-bordered mb-4 mt-3">
+      <thead>
+        <tr>
+          <th>Patient ID</th>
+          <th>Number of collected answers</th>
+          <th>Number of correct answers</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for patient_id, p_stats in first_group_stats.items() %}
+          <tr>
+            <td>{{ patient_id }}</td>
+            <td>{{ p_stats['count_all'] }}</td>
+            <td>{{ p_stats['count_correct'] }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+
+  </div>
+
+  <script>
+      let ctx1 = document.getElementById('numOfCasesChart').getContext('2d');
+      let numOfCasesChartLabels = {{ chart_data["date_labels"] | tojson }};
+      let numOfCasesChartCounts = {{ chart_data["answer_counts"] | tojson }};
+
+      let numOfCasesChart = new Chart(ctx1, {
+          type: 'line',
+          data: {
+              labels: numOfCasesChartLabels,
+              datasets: [{
+                  data: numOfCasesChartCounts,
+                  fill: false,
+                  pointRadius: 3,
+                  pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                  borderColor: 'rgba(54, 162, 235, 1)',
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  x: {
+                      title: {
+                          display: true,
+                          text: "Date"
+                      }
+                  },
+                  y: {
+                      beginAtZero: true,
+                      stepSize: 1,
+                      title: {
+                          display: true,
+                          text: "Number of solved cases"
+                      }
+                  }
+              },
+              plugins: {
+                  title: {
+                      display: true,
+                      text: "Number of solved cases per day"
+                  },
+                  legend: {
+                      display: false
+                  },
+                  zoom: {
+                      pan: {
+                          enabled: true,
+                          mode: 'x'
+                      },
+                      zoom: {
+                          wheel: {
+                              enabled: true,
+                          },
+                          pinch: {
+                              enabled: true
+                          },
+                          mode: 'x',
+                      }
+                  },
+                  draggable: {
+                      enabled: true,
+                      mode: 'x',
+                  }
+              }
+          }
+      });
+
+      let correctPercentage = {{ chart_data["correctly_solved_percentage"] | tojson }};
+      let incorrectPercentage = 100 - correctPercentage;
+
+      let ctx2 = document.getElementById('correctChart').getContext('2d');
+      const correctChart = new Chart(ctx2, {
+          type: 'pie',
+          data: {
+              labels: ['Correctly solved cases', 'Incorrectly solved cases'],
+              datasets: [{
+                  data: [correctPercentage, incorrectPercentage],
+                  backgroundColor: ['green', 'red'],
+              }]
+          },
+          options: {
+              plugins: {
+                  title: {
+                      display: true,
+                      text: "Percentage of correctly solved cases vs percentage of incorrectly solved cases"
+                  },
+                  datalabels: {
+                      color: '#FFFFFF',
+                      formatter: function(value) {
+                          return value + "%";
+                      }
+                  }
+              }
+          },
+          plugins: [ChartDataLabels]
+        });
+  </script>
 {% endblock %}

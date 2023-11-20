@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from flask_admin import BaseView, expose
 
 
@@ -54,6 +56,36 @@ class StatsBaseView(BaseView):
             }
         }
 
+        # CHART DATA
+        chart_data = {}
+
+        answer_dates = self.models.UserResults.query\
+            .with_entities(self.models.UserResults.answer_date)\
+            .order_by(self.models.UserResults.answer_date)\
+            .all()
+
+        answer_dates = [query_result[0].date() for query_result in answer_dates]
+
+        answer_date_counts = {}
+        date_form_past = datetime.now().date() - timedelta(days=365)
+        while datetime.now().date() >= date_form_past:
+            answer_date_counts[date_form_past] = 0
+            date_form_past += timedelta(days=1)
+
+        for date in answer_dates:
+            answer_date_counts[date] = answer_date_counts.get(date, 0) + 1
+
+        date_labels = sorted(answer_date_counts.keys())
+
+        chart_data["answer_counts"] = [answer_date_counts[label] for label in date_labels]
+        chart_data["date_labels"] = [date.strftime("%Y-%m-%d") for date in date_labels]
+
+        correctly_solved_count = self.models.UserResults.query.filter_by(answer_correct=True).count()
+        incorrectly_solved_count = self.models.UserResults.query.filter_by(answer_correct=False).count()
+
+        chart_data["correctly_solved_percentage"] = \
+            int((correctly_solved_count / (correctly_solved_count + incorrectly_solved_count)) * 100)
+
         # FIRST GROUP STATS (if grouping_mode on)
         first_group_stats = {}
         mode_on_check = self.models.Config.query.filter_by(name='grouping_mode_on').one_or_none()
@@ -79,6 +111,9 @@ class StatsBaseView(BaseView):
 
             return self.render('admin/views/stats.html',
                                overall_stats=overall_stats,
-                               first_group_stats=first_group_stats)
+                               first_group_stats=first_group_stats,
+                               chart_data=chart_data)
 
-        return self.render('admin/views/stats.html', overall_stats=overall_stats)
+        return self.render('admin/views/stats.html',
+                           overall_stats=overall_stats,
+                           chart_data=chart_data)
