@@ -30,8 +30,14 @@
     {% endfor %}
 
   <canvas id="numOfCasesChart" width="400" height="200"></canvas>
-  <div class="my-5" style="margin-right: 250px; margin-left: 250px">
-    <canvas id="correctChart"></canvas>
+
+  <div class="row my-3">
+    <div class="col-6">
+      <canvas id="correctChart"></canvas>
+    </div>
+    <div class="col-6">
+      <canvas id="modesChart"></canvas>
+    </div>
   </div>
 
 
@@ -154,5 +160,38 @@
           },
           plugins: [ChartDataLabels]
         });
+
+      let classicCount = {{ chart_data["classic_count"] | tojson }};
+      let educationalCount = {{ chart_data["educational_count"] | tojson }};
+      let timeLimCount = {{ chart_data["time_lim_count"] | tojson }};
+
+      let ctx3 = document.getElementById('modesChart').getContext('2d');
+      const modesChart = new Chart(ctx3, {
+          type: 'pie',
+          data: {
+              labels: [
+                  'Cases solved in Classic mode',
+                  'Cases solved in Educational mode',
+                  'Cases solved in Limited Time mode'
+              ],
+              datasets: [{
+                  data: [classicCount, educationalCount, timeLimCount],
+                  backgroundColor: ['#56B9FE', '#17E55C', '#F53F3F'],
+              }]
+          },
+          options: {
+              plugins: {
+                  title: {
+                      display: true,
+                      text: "Number of cases solved in each mode"
+                  },
+                  datalabels: {
+                      color: '#FFFFFF'
+                  }
+              }
+          },
+          plugins: [ChartDataLabels]
+        });
+
   </script>
 {% endblock %}

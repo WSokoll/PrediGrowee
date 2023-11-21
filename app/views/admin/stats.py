@@ -59,12 +59,14 @@ class StatsBaseView(BaseView):
         # CHART DATA
         chart_data = {}
 
-        answer_dates = self.models.UserResults.query\
-            .with_entities(self.models.UserResults.answer_date)\
+        answers = self.models.UserResults.query\
+            .with_entities(self.models.UserResults.answer_date,
+                           self.models.UserResults.answer_correct,
+                           self.models.UserResults.game_mode)\
             .order_by(self.models.UserResults.answer_date)\
             .all()
 
-        answer_dates = [query_result[0].date() for query_result in answer_dates]
+        answer_dates = [query_result[0].date() for query_result in answers]
 
         answer_date_counts = {}
         date_form_past = datetime.now().date() - timedelta(days=365)
@@ -80,11 +82,12 @@ class StatsBaseView(BaseView):
         chart_data["answer_counts"] = [answer_date_counts[label] for label in date_labels]
         chart_data["date_labels"] = [date.strftime("%Y-%m-%d") for date in date_labels]
 
-        correctly_solved_count = self.models.UserResults.query.filter_by(answer_correct=True).count()
-        incorrectly_solved_count = self.models.UserResults.query.filter_by(answer_correct=False).count()
+        correctly_solved_count = len(list(filter(lambda res: res[1] == 1, answers)))
+        chart_data["correctly_solved_percentage"] = int((correctly_solved_count / len(answers)) * 100)
 
-        chart_data["correctly_solved_percentage"] = \
-            int((correctly_solved_count / (correctly_solved_count + incorrectly_solved_count)) * 100)
+        chart_data["classic_count"] = len(list(filter(lambda res: res[2] == 'classic', answers)))
+        chart_data["educational_count"] = len(list(filter(lambda res: res[2] == 'educational', answers)))
+        chart_data["time_lim_count"] = len(list(filter(lambda res: res[2] == 'time-limited', answers)))
 
         # FIRST GROUP STATS (if grouping_mode on)
         first_group_stats = {}
