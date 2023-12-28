@@ -1,5 +1,5 @@
 # <img src="https://github.com/WSokoll/PrediGrowee/blob/main/app/static/img/logo.png" width="40" height="40"/> Predigrowee
-This project was part of the engineering thesis, which was focused on creating and deploying the secure educational
+This project was part of the bachelor's thesis, which was focused on creating and deploying the secure educational
 web application to assess facial growth based on cephalometric images called **Predigrowee**.
 
 ## Technology stack
