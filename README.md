@@ -1,38 +1,22 @@
-# PrediGrowee
-The secure educational web application to assess facial growth based on cephalometric images.
+## Overview
+This project was part of the engineering thesis, which was focused on creating and deploying the secure educational
+web application to assess facial growth based on cephalometric images called Predigrowee.
 
-## Table of Contents
-- [About Project](#about-project)
-- [App functionality](#app-functionality)
-- [Endpoints](#endpoints)
-- [Database](#database)
-- [Configuration](#configuration)
-  - [Configuration files](#configuration-files)
-  - [Database init file](#database-init-file)
-  - [Folder with cephalometric photos](#folder-with-cephalometric-photos)
-- [Deployment](#deployment)
-  - [Testing locally](#testing-locally)
-  - [Installation of the necessary software](#installation-of-the-necessary-software)
-  - [Application image](#application-image)
-  - [File structure](#file-structure)
-  - [Deploying application on port 80 via HTTP](#deploying-application-on-port-80-via-http)
-  - [Getting and setting up certificates](#getting-and-setting-up-certificates)
-  - [Deploying application on the 443 port via HTTPS](#deploying-application-on-the-443-port-via-https)
-  - [Recaptcha and Google OAuth 2.0 reconfiguration](#recaptcha-and-google-oauth-20-reconfiguration)
-  - [Changes and fixes - maintenance after deployment](#changes-and-fixes---maintenance-after-deployment)
-- [Technology stack](#technology-stack)
+## Technology stack
 
-## About Project
-...
+### Backend
+ - **Framework:** Flask
+ - **WSGI Server:** Gunicorn
+ - **Database:** MySQL
 
-## App functionality
-...
+### Frontend
+ - **Templating Engine:** Jinja2
+ - **Technologies:** HTML5, JavaScript, CSS
 
-## Endpoints
-...
-
-## Database
-...
+### Deployment
+ - **Containerization:** Docker
+ - **Orchestration:** Docker Compose
+ - **Reverse Proxy:** Nginx
 
 ## Configuration
 
@@ -73,8 +57,8 @@ which won't be changed. Details about the database can be found in the [Database
 this file will be used to initialize mysql container.
 
 ### Folder with cephalometric photos
-By *folder with cephalometric photos* is meant the *photos* folder. Inside there should be folders containing 
-cephalometric photos, to which paths can be found in the *path* column of the *ort_data* table.
+*Folder with cephalometric photos* refers to the *photos* folder. Inside there should be folders containing 
+cephalometric photos, to which paths can be found in the *path* column of the *ort_data* table within the database.
 
 
 ## Deployment
@@ -87,7 +71,7 @@ by using *docker-compose.dev.yaml* file. This allows to skip the app image build
 All You need is Docker Compose installed on the machine (See more about installation [HERE](#docker-compose)) and
 following project folders and files copied to the one folder (later referred to as *main folder*): *app folder*,
 *db folder*, *dump folder*, *local folder*, *photos folder*, *docker-compose.dev.yaml file*. Be sure to set up
-appropriate access settings for the *dump* folder (Read more [HERE](#files-and-folders-on-the-server)). To start the 
+appropriate access settings for the *dump* folder (Read more [HERE](#file-structure)). To start the 
 containers navigate to Your *main folder* and run the command:
 ```
 sudo docker-compose up --detach --build
@@ -113,20 +97,20 @@ copy the application code to the production server. It is even better to use an 
 additional costs.  
 Building an image (should be executed from the main folder containing the *app* folder and the *local* folder):
 ```
-docker build -t predigrowee:v1 .
+docker build -t application:v1 .
 ```
 Saving the image to a .tar file:
 ```
-docker save predigrowee:v1 -o predigroweeImage.tar
+docker save application:v1 -o applicationImage.tar
 ```
 Loading the image:
 ```
-docker load --input predigroweeImage.tar
+docker load --input applicationImage.tar
 ```
 Rebuilding the image in case of any changes in the code (requires changes to the image tag in the
 *docker-compose.prod.yaml* file, re-saving and re-loading image on the server):
 ```
-docker build --no-cache -t predigrowee:v2 .
+docker build --no-cache -t application:v2 .
 ```
 
 ### File structure
@@ -170,12 +154,12 @@ Execution of the above instructions should result in a working application on po
 Before proceeding please make sure that the instructions above have been followed and the application is running on port 80.
 Also ensure that you have a registered domain name and that it is correctly connected to the public IP address of the 
 server (meaning entering the domain name into a web browser allows users to access the app). The command below uses
-acme.sh and Let's Encrypt to generate a certificate for the *www.predigrowee.agh.edu.pl* and the *predigrowee.agh.edu.pl* 
+acme.sh and Let's Encrypt to generate a certificate for the *www.exampledomainname.com* and the *exampledomainname.com* 
 domain. Note that `-w` flag points to the folder from which acme challenge will be served (same folder was mounted as 
 the volume of the nginx service inside docker-compose.yaml configuration file and is accessed and served by nginx proxy 
 configured in the nginx.conf file).
 ```
-acme.sh --issue -d www.predigrowee.agh.edu.pl -d predigrowee.agh.edu.pl -w /app/nginx/data --server letsencrypt
+acme.sh --issue -d www.exampledomainname.com -d exampledomainname.com -w /app/nginx/data --server letsencrypt
 ```
 After generating certificate, resulting files should be copied or moved to the *app/nginx/certs* folder, especially 
 `fullchain.cer` file and `.key` file.
@@ -188,11 +172,9 @@ port. You can restart nginx service by running the command provided below:
 sudo docker-compose up --detach --build nginx
 ```
 
-### Recaptcha and Google OAuth 2.0 reconfiguration
-
 ### Changes and fixes - maintenance after deployment
 
-Restart single service (app in this example) - good for small changes in the code: `sudo docker-compose restart app`  
-Rebuild single service (app in this example) - if for example new dependencies needed: `sudo docker-compose up --detach --build app`
-
-## Technology stack
+Deploying any changes in the application code requires three steps:
+ - creating and uploading to the server new image of the application with bumped tag or changed name
+ - updating the *docker-compose.yaml* file - updating the name of the application image
+ - rebuilding app container by running `sudo docker-compose up --detach --build app`
