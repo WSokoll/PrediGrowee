@@ -1,4 +1,4 @@
-# <img src="https://github.com/WSokoll/PrediGrowee/blob/main/app/static/img/logo.png" width="40" height="40"/> Predigrowee
+# Predigrowee <img src="https://github.com/WSokoll/PrediGrowee/blob/main/app/static/img/logo.png" width="50" height="50" align="right"/>
 This project was part of the bachelor's thesis, which was focused on creating and deploying the secure educational
 web application to assess facial growth based on cephalometric images called **Predigrowee**.
 
