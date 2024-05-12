@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 from pathlib import Path
 from secrets import token_urlsafe
@@ -112,6 +113,41 @@ def create_app():
     # Admin accounts
     @app.before_first_request
     def db_init():
+        # update direction_of_growth for all patients
+        from app.models import Patients
+
+        with open('app/new_data.json', 'r') as json_file:
+            data = json.load(json_file)
+
+        patients_not_found_in_db = []
+
+        for patient_id, dir_of_growth in data.items():
+            patient = Patients.query.filter_by(id=patient_id).one_or_none()
+
+            if not patient:
+                patients_not_found_in_db.append(patient_id)
+            else:
+                patient.direction_of_growth = dir_of_growth
+                db.session.commit()
+
+        patients_in_db = Patients.query.with_entities(Patients.id).all()
+        patients_not_found_in_new_data = [patient[0] for patient in patients_in_db if patient[0] not in data.keys()]
+
+        with open('app/logs/error.log', 'a') as error_log_file:
+            error_log_file.write("\n")
+
+            for nf in patients_not_found_in_db:
+                error_log_file.write(f"[INFO] Patient with the following id not found in the database, but exists in "
+                                     f"the new data file. Patient ID: {nf}\n")
+
+            error_log_file.write("\n")
+
+            for nf in patients_not_found_in_new_data:
+                error_log_file.write(f"[INFO] Patient with the following id not found in the new data file, "
+                                     f"but exists in the database. Patient ID: {nf}\n")
+
+            error_log_file.write("\n")
+
         if not user_datastore.find_role(role='Admin'):
             db.session.add(Role(name='Admin'))
         if not user_datastore.find_user(email=app.config['ADMIN_EMAIL_1']):
