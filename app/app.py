@@ -88,7 +88,8 @@ def create_app():
         content_security_policy = {
             "default-src": "'self'",
             "font-src": "'self' cdnjs.cloudflare.com cdn.jsdelivr.net",
-            "script-src": "'self' code.jquery.com cdnjs.cloudflare.com cdn.jsdelivr.net 'unsafe-inline'",
+            "script-src": "'self' code.jquery.com cdnjs.cloudflare.com cdn.jsdelivr.net https://www.google.com "
+                          "https://www.gstatic.com 'unsafe-inline'",
             "style-src": "'self' cdn.jsdelivr.net cdnjs.cloudflare.com 'unsafe-inline'",
             "img-src": "'self' data:",
             "connect-src": "'self'",
